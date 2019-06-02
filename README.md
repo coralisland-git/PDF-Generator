@@ -1,1 +1,1 @@
-# freelance_projects
+# Projects for outside freelancers
