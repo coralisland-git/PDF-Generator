@@ -20,9 +20,7 @@ from reportlab_styles import (
     PageTemplate,
 )
 
-# TODO: The version we use is currently unavailable, need to discover alternate plan
-# from barcode.writer import ImageWriter
-# from barcode.codex import Code39
+from reportlab.graphics.barcode import code128
 
 
 def incident_private_notes(story, citation_info=None):
@@ -107,24 +105,9 @@ def generate_il_state_pdf(citation_info, copy_type="Internal"):
             img_path=img_path
         )
 
-    # TODO: put back once we figure out barcode library
-    # def _barcode_code39(value):
-    #     # bar_code_number = barcode.get('code39', citation_info['ticket_number'], writer = ImageWriter())
-    #     bar_code_number = Code39(citation_info["ticket_number"], writer=ImageWriter())
-    #     # changed the add_checksum to false! in "..\Python27\Lib\site-packages\barcode\codex.py"
-    #     try:
-    #         img_fname = "code39image_%s" % (auth.user_id)
-    #     except Exception as e:
-    #         print(e)
-    #         img_fname = "code39image_%s" % citation_info["ticket_number"]
-    #     img_path = os.path.join(
-    #         os.getcwd(), "applications", request.application, "temp", img_fname
-    #     )
-    #
-    #     barcode_img = Image(
-    #         open("%s.png" % img_path, "rb"), width=70, height=35, kind="proportional"
-    #     )
-    #     return barcode_img
+    def _barcode_code128(value, width):
+        barcode128 = code128.Code128(value, barWidth=width * 0.01, quiet=0)
+        return barcode128
 
     def complaint_info(citation_info=None):
         if citation_info is None:
@@ -141,20 +124,19 @@ def generate_il_state_pdf(citation_info, copy_type="Internal"):
             "ref_id": citation_info.get("ref_id", ""),
         }
         story.append(RotatedPara("COMPLAINT", style=styles["rotated_detail_complaint"]))
-        # TODO: put back once we figure out barcode library
-        # barcode_image_obj = _barcode_code39(citation_info["ticket_number"])
-        # barcode_table = Table(
-        #     [[barcode_image_obj]],
-        #     [usable_width * 0.003, usable_width * 0.4, usable_width * 0.3],
-        #     style=[("FONTSIZE", (0, 0), (-1, -1), 10)],
-        # )
+        barcode_width = usable_width * 0.225
+        barcode_obj = _barcode_code128(citation_info["ticket_number"], barcode_width)
+        barcode_table = Table(
+            [[barcode_obj], [citation_info["ticket_number"]]],
+            barcode_width,
+            style=[("FONTSIZE", (0, 0), (-1, -1), 8), ('ALIGN', (0, 0), (0, -1), "CENTER")],
+        )
 
         story.append(
             Table(
                 [
                     [
-                        "",  # TODO: put back once we figure out barcode library
-                        # barcode_table,
+                        barcode_table,
                         Paragraph(
                             "Ticket Number: <b>%s</b>" % complaint["ticket_number"],
                             styles["detail-mini-utc"],
@@ -169,7 +151,7 @@ def generate_il_state_pdf(citation_info, copy_type="Internal"):
                     ],
                 ],
                 style=[
-                    # ('GRID',(0,0),(-1,-1),0.5,colors.grey),
+                    ('GRID',(0,0),(-1,-1),0.5,colors.grey),
                     ("SPAN", (0, 0), (0, -1)),
                     ("SPAN", (1, 2), (-1, 2)),
                     ("SPAN", (1, 0), (-1, 0)),
