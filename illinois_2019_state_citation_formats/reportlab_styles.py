@@ -791,3 +791,88 @@ class RotatedPara(Paragraph):
         Paragraph.draw(self)
 
         self.canv.restoreState()
+
+
+# START ILLINOIS CITATION REPORT
+styles["il-citation-main"] = ParagraphStyle(
+    "il-citation-main",
+    fontSize=6,
+    leading=8,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    alignment=TA_LEFT,
+    fontName="Arial",
+)
+styles["il-citation-doc-header"] = ParagraphStyle(
+    "il-citation-doc-header",
+    parent=styles["il-citation-main"],
+    fontSize=8,
+    leading=10,
+    fontName="Arial-Bold",
+    alignment=TA_CENTER,
+)
+styles["il-citation-table-header"] = ParagraphStyle(
+    "il-citation-table-header",
+    parent=styles["il-citation-main"],
+    spaceBefore=2,
+    spaceAfter=2,
+    leftIndent=1,
+    rightIndent=1,
+)
+styles["il-citation-section-header"] = ParagraphStyle(
+    "il-citation-section-header",
+    parent=styles["il-citation-main"],
+)
+styles["il-citation-field-header"] = ParagraphStyle(
+    "il-citation-field-header",
+    fontName="Arial-Bold",
+    fontSize=5.5,
+    leading=6.5,
+    leftIndent=0,
+    rightIndent=0,
+)
+styles["il-citation-field-header-sm"] = ParagraphStyle(
+    "il-citation-field-header-sm",
+    parent=styles["il-citation-field-header"],
+    fontSize=4.75,
+    leading=5.75,
+)
+styles["il-citation-field-data"] = ParagraphStyle(
+    "il-citation-field-header",
+    fontName="Arial",
+    fontSize=7,
+    leading=8,
+    leftIndent=0,
+    rightIndent=0,
+)
+styles["il-citation-rotated"] = ParagraphStyle(
+    "il-citation-rotated",
+    parent=styles["il-citation-main"],
+    textColor="white",
+    alignment=TA_CENTER,
+    fontName="Arial-Bold",
+    fontSize=6.5,
+    leading=9,
+    leftIndent=0,
+    rightIndent=0,
+)
+styles["il-citation-instructions"] = ParagraphStyle(
+    "il-citation-instructions",
+    parent=styles["il-citation-main"],
+    alignment=TA_JUSTIFY,
+    fontName="Arial",
+    fontSize=6.5,
+    leading=7.5,
+    leftIndent=0,
+    rightIndent=0,
+)
+styles["il-citation-instructions-header"] = ParagraphStyle(
+    "il-citation-instructions-header",
+    parent=styles["il-citation-instructions"],
+    alignment=TA_CENTER,
+    fontName="Arial-Bold",
+)
+# END ILLINOIS CITATION REPORT
