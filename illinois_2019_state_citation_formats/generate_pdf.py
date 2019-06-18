@@ -58,7 +58,7 @@ def generate_il_state_pdf(citation_info, copy_type="VIOLATOR", violation_text=""
     # cr.save("docs/output.pdf")
     if cr.content:
         cr.content.seek(0)
-        return cr.content
+        return cr.content, cr.page_size
 
 
 class XBox(Flowable):

@@ -28,11 +28,14 @@ if __name__ == "__main__":
 
     if citation_type == "traffic":
         with open(os.path.abspath(file_saving_path), "wb+") as output_file:
-            shutil.copyfileobj(
-                generate_il_state_pdf(
-                    pdf_data, copy_type=copy_type, violation_text=violation_text
-                ),
-                output_file,
+            pdf = generate_il_state_pdf(
+                pdf_data, copy_type=copy_type, violation_text=violation_text
+            )
+            shutil.copyfileobj(pdf[0], output_file)
+            print(
+                "{width} by {height}".format(
+                    width=pdf[1][0] / 72, height=pdf[1][1] / 72
+                )
             )
 
     # with open(os.path.expanduser("~/Desktop/non_traffic.pdf"), "wb+") as output_file:
