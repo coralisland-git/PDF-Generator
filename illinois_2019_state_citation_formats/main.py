@@ -3,29 +3,31 @@ import os
 import shutil
 import sys
 
-from datetime import datetime, date, time
 from illinois_2019_state_citation_formats.generate_pdf import generate_il_state_pdf
 
 if __name__ == "__main__":
     citation_type = sys.argv[1]
     copy_type = sys.argv[2]
-    # pdf_data = json.loads(sys.argv[3])
+    json_path = sys.argv[3]
+    file_saving_path = sys.argv[4]
 
-    # test code
-    from sample_data import traffic_citation
+    with open(os.path.abspath(json_path)) as f:
+        pdf_data = json.load(f)
 
-    for k, v in traffic_citation.iteritems():
-        if isinstance(v, datetime) or isinstance(v, date):
-            traffic_citation[k] = v.strftime("%Y-%m-%d")
-        if isinstance(v, time):
-            traffic_citation[k] = v.strftime("%H:%M:%S")
+    for k, v in pdf_data.iteritems():
+        if not v:
+            pdf_data[k] = ""
 
-    pdf_data = json.loads(json.dumps(traffic_citation))
+    violation_text = pdf_data["violation_section"]
 
-    violation_text = "Chapter...Act...Section<br />Input Area<br />More Lines" # needs change
+    if pdf_data["violation_recorded_speed"] or pdf_data["violation_speed_limit"]:
+        violation_text += "<br />Speeding {violation_recorded_speed} MPH in a {violation_speed_limit} MPH zone".format(
+            violation_recorded_speed=pdf_data["violation_recorded_speed"],
+            violation_speed_limit=pdf_data["violation_speed_limit"],
+        )
 
     if citation_type == "traffic":
-        with open(os.path.expanduser("~/Desktop/traffic.pdf"), "wb+") as output_file:
+        with open(os.path.abspath(file_saving_path), "wb+") as output_file:
             shutil.copyfileobj(
                 generate_il_state_pdf(
                     pdf_data, copy_type=copy_type, violation_text=violation_text

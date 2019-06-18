@@ -745,9 +745,9 @@ class TrafficCitationReport(CitationReport):
         )
         sex_m = 0
         sex_f = 0
-        if self.citation_info["defendant_sex"][0] == "M":
+        if self.citation_info["defendant_sex"] == "M":
             sex_m = 1
-        elif self.citation_info["defendant_sex"][0] == "F":
+        elif self.citation_info["defendant_sex"] == "F":
             sex_f = 1
         address = self.citation_info["defendant_address_city"] + "    " + self.citation_info[
             "defendant_address_state"] + "    " + self.citation_info["defendant_address_zip"]
