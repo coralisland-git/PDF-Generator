@@ -2206,6 +2206,7 @@ class OverweightCitationReport(CitationReport):
         return [self._section_gen_table(title="VIOLATION", content=[t1])]
 
     def _section_weights_info(self):
+        ps = extend_style(styles["il-citation-field-data"], fontSize=6)
         ts = extend_table_style(styles["il-citation-main-table"], [
             ("LEFTPADDING", (0, 0), (-1, -1), 1),
             ("RIGHTPADDING", (0, 0), (-1, -1), 1),
@@ -2232,20 +2233,21 @@ class OverweightCitationReport(CitationReport):
                 [
                     Paragraph(
                         v1,
-                        style=styles["il-citation-field-data"]
+                        style=ps
                     ),
                     Paragraph(
                         v2,
-                        style=styles["il-citation-field-data"]
+                        style=ps
                     ),
                 ]
             )
         axle_table_data.append(
             [
                 Paragraph(
-                    "GROSS WEIGHT " + gross_weight,
-                    style=styles["il-citation-field-data"]
+                    "GROSS WEIGHT  " + gross_weight,
+                    style=ps
                 ),
+				None
             ]
         )
         sticker_list = ast.literal_eval(self.citation_info["weights_scale_sticker_number"])
