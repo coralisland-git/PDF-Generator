@@ -31,13 +31,12 @@ if __name__ == "__main__":
 
     violation_text = pdf_data["violation_section"]
 
-    if pdf_data["violation_recorded_speed"] or pdf_data["violation_speed_limit"]:
-        violation_text += "<br />Speeding {violation_recorded_speed} MPH in a {violation_speed_limit} MPH zone".format(
+    if citation_type == "traffic":
+        if pdf_data["violation_recorded_speed"] or pdf_data["violation_speed_limit"]:
+            violation_text += "<br />Speeding {violation_recorded_speed} MPH in a {violation_speed_limit} MPH zone".format(
             violation_recorded_speed=pdf_data["violation_recorded_speed"],
             violation_speed_limit=pdf_data["violation_speed_limit"],
         )
-
-    if citation_type == "traffic":
         with open(os.path.abspath(file_saving_path), "wb+") as output_file:
             pdf = generate_il_state_pdf(
                 pdf_data, copy_type=copy_type, violation_text=violation_text
