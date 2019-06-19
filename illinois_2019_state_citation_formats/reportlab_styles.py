@@ -794,6 +794,15 @@ class RotatedPara(Paragraph):
 
 
 # START ILLINOIS CITATION REPORT
+def extend_table_style(style, *params):
+    return TableStyle(parent=style, *params)
+
+styles["il-citation-main-table"] = TableStyle([
+    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+    ("TOPPADDING", (0, 0), (-1, -1), 0),
+    ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+])
 styles["il-citation-main"] = ParagraphStyle(
     "il-citation-main",
     fontSize=6,
@@ -821,10 +830,6 @@ styles["il-citation-table-header"] = ParagraphStyle(
     spaceAfter=2,
     leftIndent=1,
     rightIndent=1,
-)
-styles["il-citation-section-header"] = ParagraphStyle(
-    "il-citation-section-header",
-    parent=styles["il-citation-main"],
 )
 styles["il-citation-field-header"] = ParagraphStyle(
     "il-citation-field-header",
