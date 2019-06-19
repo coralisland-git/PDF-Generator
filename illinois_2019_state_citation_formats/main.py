@@ -6,6 +6,8 @@ import sys
 from illinois_2019_state_citation_formats.generate_pdf import generate_il_state_pdf
 
 if __name__ == "__main__":
+    sys.path.append("..")
+
     citation_type = sys.argv[1]
     copy_type = sys.argv[2]
     json_path = sys.argv[3]
@@ -14,9 +16,16 @@ if __name__ == "__main__":
     with open(os.path.abspath(json_path)) as f:
         pdf_data = json.load(f)
 
+    boolean_true = ["T", "Y"]
+    boolean_false = ["F", "N"]
+
     for k, v in pdf_data.iteritems():
         if not v:
             pdf_data[k] = ""
+        if v in boolean_true:
+            pdf_data[k] = True
+        if v in boolean_false:
+            pdf_data[k] = False
 
     violation_text = pdf_data["violation_section"]
 
@@ -33,20 +42,29 @@ if __name__ == "__main__":
             )
             shutil.copyfileobj(pdf[0], output_file)
             print(
-                "{width} by {height}".format(
+                "{"
+                + '"width": {width}, "height": {height}'.format(
                     width=pdf[1][0] / 72, height=pdf[1][1] / 72
                 )
+                + "}"
             )
 
     # with open(os.path.expanduser("~/Desktop/non_traffic.pdf"), "wb+") as output_file:
     #    shutil.copyfileobj(generate_il_state_pdf(non_traffic_citation), output_file)
 
-    # with open(os.path.expanduser("~/Desktop/overweight.pdf"), "wb+") as output_file:
-    #    shutil.copyfileobj(
-    #        generate_il_state_pdf(
-    #            overweight_citation,
-    #            copy_type="VIOLATOR",
-    #            extra_title=Municipality().name.upper() + " PD"
-    #        ),
-    #        output_file
-    #    )
+    if citation_type == "overweight":
+        with open(os.path.abspath(file_saving_path), "wb+") as output_file:
+            pdf = generate_il_state_pdf(
+                pdf_data,
+                copy_type=copy_type,
+                overweight_text=pdf_data["ticket_number"],
+                extra_title=sys.argv[5],
+            )
+            shutil.copyfileobj(pdf[0], output_file)
+            print(
+                "{"
+                + '"width": {width}, "height": {height}'.format(
+                    width=pdf[1][0] / 72, height=pdf[1][1] / 72
+                )
+                + "}"
+            )
