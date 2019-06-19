@@ -2247,7 +2247,6 @@ class OverweightCitationReport(CitationReport):
                     "GROSS WEIGHT  " + gross_weight,
                     style=ps
                 ),
-				None
             ]
         )
         sticker_list = ast.literal_eval(self.citation_info["weights_scale_sticker_number"])
