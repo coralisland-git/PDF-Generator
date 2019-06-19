@@ -13,7 +13,7 @@ if __name__ == "__main__":
                 traffic_citation,
                 copy_type="VIOLATOR",
                 violation_text="Chapter...Act...Section<br />Input Area<br />More Lines"
-            ),
+            )[0],
             output_file
         )
 
@@ -27,7 +27,7 @@ if __name__ == "__main__":
                 copy_type="VIOLATOR",
                 overweight_text="Text Input",
                 extra_title=Municipality().name.upper() + " PD"
-            ),
+            )[0],
             output_file
         )
 

@@ -6,7 +6,9 @@ import sys
 from illinois_2019_state_citation_formats.generate_pdf import generate_il_state_pdf
 
 if __name__ == "__main__":
-    sys.path.append("..")
+    parentPath = os.path.abspath("..")
+    if parentPath not in sys.path:
+        sys.path.insert(0, parentPath)
 
     citation_type = sys.argv[1]
     copy_type = sys.argv[2]
