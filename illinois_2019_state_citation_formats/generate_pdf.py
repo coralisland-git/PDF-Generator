@@ -1,4 +1,4 @@
-from .reportlab_styles import styles, extend_style, extend_table_style
+from reportlab_styles import styles, extend_style, extend_table_style
 from reportlab.graphics.barcode import code39
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
 from reportlab.lib.styles import ParagraphStyle

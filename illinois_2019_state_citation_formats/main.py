@@ -3,7 +3,7 @@ import os
 import shutil
 import sys
 
-from illinois_2019_state_citation_formats.generate_pdf import generate_il_state_pdf
+from generate_pdf import generate_il_state_pdf
 
 if __name__ == "__main__":
     parentPath = os.path.abspath("..")
