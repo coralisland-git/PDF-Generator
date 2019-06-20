@@ -1,3 +1,4 @@
+from datetime import datetime
 from reportlab_styles import styles, extend_style, extend_table_style
 from reportlab.graphics.barcode import code39
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
@@ -2676,9 +2677,9 @@ class NonTrafficCitationReport(CitationReport):
         self.content_width = self.page_size[0] - 2 * self.page_margin - self.title_width
 
     def _section_header(self):
-        if self.copy_type == "COURT RECORD":
+        if self.copy_type == "COMPLAINT":
             title = "COMPLAINT- COURT RECORD COPY"
-        elif self.copy_type == "AGENCY":
+        elif self.copy_type == "DEPARTMENT":
             title = "DISPOSITION REPORT - ENFORCEMENT AGENCY COPY"
         elif self.copy_type == "VIOLATOR":
             title = "COPY OF COMPLAINTS & SUMMONS - VIOLATOR\'S COPY"
@@ -2747,9 +2748,9 @@ class NonTrafficCitationReport(CitationReport):
         return elems
 
     def _section_instructions(self):
-        if self.copy_type == "COURT RECORD":
+        if self.copy_type == "COMPLAINT":
             method_name = ''.join(["_section_instructions_", "court"])
-        elif self.copy_type == "AGENCY":
+        elif self.copy_type == "DEPARTMENT":
             method_name = ''.join(["_section_instructions_", "agency"])
         elif self.copy_type == "VIOLATOR":
             method_name = ''.join(["_section_instructions_", "violator"])
@@ -3494,6 +3495,7 @@ class NonTrafficCitationReport(CitationReport):
 
     def _section_violation_info(self):
         ps_title = styles["il-citation-field-header-nt"]
+        violation_time = datetime.strptime(self.citation_info["violation_time"], "%H:%M:%S").strftime("%I:%M %p") if self.citation_info["violation_time"] else ""
         elems = list()
         elems.append(
             [
@@ -3503,7 +3505,7 @@ class NonTrafficCitationReport(CitationReport):
                             Paragraph("THE UNDERSIGNED STATES THAT ON Date", ps_title),
                             Paragraph("%s" % self.citation_info["violation_date"], ps_title),
                             Paragraph("Time", ps_title),
-                            Paragraph("%s" % self.citation_info["violation_time"].strftime("%I:%M %p"), ps_title),
+                            Paragraph("%s" % violation_time, ps_title),
                         ],
                         [
                             None
