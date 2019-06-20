@@ -49,7 +49,7 @@ if __name__ == "__main__":
                 )
                 + "}"
             )
-            
+
     if citation_type == "non_traffic":
         with open(os.path.abspath(file_saving_path), "wb+") as output_file:
             pdf = generate_il_state_pdf(

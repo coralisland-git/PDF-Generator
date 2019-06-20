@@ -3495,7 +3495,13 @@ class NonTrafficCitationReport(CitationReport):
 
     def _section_violation_info(self):
         ps_title = styles["il-citation-field-header-nt"]
-        violation_time = datetime.strptime(self.citation_info["violation_time"], "%H:%M:%S").strftime("%I:%M %p") if self.citation_info["violation_time"] else ""
+        violation_time = (
+            datetime.strptime(self.citation_info["violation_time"], "%H:%M:%S").strftime(
+                "%I:%M %p"
+            )
+            if self.citation_info["violation_time"]
+            else ""
+        )
         elems = list()
         elems.append(
             [
