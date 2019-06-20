@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     violation_text = pdf_data["violation_section"]
 
-    if citation_type == "traffic":
+    if citation_type == "traffic" or citation_type == "non_traffic":
         if pdf_data["violation_recorded_speed"] or pdf_data["violation_speed_limit"]:
             violation_text += "<br />Speeding {violation_recorded_speed} MPH in a {violation_speed_limit} MPH zone".format(
                 violation_recorded_speed=pdf_data["violation_recorded_speed"],
@@ -49,9 +49,6 @@ if __name__ == "__main__":
                 )
                 + "}"
             )
-
-    # with open(os.path.expanduser("~/Desktop/non_traffic.pdf"), "wb+") as output_file:
-    #    shutil.copyfileobj(generate_il_state_pdf(non_traffic_citation), output_file)
 
     if citation_type == "overweight":
         with open(os.path.abspath(file_saving_path), "wb+") as output_file:

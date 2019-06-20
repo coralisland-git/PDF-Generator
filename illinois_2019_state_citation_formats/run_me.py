@@ -12,9 +12,9 @@ if __name__ == "__main__":
             generate_il_state_pdf(
                 traffic_citation,
                 copy_type="VIOLATOR",
-                violation_text="Chapter...Act...Section<br />Input Area<br />More Lines"
+                violation_text="Chapter...Act...Section<br />Input Area<br />More Lines",
             )[0],
-            output_file
+            output_file,
         )
 
     with open(os.path.expanduser("~/Desktop/non_traffic.pdf"), "wb+") as output_file:
@@ -22,9 +22,9 @@ if __name__ == "__main__":
             generate_il_state_pdf(
                 non_traffic_citation,
                 copy_type="VIOLATOR",
-                violation_text="Chapter...Act...Section<br />Input Area<br />More Lines"
-            ),
-            output_file
+                violation_text="Chapter...Act...Section<br />Input Area<br />More Lines",
+            )[0],
+            output_file,
         )
 
     with open(os.path.expanduser("~/Desktop/overweight.pdf"), "wb+") as output_file:
@@ -33,9 +33,9 @@ if __name__ == "__main__":
                 overweight_citation,
                 copy_type="VIOLATOR",
                 overweight_text="Text Input",
-                extra_title=Municipality().name.upper() + " PD"
+                extra_title=Municipality().name.upper() + " PD",
             )[0],
-            output_file
+            output_file,
         )
 
     print("completed")
