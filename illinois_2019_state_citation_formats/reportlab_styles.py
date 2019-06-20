@@ -794,6 +794,10 @@ class RotatedPara(Paragraph):
 
 
 # START ILLINOIS CITATION REPORT
+pdfmetrics.registerFont(TTFont("LucidaType", os.path.join(os.getcwd(), "fonts", "LucidaSansTypewriter.ttf")))
+pdfmetrics.registerFont(TTFont("LucidaType-Bold", os.path.join(os.getcwd(), "fonts", "LucidaSansTypewriter-Bold.ttf")))
+pdfmetrics.registerFontFamily("LucidaType", normal="LucidaType", bold="LucidaType-Bold")
+
 def extend_table_style(style, *params):
     return TableStyle(parent=style, *params)
 
@@ -802,6 +806,12 @@ styles["il-citation-main-table"] = TableStyle([
     ("RIGHTPADDING", (0, 0), (-1, -1), 0),
     ("TOPPADDING", (0, 0), (-1, -1), 0),
     ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+])
+styles["il-citation-main-nt-table"] = TableStyle([
+    ("LEFTPADDING", (0, 0), (-1, -1), 2 * mm),
+    ("RIGHTPADDING", (0, 0), (-1, -1), 2 * mm),
+    ("TOPPADDING", (0, 0), (-1, -1), 0.5 * mm),
+    ("BOTTOMPADDING", (0, 0), (-1, -1), 0.5 * mm),
 ])
 styles["il-citation-main"] = ParagraphStyle(
     "il-citation-main",
@@ -859,8 +869,8 @@ styles["il-citation-rotated"] = ParagraphStyle(
     textColor="white",
     alignment=TA_CENTER,
     fontName="Arial-Bold",
-    fontSize=6.5,
-    leading=9,
+    fontSize=7.5,
+    leading=0,
     leftIndent=0,
     rightIndent=0,
 )
@@ -879,5 +889,43 @@ styles["il-citation-instructions-header"] = ParagraphStyle(
     parent=styles["il-citation-instructions"],
     alignment=TA_CENTER,
     fontName="Arial-Bold",
+)
+styles["il-citation-main-nt"] = ParagraphStyle(
+    "il-citation-main-nt",
+    fontSize=6,
+    leading=8,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    alignment=TA_LEFT,
+    fontName="LucidaType",
+)
+styles["il-citation-field-header-nt"] = ParagraphStyle(
+    "il-citation-field-header-nt",
+    parent=styles["il-citation-main-nt"],
+    fontSize=7,
+    leading=9,
+)
+styles["il-citation-field-header-nt-tiny"] = ParagraphStyle(
+    "il-citation-field-header-nt-tiny",
+    parent=styles["il-citation-field-header-nt"],
+    fontSize=4.5,
+    leading=5,
+)
+styles["il-citation-field-data-nt"] = ParagraphStyle(
+    "il-citation-field-data-nt",
+    parent=styles["il-citation-main-nt"],
+    fontName="Times-Bold",
+    fontSize=8,
+    leading=10,
+)
+styles["il-citation-instructions-nt"] = ParagraphStyle(
+    "il-citation-instructions-nt",
+    parent=styles["il-citation-main-nt"],
+    fontName="Times-Bold",
+    fontSize=9,
+    leading=12
 )
 # END ILLINOIS CITATION REPORT
