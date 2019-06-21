@@ -722,16 +722,16 @@ class TrafficCitationReport(CitationReport):
                         Paragraph(
                             "If you intend to plead <u>GUILTY</u> to the ticket and <u>No</u> Court Appearance is Required.<br />"
                             "1. Complete this form.<br />"
-                            "2. Mail this form, together with the applicable payment to the Clerk of the the Court, Traffic Section, at the address noted in the \"Court Place/Date\" section on the bottom half of the ticket. You must mail this completed form, with the total applicable payment <b> no earlier than ten (10) work days</b> after the ticket was issues (noted on othe top half <u>below \"Defendant\" section</u>, of thet ticket), <b>and no later than three (3) work days</b> before the court appearance date noted on the bottom half of the ticket in the \"Court Place/Date\" section or as may have been provided by the clerk of the court.",
+                            "2. Mail this form, together with the applicable payment to the Clerk of the the Court, Traffic Section, at the address noted in the \"Court Place/Date\" section on the bottom half of the ticket. You must mail this completed form, with the total applicable payment <b> no earlier than ten (10) work days</b> after the ticket was issues (noted on other top half <u>below \"Defendant\" section</u>, of thet ticket), <b>and no later than three (3) work days</b> before the court appearance date noted on the bottom half of the ticket in the \"Court Place/Date\" section or as may have been provided by the clerk of the court.",
                             style=styles["il-citation-instructions"]),
                     ],
                     [
                         Paragraph(
                             "<u>FINES, PENALTIES, ASSESSMENTS, AND COSTS</u><br />"
                             "The amount of payment for offenses where court appearances are not required is:<br />"
-                            "<b>(a) $164.00 for any violation under the illinois Vehicle Code</b> (625 ILCS 5/1 et seq.) defined as a minor traffic offense pursuant to Supreme Court Rule 501(f), except (b) below; <br />"
-                            "<b>(b) $260.00 plus hte minimum fine set by statute for truck overweight and permit violations</b> under 3-401(d), 15-111, 15-113, 15-113.2 or 15-113.3 of the Illinois Vhicle Code (625 ILCS 5/3-401(d), 15-111, 15-113.1, 15113.2 or 15-113.3); <br />"
-                            "<b>(c) $195.00 for any violation defined as a Conservation Offense</b> under Supreme Courte Rules 501(c) for which civil penalties are not required.<br />"
+                            "<b>(a) $164.00 for any violation under the Illinois Vehicle Code</b> (625 ILCS 5/1 et seq.) defined as a minor traffic offense pursuant to Supreme Court Rule 501(f), except (b) below; <br />"
+                            "<b>(b) $260.00 plus the minimum fine set by statute for truck overweight and permit violations</b> under 3-401(d), 15-111, 15-113, 15-113.2 or 15-113.3 of the Illinois Vehicle Code (625 ILCS 5/3-401(d), 15-111, 15-113.1, 15113.2 or 15-113.3); <br />"
+                            "<b>(c) $195.00 for any violation defined as a Conservation Offense</b> under Supreme Court Rules 501(c) for which civil penalties are not required.<br />"
                             "<b>Note: Payment must be by cash, money order, certified check, bank draft, or traveler's check unless otherwise auhtorized by the clerk of the court. (DO NOT SEND CASH IN THE MAIL; use cash only if paying in person.)</b>",
                             style=styles["il-citation-instructions"]),
                     ],
@@ -1692,7 +1692,7 @@ class OverweightCitationReport(CitationReport):
                     ],
                     [
                         Paragraph(
-                            "A new appearance data will be set and you will be notified of the time and date of trial. <b>Do not come to court until you are notified.</b> When you are notified, you should come to court prepared for trial and bring anny witnesses you may have.",
+                            "A new appearance data will be set and you will be notified of the time and date of trial. <b>Do not come to court until you are notified.</b> When you are notified, you should come to court prepared for trial and bring any witnesses you may have.",
                             style=styles["il-citation-instructions"]),
                     ],
                     [
@@ -1762,7 +1762,7 @@ class OverweightCitationReport(CitationReport):
                         Paragraph(
                             "If you intend to plead <u>GUILTY</u> to the ticket and <u>No</u> Court Appearance is Required.<br />"
                             "1. Complete this form.<br />"
-                            "2. Mail this form, together with the applicable payment to the Clerk of the the Court, Traffic Section, at the address noted in the \"Court Place/Date\" section on the bottom half of the ticket. You must mail this completed form, with the total applicable payment <b> no earlier than ten (10) work days</b> after the ticket was issues (noted on othe top half <u>below \"Defendant\" section</u>, of thet ticket), <b>and no later than three (3) work days</b> before the court appearance date noted on the bottom half of the ticket in the \"Court Place/Date\" section or as may have been provided by the clerk of the court.",
+                            "2. Mail this form, together with the applicable payment to the Clerk of the the Court, Traffic Section, at the address noted in the \"Court Place/Date\" section on the bottom half of the ticket. You must mail this completed form, with the total applicable payment <b> no earlier than ten (10) work days</b> after the ticket was issues (noted on other top half <u>below \"Defendant\" section</u>, of thet ticket), <b>and no later than three (3) work days</b> before the court appearance date noted on the bottom half of the ticket in the \"Court Place/Date\" section or as may have been provided by the clerk of the court.",
                             style=styles["il-citation-instructions"]),
                     ],
                     [
