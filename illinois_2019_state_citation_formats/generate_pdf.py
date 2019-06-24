@@ -75,6 +75,12 @@ def field_string_from_flags(info_dict, sen_list):
     return field
 
 
+def nullable_false_handler(value):
+    if value == "":
+        return False
+    return not value
+
+
 class XBox(Flowable):
     def __init__(self, size, checked=None):
         Flowable.__init__(self)
@@ -87,7 +93,7 @@ class XBox(Flowable):
         self.canv.saveState()
         self.canv.setLineWidth(0.15 * self.size)
         self.canv.rect(0, 0, self.width, self.height)
-        if self.checked > 0:
+        if self.checked is True:
             self.check()
         self.canv.restoreState()
 
@@ -772,7 +778,7 @@ class TrafficCitationReport(CitationReport):
         t3 = Table(
             [
                 [
-                    XBox(7, not self.citation_info["complainant_is_municipality"]),
+                    XBox(7, nullable_false_handler(self.citation_info["complainant_is_municipality"])),
                     Paragraph("PEOPLE STATE OF ILLINOIS", style=styles["il-citation-field-header"]),
                     XBox(7, self.citation_info["complainant_is_municipality"]),
                     Paragraph("CITY/VILLAGE OF MUNICIPAL CORPORATION PLAINTIFF",
@@ -966,21 +972,21 @@ class TrafficCitationReport(CitationReport):
                     Paragraph("YES", style=ps),
                     XBox(5, self.citation_info["vehicle_is_commercial"]),
                     Paragraph("NO", style=ps),
-                    XBox(5, not self.citation_info["vehicle_is_commercial"]),
+                    XBox(5, nullable_false_handler(self.citation_info["vehicle_is_commercial"])),
                 ],
                 [
                     Paragraph("PLACARDED HAZ. MATERIAL", style=styles["il-citation-field-header-sm"]),
                     Paragraph("YES", style=ps),
                     XBox(5, self.citation_info["vehicle_has_hazardous_materials_indicator"]),
                     Paragraph("NO", style=ps),
-                    XBox(5, not self.citation_info["vehicle_has_hazardous_materials_indicator"]),
+                    XBox(5, nullable_false_handler(self.citation_info["vehicle_has_hazardous_materials_indicator"])),
                 ],
                 [
                     Paragraph("16 OR MORE PASS. VEHICLE", style=styles["il-citation-field-header-sm"]),
                     Paragraph("YES", style=ps),
                     XBox(5, self.citation_info["vehicle_is_large_passenger_vehicle"]),
                     Paragraph("NO", style=ps),
-                    XBox(5, not self.citation_info["vehicle_is_large_passenger_vehicle"]),
+                    XBox(5, nullable_false_handler(self.citation_info["vehicle_is_large_passenger_vehicle"])),
                 ]
             ],
             style=extend_table_style(styles["il-citation-main-table"], [
@@ -1300,7 +1306,7 @@ class TrafficCitationReport(CitationReport):
             [
                 [
                     None,
-                    XBox(9, not self.citation_info["hearing_attendance_required"]),
+                    XBox(9, nullable_false_handler(self.citation_info["hearing_attendance_required"])),
                     Paragraph(
                         "NO COURT APPEARANCE REQUIRED",
                         style=ps
@@ -1815,7 +1821,7 @@ class OverweightCitationReport(CitationReport):
         t4 = Table(
             [
                 [
-                    XBox(7, not self.citation_info["complainant_is_municipality"]),
+                    XBox(7, nullable_false_handler(self.citation_info["complainant_is_municipality"])),
                     Paragraph("PEOPLE STATE OF ILLINOIS", style=styles["il-citation-field-header"]),
                     XBox(7, self.citation_info["complainant_is_municipality"]),
                     Paragraph("CITY/VILLAGE OF MUNICIPAL CORPORATION PLAINTIFF",
@@ -2016,21 +2022,21 @@ class OverweightCitationReport(CitationReport):
                     Paragraph("YES", style=ps),
                     XBox(5, self.citation_info["vehicle_is_commercial"]),
                     Paragraph("NO", style=ps),
-                    XBox(5, not self.citation_info["vehicle_is_commercial"]),
+                    XBox(5, nullable_false_handler(self.citation_info["vehicle_is_commercial"])),
                 ],
                 [
                     Paragraph("PLACARDED HAZ. MATERIAL", style=styles["il-citation-field-header-sm"]),
                     Paragraph("YES", style=ps),
                     XBox(5, self.citation_info["vehicle_has_hazardous_materials_indicator"]),
                     Paragraph("NO", style=ps),
-                    XBox(5, not self.citation_info["vehicle_has_hazardous_materials_indicator"]),
+                    XBox(5, nullable_false_handler(self.citation_info["vehicle_has_hazardous_materials_indicator"])),
                 ],
                 [
                     Paragraph("16 OR MORE PASS. VEHICLE", style=styles["il-citation-field-header-sm"]),
                     Paragraph("YES", style=ps),
                     XBox(5, self.citation_info["vehicle_is_large_passenger_vehicle"]),
                     Paragraph("NO", style=ps),
-                    XBox(5, not self.citation_info["vehicle_is_large_passenger_vehicle"]),
+                    XBox(5, nullable_false_handler(self.citation_info["vehicle_is_large_passenger_vehicle"])),
                 ]
             ],
             style=extend_table_style(styles["il-citation-main-table"], [
@@ -3198,7 +3204,7 @@ class NonTrafficCitationReport(CitationReport):
                     None,
                 ],
                 [
-                    XBox(7, not self.citation_info["complainant_is_municipality"]),
+                    XBox(7, nullable_false_handler(self.citation_info["complainant_is_municipality"])),
                     Paragraph("PEOPLE STATE OF ILLINOIS", ps),
                     None,
                     XBox(7, self.citation_info["complainant_is_municipality"]),
