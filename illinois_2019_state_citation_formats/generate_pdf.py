@@ -263,135 +263,6 @@ class CitationReport:
         return "%s(%r)" % (self.__class__, self.__dict__)
 
 
-class CitationReport:
-    def __init__(self, ticket, sections, header, copy_type, copy_type_info, violation_text, title, author):
-        self.citation_info = ticket
-        self.sections = sections
-        self.header = header
-        self.content = None
-        self.content_width = 0
-        self.title_width = 0
-        self.page_size = None
-        self.page_margin = 0
-        self.title = title
-        self.author = author
-        self.content_height = 0
-        self.copy_type = copy_type.upper()
-        if copy_type_info:
-            self.copy_type_info = copy_type_info
-        else:
-            self.copy_type_info = dict()
-        self.violation_text = violation_text
-
-    def create_report(self):
-        def get_method(section):
-            try:
-                method = getattr(self, "_section_" + section)
-            except AttributeError:
-                raise Exception("Section method not found: " + section)
-            return method
-
-        story = []
-        for section in self.sections:
-            if isinstance(section, list):
-                wrapper_elems = []
-                for s in section:
-                    wrapper_elems.append(get_method(s)()[0])
-                elems = self._section_wrapper(wrapper_elems)
-            else:
-                elems = get_method(section)()
-
-            for elem in elems:
-                story.append(elem)
-                self.content_height += elem.wrap(self.page_size[0], 0)[1]
-        buff = io.BytesIO()
-        page_t = PageTemplate('normal', [
-            Frame(
-                self.page_margin,
-                self.page_margin,
-                self.page_size[0] - self.page_margin * 2,
-                self.content_height,
-                leftPadding=0,
-                bottomPadding=0,
-                rightPadding=0,
-                topPadding=0,
-            )
-        ])
-        self.page_size = (self.page_size[0], self.content_height + 2 * self.page_margin)
-        doc_t = BaseDocTemplate(
-            buff,
-            pagesize=self.page_size,
-            title=self.title,
-            author=self.author,
-            leftMargin=self.page_margin,
-            rightMargin=self.page_margin,
-            topMargin=self.page_margin,
-            bottomMargin=self.page_margin,
-        )
-        doc_t.addPageTemplates(page_t)
-        doc_t.build(story)
-        self.content = buff
-
-    def _section_wrapper(self, content):
-        width_list = []
-        for section in content:
-            width_list.append(section.wrap(0, 0)[0])
-        t = Table(
-            [
-                content
-            ],
-            style=extend_table_style(styles["il-citation-main-table"], [
-                ("VALIGN", (0, 0), (-1, -1), "TOP"),
-            ]),
-            colWidths=width_list
-        )
-        return [t]
-
-    def _section_gen_table(self, title, content=None, header=None, footer=None, title_width=None, content_width=None):
-        content_width = content_width if content_width else self.content_width
-        title_width = title_width if title_width else self.title_width
-        header_height = None if header else 0
-        footer_height = None if footer else 0
-        main_height = 0
-        for table in content:
-            main_height += table.wrap(0, 0)[1]
-        ps = ParagraphStyle("il-citation-rotated-height", parent=styles["il-citation-rotated"], width=main_height)
-        t = Table(
-            [
-                [
-                    None,
-                    header
-                ],
-                [
-                    RotatedParagraph(title, title_width, style=ps),
-                    [content]
-                ],
-                [
-                    None,
-                    footer
-                ]
-            ],
-            style=extend_table_style(styles["il-citation-main-table"], [
-                ("BACKGROUND", (0, 1), (0, 1), "black"),
-                ("OUTLINE", (0, 1), (0, 1), 0.5, "black"),
-            ]),
-            colWidths=(title_width, content_width),
-            rowHeights=[header_height, None, footer_height],
-        )
-        return t
-
-    def save(self, fp):
-        if self.content:
-            self.content.seek(0)
-            with open(fp, 'wb') as fh:
-                fh.write(self.content.read())
-        else:
-            raise Exception("No report content has been created")
-
-    def __repr__(self):
-        return "%s(%r)" % (self.__class__, self.__dict__)
-
-
 class TrafficCitationReport(CitationReport):
     def __init__(self, citation_info, header, copy_type, copy_type_info=None, violation_text="", sections=None,
                  title=None, author=None):
@@ -1351,13 +1222,15 @@ class TrafficCitationReport(CitationReport):
         t1 = Table(
             [
                 [
-                    SectionField("METHOD OF RELEASE:", styles["il-citation-field-header"],
-                                 release_method, styles["il-citation-field-data"], offset=(25 * mm, 0)),
+                    Paragraph("METHOD OF RELEASE:", styles["il-citation-field-header"]),
                     None,
                     Paragraph("Total Bond/Bail Posted:",
                               extend_style(styles["il-citation-field-header"], alignment=TA_RIGHT)),
                     Paragraph(str(self.citation_info["bond_amount"]), styles["il-citation-field-data"]),
                     None,
+                ],
+                [
+                    Paragraph(release_method, styles["il-citation-field-data"]),
                 ],
                 [
                     Paragraph("WITHOUT ADMITTING GUILT, I promise to comply with the terms of this Ticket and Release",
@@ -1375,16 +1248,18 @@ class TrafficCitationReport(CitationReport):
                 ("OUTLINE", (0, 0), (-1, -1), 0.5, "black"),
                 ("SPAN", (0, 0), (1, 0)),
                 ("SPAN", (0, 1), (-1, 1)),
-                ("SPAN", (1, 2), (3, 2)),
+                ("SPAN", (0, 2), (-1, 2)),
+                ("SPAN", (1, 3), (3, 3)),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                ("VALIGN", (0, 1), (-1, 1), "MIDDLE"),
                 ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
-                ("LINEBELOW", (1, 2), (3, 2), 0.5, "black"),
+                ("LINEBELOW", (1, 3), (3, 3), 0.5, "black"),
                 ("LEFTPADDING", (0, 0), (-1, -1), 1),
                 ("RIGHTPADDING", (0, 0), (-1, -1), 1),
+                ("LEFTPADDING", (0, 1), (0, 1), 2 * mm),
+                ("RIGHTPADDING", (0, 1), (0, 1), 2 * mm),
             ]),
             colWidths=(13.6 * mm, 38.3 * mm, 26.9 * mm, 13.8 * mm, 1.7 * mm),
-            rowHeights=(2.8 * mm, 15.6 * mm, 2.6 * mm, 0.9 * mm)
+            rowHeights=(2.8 * mm, 7.7 * mm, 7.9 * mm, 2.6 * mm, 0.9 * mm)
         )
         return [self._section_gen_table(title="RELEASE", content=[t1])]
 
@@ -2479,78 +2354,89 @@ class OverweightCitationReport(CitationReport):
         return [self._section_gen_table(title="WEIGHTS", content=[t1])]
 
     def _section_release_info(self):
-        release_method = field_string_from_flags(self.citation_info, ["bond_includes_"])
         excess_weight = str(self.citation_info["bond_total_weight_excess"]) if self.citation_info[
             "bond_total_weight_excess"] else ""
-        ps = extend_style(styles["il-citation-field-data"], fontSize=6, leading=6)
-        t1 = Table(
-            [
+        release_method = field_string_from_flags(self.citation_info, ["bond_includes_"])
+        ps_title = styles["il-citation-field-header"]
+        ps_text = extend_style(styles["il-citation-field-data"], fontSize=6, leading=6)
+        ts = extend_table_style(styles["il-citation-main-table"], [
+            ("GRID", (0, 0), (-1, -1), 0.5, "black"),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 1),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 1),
+        ])
+        width = 35 * mm
+        elems = list()
+        elems.append(
+            Table(
                 [
-                    SectionField("Lbs. in Excess", styles["il-citation-field-header"],
-                                 excess_weight, ps, offset=(14 * mm, 1)),
+                    [
+                        SectionField("Lbs. in Excess", ps_title, excess_weight, ps_text, offset=(14 * mm, 1)),
+                    ],
+                    [
+                        SectionField("Assessment Schedule #:", ps_title, "", ps_text, offset=(24 * mm, 1)),
+                    ],
+                    [
+                        SectionField("Assessments", ps_title, "", ps_text, offset=(13 * mm, 1)),
+                    ],
+                    [
+                        SectionField("Fine", ps_title, str(self.citation_info["bond_amount"]), ps_text,
+                                     offset=(5 * mm, 1)),
+                    ],
+                    [
+                        SectionField("Total Amount", ps_title, str(self.citation_info["total_bond_amount"]), ps_text,
+                                     offset=(13 * mm, 1)),
+                    ],
+                    [
+                        SectionField("Notes", ps_title, "", ps_text, offset=(6 * mm, 1)),
+                    ],
+                    [None],
+                    [None],
+                    [None],
+                    [None],
                 ],
-                [
-                    SectionField("Assessment Schedule #:", styles["il-citation-field-header"],
-                                 "", ps, offset=(24 * mm, 1)),
-                ],
-                [
-                    SectionField("Assessments", styles["il-citation-field-header"],
-                                 "", ps, offset=(13 * mm, 1)),
-                ],
-                [
-                    SectionField("Fine", styles["il-citation-field-header"],
-                                 str(self.citation_info["bond_amount"]), ps, offset=(5 * mm, 1)),
-                ],
-                [
-                    SectionField("Total Amount", styles["il-citation-field-header"],
-                                 str(self.citation_info["total_bond_amount"]), ps, offset=(13 * mm, 1)),
-                ],
-                [
-                    SectionField("Notes", styles["il-citation-field-header"],
-                                 "", ps, offset=(6 * mm, 1)),
-                ],
-                [
-                    None
-                ],
-                [
-                    None
-                ],
-                [
-                    None
-                ],
-                [
-                    None
-                ],
-                [
-                    SectionField("Bond Type", styles["il-citation-field-header"],
-                                 release_method, ps, offset=(11 * mm, 1)),
-                ],
-                [
-                    SectionField("Company", styles["il-citation-field-header"],
-                                 self.citation_info["bond_card_issued_by"], ps, offset=(1 * mm, -3 * mm)),
-                ],
-                [
-                    None
-                ],
-                [
-                    SectionField("Auth/ Ref #", styles["il-citation-field-header"],
-                                 self.citation_info["bond_auth_number"], ps, offset=(11 * mm, 1)),
-                ],
-            ],
-            style=extend_table_style(styles["il-citation-main-table"], [
-                ("GRID", (0, 0), (-1, -1), 0.5, "black"),
-                ("SPAN", (0, 11), (0, 12)),
-                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-                ("VALIGN", (0, 11), (0, 12), "TOP"),
-                ("LEFTPADDING", (0, 0), (-1, -1), 1),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 1),
-            ]),
-            colWidths=35 * mm,
-            rowHeights=3.8 * mm,
+                style=ts,
+                colWidths=width,
+                rowHeights=3.8 * mm,
+            )
         )
-
-        return [self._section_gen_table(title="RELEASE", content=[t1], title_width=4.3 * mm,
-                                        content_width=t1.wrap(0, 0)[0])]
+        elems.append(
+            Table(
+                [
+                    [Paragraph("Bond Type", extend_style(ps_title, leading=4))],
+                    [Paragraph(release_method, ps_text)]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("LINEAFTER", (0, 0), (-1, -1), 0.5, "black"),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 1),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 1),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+                ]),
+                colWidths=width,
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        SectionField("Company", ps_title,
+                                     self.citation_info["bond_card_issued_by"], ps_text, offset=(1 * mm, -3 * mm)),
+                    ],
+                    [None],
+                    [
+                        SectionField("Auth/ Ref #", ps_title,
+                                     self.citation_info["bond_auth_number"], ps_text, offset=(11 * mm, 1)),
+                    ]
+                ],
+                style=extend_table_style(ts, [
+                    ("SPAN", (0, 0), (0, 1)),
+                    ("VALIGN", (0, 0), (0, 1), "TOP"),
+                ]),
+                colWidths=width,
+                rowHeights=3.8 * mm,
+            )
+        )
+        return [self._section_gen_table(title="RELEASE", content=elems, title_width=4.3 * mm, content_width=width)]
 
     def _section_court_info(self):
         time = str(self.citation_info["hearing_time"]) if self.citation_info["hearing_time"] else ""
@@ -2759,8 +2645,7 @@ class NonTrafficCitationReport(CitationReport):
         try:
             method = getattr(self, method_name)
         except AttributeError:
-            logger.error("No instructions for " + self.copy_type)
-            return
+            raise Exception("No instructions for copy_type: %s" % self.copy_type)
         return method()
 
     def _section_instructions_court(self):
