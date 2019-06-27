@@ -16,12 +16,13 @@ def generate_il_state_pdf(citation_info, copy_type="VIOLATOR", violation_text=""
                           title=None, author=None):
     copy_type_info = dict()
     if citation_info["is_traffic"]:
-        copy_type_info[
-            "instructions_violator"] = "INSERT APPROPRIATE TEXT FROM THE PRINTING INSTRUCTIONS, INSTRUCTIONS TO THE VIOLATOR SECTION"
-        copy_type_info[
-            "instructions_complaint"] = "INSERT APPROPRIATE TEXT FROM THE PRINTING INSTRUCTIONS, INSTRUCTIONS TO THE VIOLATOR SECTION"
-        copy_type_info[
-            "instructions_release"] = "INSERT APPROPRIATE TEXT FROM THE PRINTING INSTRUCTIONS, RELEASE SECTION"
+        copy_type_info["instructions_violator"] = get_traffic_instructions_to_the_violator(
+            citation_info["hearing_attendance_required"]
+        )
+        copy_type_info["instructions_complaint"] = get_traffic_instructions_to_the_violator(
+            citation_info["hearing_attendance_required"]
+        )
+        copy_type_info["instructions_release"] = get_traffic_release_instructions(citation_info)
         cr = TrafficCitationReport(
             citation_info,
             "ILLINOIS CITATION AND COMPLAINT",
@@ -59,6 +60,270 @@ def generate_il_state_pdf(citation_info, copy_type="VIOLATOR", violation_text=""
     if cr.content:
         cr.content.seek(0)
         return cr.content, cr.page_size
+
+
+def get_traffic_instructions_to_the_violator(court_must_appear):
+    ps_instructions = styles["il-citation-instructions"]
+    ps_instructions_header = extend_style(styles["il-citation-instructions-header"], alignment=TA_LEFT)
+    if court_must_appear:
+        return Table(
+            [
+                [
+                    Paragraph(
+                        "Your ticket has been marked COURT APPEARANCE REQUIRED. You are required to come to court "
+                        "on the date, time and place noted in the COURT PLACE/DATE section on the ticket.",
+                        style=ps_instructions
+                    ),
+                ],
+                [
+                    Paragraph(
+                        "However, if you want to plead \"NOT GUILTY\", complete the portion of these instructions "
+                        "entitled \"Avoid Multiple Court Appearances\" and mail to the clerk of the circuit court "
+                        "identified in the COURT PLACE/DATE section.",
+                        style=ps_instructions
+                    )
+                ]
+            ],
+            style=[
+                ("LEFTPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("TOPPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("TOPPADDING", (0, 0), (-1, 0), 1 * mm),
+            ],
+            colWidths=102 * mm,
+        )
+    else:
+        return Table(
+            [
+                # row 0
+                [
+                    Paragraph(
+                        "Your ticket has been marked NO COURT APPEARANCE REQUIRED. You have the following two (2) "
+                        "options:",
+                        style=ps_instructions
+                    ),
+                    None,
+                    None,
+                ],
+                # row 1
+                [
+                    Paragraph(
+                        "1. If you wish to plead \"GUILTY\", complete the \"PLEA OF GUILTY AND WAIVER\" "
+                        "provided and follow those instructions. Mail the guilty plea with full payment of in "
+                        "the applicable amount noted below:",
+                        style=ps_instructions
+                    ),
+                    None,
+                    None,
+                ],
+                # row 2
+                [
+                    None,
+                    Paragraph(
+                        "Fine, Penalties, Assessments, and Costs",
+                        style=ps_instructions_header
+                    ),
+                    None,
+                ],
+                # row 3
+                [
+                    None,
+                    Paragraph(
+                        "The amount of payment for offenses where court appearances are NOT REQUIRED is:",
+                        style=ps_instructions
+                    ),
+                    None,
+                ],
+                # row 4
+                [
+                    None,
+                    None,
+                    Paragraph(
+                        "(a) $164.00 for any violations under the Illinois Vehicle Code (625 ILCS 5/1 et seq.) "
+                        "defined as a minor traffic offense pursuant to Supreme Court Rule 501(f), except (b) "
+                        "below;",
+                        style=ps_instructions
+                    )
+                ],
+                # row 5
+                [
+                    None,
+                    None,
+                    Paragraph(
+                        "(b) $260.00 plus the minimum fine set by statute for truck overweight and permit "
+                        "violations under 3-401(d), 15-111, 15-113.1, 15-113.2 or 15-113.3 of the Illiois Vehicle "
+                        "Code (625 ILCS 5/3401(d), 15-111, 15-113.1, 15-113.2, 15-113.3);",
+                        style=ps_instructions
+                    )
+                ],
+                # row 6
+                [
+                    None,
+                    None,
+                    Paragraph(
+                        "(c) $195.00 for any violation defined as a Conservation Offense under Supreme Court Rule "
+                        "501(c) for which civil penalties are not required",
+                        style=ps_instructions
+                    )
+                ],
+                # row 7
+                [
+                    Paragraph(
+                        "2. If you wish to plead \"NOT GUILTY\", complete the portion of the form entitled \"Avoid "
+                        "Multiple Court Appearances\" and follow those instructions. If you are found guilty, the "
+                        "total amount assessed may be greater than the amount assessed on a guilty plea.",
+                        style=ps_instructions
+                    ),
+                    None,
+                    None,
+                ],
+            ],
+            style=[
+                ("LEFTPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("TOPPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("TOPPADDING", (0, 0), (-1, 0), 5 * mm),
+                ("SPAN", (0, 0), (-1, 0)),
+                ("SPAN", (0, 1), (-1, 1)),
+                ("SPAN", (0, 7), (-1, 7)),
+                ("SPAN", (1, 2), (-1, 2)),
+                ("SPAN", (1, 3), (-1, 3)),
+            ],
+            colWidths=(2 * mm, 2 * mm, 98 * mm),
+        )
+
+
+def get_traffic_release_instructions(citation_info):
+    ps_instructions = styles["il-citation-instructions"]
+    release_info = []
+    if citation_info["bond_includes_cash_bond_full"]:
+        if not citation_info["hearing_attendance_required"]:
+            release_info.append(
+                [
+                    Paragraph(
+                        'i. CASH BAIL 1. FULL a. NO COURT APPEARANCE REQUIRED: A judgement of conviction may be '
+                        'entered against you as noted above.',
+                        style=ps_instructions
+                    ),
+                ]
+            )
+        else:
+            release_info.append(
+                [
+                    Paragraph(
+                        'i. CASH BAIL 1. FULL b. Court Appearance Required: A judgment of conviction may be entered '
+                        'for the FULL amount of the bond, and/or the court may issue a warrant for your arrest. Any '
+                        'cash deposited will be applied toward the judgment.',
+                        style=ps_instructions
+                    )
+                ]
+            )
+    if citation_info["bond_includes_cash_bond_ten_percent"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'i. CASH BAIL 2. 10% CASH BAIL: A judgment of conviction may be entered against you for the '
+                    'FULL amount of the bond and/or the court may issue a warrant for your arrest. Any cash '
+                    'deposited will be applied toward the judgment.',
+                    style=ps_instructions
+                ),
+            ]
+        )
+    if citation_info["bond_includes_drivers_license_bond"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'ii. ILLINOIS DRIVER\'S LICENSE: Your driving privileges may be suspended, and/or the court may '
+                    'issue a warrant for your arrest.',
+                    style=ps_instructions
+                ),
+            ]
+        )
+    if citation_info["bond_includes_bond_card"]:
+        if citation_info["hearing_attendance_required"]:
+            release_info.append(
+                [
+                    Paragraph(
+                        'iii. BOND CARD 2. COURT APPEARANCE REQUIRED: The card will be sent to the issuing company '
+                        'for payment. Or, instead, a judgment of conviction may be entered for the FULL amount of '
+                        'the bond, and/or the court may issue a warrant for your arrest.',
+                        style=ps_instructions
+                    )
+                ]
+            )
+        else:
+            release_info.append(
+                [
+                    Paragraph(
+                        'iii. BOND CARD 1. NO COURT APPEARANCE REQUIRED: Your card will be sent to the issuing '
+                        'company for payment.',
+                        style=ps_instructions
+                    )
+                ]
+            )
+    if citation_info["bond_includes_companion_case"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'iv. BOND DEPOSITED ON COMPANION CASE (See RELEASE section on e-Citation) The security which '
+                    'has been posted in another ticket or document also covers this ticket.',
+                    style=ps_instructions
+                )
+            ]
+        )
+    if citation_info["bond_includes_none"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'v. NO BOND You were unable to secure release with the arresting officer at the time this '
+                    'ticket was issued.',
+                    style=ps_instructions
+                )
+            ]
+        )
+    if citation_info["bond_includes_notice_to_appear"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'vi. NOTICE TO APPEAR The court may issue a warrant for your arrest.',
+                    style=ps_instructions
+                )
+            ]
+        )
+    if citation_info["bond_includes_promise_to_comply"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'vii. PROMISE TO COMPLY A notice of suspension of your driving privileges will be sent to your '
+                    'licensing state; or, the court may issue a warrant for your arrest.',
+                    style=ps_instructions
+                )
+            ]
+        )
+    if citation_info["bond_includes_individual_bond"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'viii. INDIVIDUAL BOND A judgment of conviction may be entered for the FULL amount of the '
+                    'bond, and/or the court may issue a warrant for your arrest.',
+                    style=ps_instructions
+                )
+            ]
+        )
+
+    return Table(
+        release_info,
+        style=[
+            ("LEFTPADDING", (0, 0), (-1, -1), 2 * mm),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 2 * mm),
+            ("TOPPADDING", (0, 0), (-1, -1), 2 * mm),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 2 * mm),
+            ("TOPPADDING", (0, 0), (-1, 0), 1 * mm),
+        ],
+        colWidths=102 * mm,
+    )
 
 
 def field_string_from_flags(info_dict, sen_list):
@@ -385,9 +650,7 @@ class TrafficCitationReport(CitationReport):
         elems.append(
             Paragraph("Read These Instructions Carefully", style=styles["il-citation-instructions-header"])
         )
-        elems.append(
-            Paragraph(self.copy_type_info["instructions_violator"], style=styles["il-citation-instructions"])
-        )
+        elems.append(self.copy_type_info["instructions_violator"])
         elems.append(Spacer(1, 10))
         elems.append(
             Paragraph("Method of Release - Failure to Appear",
@@ -399,9 +662,7 @@ class TrafficCitationReport(CitationReport):
                 style=styles["il-citation-instructions"])
         )
         elems.append(Spacer(1, 5))
-        elems.append(
-            Paragraph(self.copy_type_info["instructions_release"], style=styles["il-citation-instructions"])
-        )
+        elems.append(self.copy_type_info["instructions_release"])
         elems.append(Spacer(1, 10))
         elems.append(
             Table(
@@ -439,9 +700,7 @@ class TrafficCitationReport(CitationReport):
         elems.append(
             Paragraph("Read These Instructions Carefully", style=styles["il-citation-instructions-header"])
         )
-        elems.append(
-            Paragraph(self.copy_type_info["instructions_complaint"], style=styles["il-citation-instructions"])
-        )
+        elems.append(self.copy_type_info["instructions_complaint"])
         elems.append(Spacer(1, 10))
         elems.append(
             Paragraph("Method of Release - Failure to Appear",
@@ -453,9 +712,7 @@ class TrafficCitationReport(CitationReport):
                 style=styles["il-citation-instructions"])
         )
         elems.append(Spacer(1, 5))
-        elems.append(
-            Paragraph(self.copy_type_info["instructions_release"], style=styles["il-citation-instructions"])
-        )
+        elems.append(self.copy_type_info["instructions_release"])
         elems.append(Spacer(1, 10))
         elems.append(
             Table(
