@@ -67,7 +67,7 @@ def field_string_from_flags(info_dict, sen_list):
         if val:
             for sen in sen_list:
                 if key.startswith(sen):
-                    name = key[len(sen):].replace("_", " ")
+                    name = key[len(sen):].replace("_", " ").upper()
                     field += name + ","
                     break
     if field:
@@ -79,6 +79,20 @@ def nullable_false_handler(value):
     if value == "":
         return False
     return not value
+
+
+def get_court_location(citation_info):
+    if citation_info["hearing_court_room"]:
+        return '%s - RM %s<br />%s' % (
+            citation_info["hearing_court_name"],
+            citation_info["hearing_court_room"],
+            citation_info["hearing_court_address"]
+        )
+    else:
+        return '%s<br />%s' % (
+            citation_info["hearing_court_name"],
+            citation_info["hearing_court_address"]
+        )
 
 
 class XBox(Flowable):
@@ -301,6 +315,26 @@ class TrafficCitationReport(CitationReport):
                 ],
                 [
                     Paragraph(
+                        datetime.today().strftime('%m'),
+                        style=styles["il-citation-main"]
+                    ),
+                    Paragraph(
+                        datetime.today().strftime('%d'),
+                        style=styles["il-citation-main"]
+                    ),
+                    Paragraph(
+                        datetime.today().strftime('%Y'),
+                        style=extend_style(styles["il-citation-main"], alignment=TA_RIGHT)
+                    ),
+                    None,
+                    None,
+                    Paragraph(
+                        self.citation_info["officer_badge_number"],
+                        style=extend_style(styles["il-citation-main"], alignment=TA_RIGHT)
+                    ),
+                ],
+                [
+                    Paragraph(
                         "Month",
                         style=styles["il-citation-main"]
                     ),
@@ -324,13 +358,17 @@ class TrafficCitationReport(CitationReport):
                 ],
             ],
             style=extend_table_style(styles["il-citation-main-table"], [
-                ("LINEBELOW", (0, 0), (2, 0), 0.5, "black"),
-                ("LINEBELOW", (4, 0), (-1, 0), 0.5, "black"),
+                ("LINEBELOW", (0, 1), (2, 1), 0.5, "black"),
+                ("LINEBELOW", (4, 1), (-1, 1), 0.5, "black"),
                 ("SPAN", (0, 0), (-1, 0)),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("VALIGN", (0, 1), (0, 1), "BOTTOM"),
+                ("VALIGN", (1, 1), (1, 1), "BOTTOM"),
+                ("VALIGN", (2, 1), (2, 1), "BOTTOM"),
+                ("VALIGN", (5, 1), (5, 1), "BOTTOM"),
             ]),
             colWidths=(15 * mm, 10 * mm, 11 * mm, 3.5 * mm, 29.55 * mm, 29.55 * mm),
-            rowHeights=(17.3 * mm, 2.5 * mm),
+            rowHeights=(11.3 * mm, 6 * mm, 2.5 * mm),
         )
         return [t]
 
@@ -705,6 +743,10 @@ class TrafficCitationReport(CitationReport):
                     ),
                     None,
                     Paragraph("DCN:", style=styles["il-citation-field-header"]),
+                    Paragraph(
+                        self.citation_info["complainant_document_control_number"],
+                        style=extend_style(styles["il-citation-main"], fontSize=9, alignment=TA_RIGHT)
+                    )
                 ],
                 [
                     None,
@@ -719,6 +761,7 @@ class TrafficCitationReport(CitationReport):
                 ("SPAN", (0, 1), (1, 1)),
                 ("SPAN", (1, 2), (3, 2)),
                 ("VALIGN", (0, 1), (0, 1), "MIDDLE"),
+                ("VALIGN", (3, 1), (3, 1), "MIDDLE")
             ]),
             colWidths=(38 * mm, 7.8 * mm, 8.5 * mm, 37.2 * mm),
             rowHeights=(3.75 * mm, 5.6 * mm, 3.75 * mm),
@@ -732,12 +775,12 @@ class TrafficCitationReport(CitationReport):
                     SectionField("Case No.", styles["il-citation-field-header"],
                                  self.citation_info["case_number"], styles["il-citation-field-data"],
                                  offset=(2, -1.8 * mm)),
-                    SectionField("ISP Dist Occ.", styles["il-citation-field-header"],
+                    SectionField("Beat", styles["il-citation-field-header"],
                                  self.citation_info["complainant_beat"],
                                  styles["il-citation-field-data"],
                                  offset=(2, -1.8 * mm)),
                     None,
-                    SectionField("ISP Dist Assgn", styles["il-citation-field-header"],
+                    SectionField("Section", styles["il-citation-field-header"],
                                  self.citation_info["complainant_section"],
                                  styles["il-citation-field-data"],
                                  offset=(2, -1.8 * mm)),
@@ -862,12 +905,8 @@ class TrafficCitationReport(CitationReport):
             colWidths=(43 * mm, 16 * mm),
             rowHeights=(4.6 * mm, 2.4)
         )
-        sex_m = 0
-        sex_f = 0
-        if self.citation_info["defendant_sex"] == "M":
-            sex_m = 1
-        elif self.citation_info["defendant_sex"] == "F":
-            sex_f = 1
+        sex_m = self.citation_info["defendant_sex"] == "M"
+        sex_f = self.citation_info["defendant_sex"] == "F"
         address = self.citation_info["defendant_address_city"] + "    " + self.citation_info[
             "defendant_address_state"] + "    " + self.citation_info["defendant_address_zip"]
         dl_expiration = self.citation_info["defendant_driver_license_expiration_date"] if self.citation_info[
@@ -932,7 +971,7 @@ class TrafficCitationReport(CitationReport):
                                  ),
                     None,
                     SectionField("DOB", extend_style(styles["il-citation-field-header"], alignment=TA_CENTER),
-                                 str(self.citation_info["defendant_date_of_birth"]),
+                                 self.citation_info["defendant_date_of_birth"],
                                  styles["il-citation-field-data"],
                                  ),
                 ]
@@ -1056,8 +1095,11 @@ class TrafficCitationReport(CitationReport):
             rowHeights=(6.25 * mm, 6.25 * mm, 9.6 * mm)
         )
         p1 = Paragraph(
-            "The Undersigned states that on ____________________ at ____________________<br />"
-            "Defendant did unlawfully operate:",
+            "The Undersigned states that on %s at %s<br />Defendant did unlawfully operate:" %
+            (
+                self.citation_info["violation_date"],
+                self.citation_info["violation_time"]
+            ),
             style=styles["il-citation-table-header"])
         ps = extend_style(styles["il-citation-table-header"], fontSize=4.5, leading=4.5, fontName="Arial")
         fe = [
@@ -1065,7 +1107,11 @@ class TrafficCitationReport(CitationReport):
                 "Or as a Pedestrian or Passenger, and upon a Public Highway, or other Location, Specifically",
                 style=styles["il-citation-table-header"]
             ),
-            HRFlowable(width="100%", thickness=0.5, lineCap="butt", color="black", spaceBefore=3.5 * mm, spaceAfter=0),
+            Paragraph(
+                "%s" % self.citation_info["violation_location"],
+                style=styles["il-citation-table-header"]
+            ),
+            HRFlowable(width="100%", thickness=0.5, lineCap="butt", color="black", spaceBefore=0, spaceAfter=0),
             Table(
                 [
                     [
@@ -1088,7 +1134,7 @@ class TrafficCitationReport(CitationReport):
                 rowHeights=2.5 * mm
             )
         ]
-        return [self._section_gen_table(title="VEHICLE", content=[t1], header=p1, footer=fe)]
+        return [self._section_gen_table(title="VEHICLE", content=[t1], header=p1, footer=fe)] 
 
     def _section_violation_info(self):
         ps = extend_style(styles["il-citation-field-header"], fontName="Arial")
@@ -1189,6 +1235,7 @@ class TrafficCitationReport(CitationReport):
                     Paragraph(self.citation_info["incident_report_number"], styles["il-citation-field-data"]),
                     None,
                     Paragraph("CAD No.:", ps),
+                    Paragraph(self.citation_info["complainant_cad_number"], styles["il-citation-field-data"])
                 ],
                 [
                     Paragraph("Visibility:", ps),
@@ -1202,8 +1249,8 @@ class TrafficCitationReport(CitationReport):
                     Paragraph(methods, styles["il-citation-field-data"]),
                     None,
                     Paragraph("Notations:", ps),
-                    Paragraph(self.citation_info["incident_accident_notes"] if self.citation_info[
-                        "incident_accident_notes"] else "", styles["il-citation-field-data"]),
+                    Paragraph(self.citation_info["incident_public_narrative"] if self.citation_info[
+                        "incident_public_narrative"] else "", styles["il-citation-field-data"]),
                 ],
             ],
             style=extend_table_style(styles["il-citation-main-table"], [
@@ -1232,7 +1279,7 @@ class TrafficCitationReport(CitationReport):
                     None,
                     Paragraph("Total Bond/Bail Posted:",
                               extend_style(styles["il-citation-field-header"], alignment=TA_RIGHT)),
-                    Paragraph(str(self.citation_info["bond_amount"]), styles["il-citation-field-data"]),
+                    Paragraph(str(self.citation_info["total_bond_amount"]), styles["il-citation-field-data"]),
                     None,
                 ],
                 [
@@ -1270,7 +1317,7 @@ class TrafficCitationReport(CitationReport):
         return [self._section_gen_table(title="RELEASE", content=[t1])]
 
     def _section_court_info(self):
-        time = str(self.citation_info["hearing_time"]) if self.citation_info["hearing_time"] else ""
+        time = self.citation_info["hearing_time"] if self.citation_info["hearing_time"] else ""
         ps = extend_style(styles["il-citation-field-header-sm"], fontName="Arial")
         t1 = Table(
             [
@@ -1282,11 +1329,11 @@ class TrafficCitationReport(CitationReport):
                 ],
                 [
                     Paragraph("Court Location:", ps),
-                    Paragraph(self.citation_info["hearing_court_address"], styles["il-citation-field-data"]),
+                    Paragraph(get_court_location(self.citation_info), styles["il-citation-field-data"]),
                 ],
                 [
                     Paragraph("Date:", ps),
-                    Paragraph(str(self.citation_info["hearing_court_date"]), styles["il-citation-field-data"]),
+                    Paragraph(self.citation_info["hearing_court_date"], styles["il-citation-field-data"]),
                     Paragraph("Time:", ps),
                     Paragraph(time, styles["il-citation-field-data"]),
                 ],
@@ -1299,7 +1346,7 @@ class TrafficCitationReport(CitationReport):
                 ("RIGHTPADDING", (0, 0), (-1, -1), 1),
             ]),
             colWidths=(13 * mm, 35 * mm, 10 * mm, 36.3 * mm),
-            rowHeights=(8.7 * mm, 4.3 * mm, 4.3 * mm)
+            rowHeights=(4 * mm, 6 * mm, 4.3 * mm)
         )
         ps = extend_style(styles["il-citation-field-header"], fontSize=12, leading=12)
         t2 = Table(
@@ -1757,13 +1804,13 @@ class OverweightCitationReport(CitationReport):
                     SectionField("Case No.", styles["il-citation-field-header"],
                                  self.citation_info["case_number"], styles["il-citation-field-data"],
                                  offset=field_offset),
-                    SectionField("ISP Dist Occ.", styles["il-citation-field-header"],
+                    SectionField("Beat", styles["il-citation-field-header"],
                                  self.citation_info["complainant_beat"],
                                  styles["il-citation-field-data"],
                                  offset=field_offset),
-                    XBox(7, 0),
+                    XBox(7, self.citation_info["complainant_is_tollway"]),
                     Paragraph("Tollway", style=styles["il-citation-field-header"]),
-                    SectionField("ISP Dist Assgn", styles["il-citation-field-header"],
+                    SectionField("Section", styles["il-citation-field-header"],
                                  self.citation_info["complainant_section"],
                                  styles["il-citation-field-data"],
                                  offset=field_offset),
@@ -1905,12 +1952,8 @@ class OverweightCitationReport(CitationReport):
             colWidths=(43 * mm, 16 * mm),
             rowHeights=(4.6 * mm, 2.4)
         )
-        sex_m = 0
-        sex_f = 0
-        if self.citation_info["defendant_sex"] == "M":
-            sex_m = 1
-        elif self.citation_info["defendant_sex"] == "F":
-            sex_f = 1
+        sex_m = self.citation_info["defendant_sex"] == "M"
+        sex_f = self.citation_info["defendant_sex"] == "F"
         address = self.citation_info["defendant_address_city"] + "    " + self.citation_info[
             "defendant_address_state"] + "    " + self.citation_info["defendant_address_zip"]
         dl_expiration = self.citation_info["defendant_driver_license_expiration_date"] if self.citation_info[
@@ -1982,7 +2025,7 @@ class OverweightCitationReport(CitationReport):
                                  ),
                     None,
                     SectionField("DOB", extend_style(styles["il-citation-field-header"], alignment=TA_CENTER),
-                                 str(self.citation_info["defendant_date_of_birth"]),
+                                 self.citation_info["defendant_date_of_birth"],
                                  styles["il-citation-field-data"],
                                  ),
                 ]
@@ -2095,7 +2138,10 @@ class OverweightCitationReport(CitationReport):
                     ],
                 ],
                 [
-                    Paragraph("VIN", styles["il-citation-field-header"]),
+                    SectionField("VIN", styles["il-citation-field-header"],
+                                 self.citation_info["vehicle_vin"],
+                                 styles["il-citation-field-data"],
+                                 ),
                 ]
             ],
             style=[
@@ -2109,11 +2155,14 @@ class OverweightCitationReport(CitationReport):
                 ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
             ],
             colWidths=(42.5 * mm, 12.5 * mm, 15.5 * mm, 23.8 * mm,),
-            rowHeights=(6.25 * mm, 6.25 * mm, 5 * mm, 4.6 * mm)
+            rowHeights=(6.25 * mm, 6.25 * mm, 5 * mm, 5 * mm)
         )
         p1 = Paragraph(
-            "The Undersigned states that on ____________________ at ____________________<br />"
-            "Defendant did unlawfully operate a motor vehicle of the second division:",
+            "The Undersigned states that on %s at %s<br />"
+            "Defendant did unlawfully operate a motor vehicle of the second division:" % (
+                self.citation_info["violation_date"],
+                self.citation_info["violation_time"]
+            ),
             style=styles["il-citation-table-header"])
         ps = extend_style(styles["il-citation-table-header"], fontSize=4.5, leading=4.5, fontName="Arial")
         fe = [
@@ -2121,7 +2170,8 @@ class OverweightCitationReport(CitationReport):
                 "On a Public Highway, Namely or other Location, Specifically",
                 style=styles["il-citation-table-header"]
             ),
-            HRFlowable(width="100%", thickness=0.5, lineCap="butt", color="black", spaceBefore=3.5 * mm, spaceAfter=0),
+            Paragraph(self.citation_info["violation_location"], style=styles["il-citation-table-header"]),
+            HRFlowable(width="100%", thickness=0.5, lineCap="butt", color="black", spaceBefore=0, spaceAfter=0),
             Table(
                 [
                     [
@@ -2149,6 +2199,8 @@ class OverweightCitationReport(CitationReport):
     def _section_violation_info(self):
         permit_no = self.citation_info["violation_permit_number"] if self.citation_info[
             "violation_permit_number"] else ""
+        overweight_on = self.citation_info["violation_overweight_type"].upper() if self.citation_info[
+            "violation_overweight_type"] else ''
         ps = extend_style(styles["il-citation-field-header"], fontName="Arial")
         t1s1 = Table(
             [
@@ -2158,7 +2210,7 @@ class OverweightCitationReport(CitationReport):
                     XBox(6, False if self.citation_info["violation_type"] == "ILCS" else True),
                     Paragraph("Local Ordinance", style=ps),
                     Paragraph("Overweight On:", style=ps),
-                    Paragraph(str(self.citation_info["violation_date"]), styles["il-citation-field-data"]),
+                    Paragraph(overweight_on, styles["il-citation-field-data"]),
                     Paragraph("Permit #", style=ps),
                     Paragraph(permit_no, styles["il-citation-field-data"]),
                 ],
@@ -2231,7 +2283,7 @@ class OverweightCitationReport(CitationReport):
         ])
         gross_weight = str(self.citation_info["weights_gross_weight"]) if self.citation_info[
             "weights_gross_weight"] else ""
-        test_date = str(self.citation_info["weights_test_date"]) if self.citation_info["weights_test_date"] else ""
+        test_date = self.citation_info["weights_test_date"] if self.citation_info["weights_test_date"] else ""
         weather = str(self.citation_info["weights_weather"]) if self.citation_info["weights_weather"] else ""
         axle_data = ast.literal_eval(self.citation_info["weights_axle_weights"])
         axle_data = [str(key) + ": " + str(axle_data[key]) for key in sorted(axle_data, key=lambda k: k)]
@@ -2268,33 +2320,34 @@ class OverweightCitationReport(CitationReport):
             ]
         )
         sticker_list = ast.literal_eval(self.citation_info["weights_scale_sticker_number"])
-        sticker_list = ["Scale Sticker # " + s for s in sticker_list if s]
-        sticker_table_data = []
-        for i in range(0, len(sticker_list)):
-            sticker_table_data.append(
-                [
-                    Paragraph(
-                        sticker_list[i],
-                        style=styles["il-citation-field-data"]
-                    ),
-                ]
-            )
-        sticker_table_data.append(
+        sticker_list_length = len(sticker_list)
+        second_sticker_label = ''
+        if sticker_list_length > 3:
+            first_sticker_label = ';'.join(sticker_list[0:3])
+            if sticker_list_length > 7:
+                second_sticker_label = ';'.join(sticker_list[4:7])
+        else:
+            first_sticker_label = ';'.join(sticker_list[0:sticker_list_length])
+        scale_sticker_number_style = extend_style(styles["il-citation-field-data"], fontSize=5)
+        sticker_table_data = [
+            [
+                Paragraph('Scale Sticker #: %s' % first_sticker_label, style=scale_sticker_number_style),
+            ],
+            [
+                Paragraph('Scale Sticker #: %s' % second_sticker_label, style=scale_sticker_number_style),
+            ],
             [
                 Paragraph(
                     "Test Date: " + test_date,
-                    style=styles["il-citation-field-data"])
-            ]
-        )
-        sticker_table_data.append(
+                    style=styles["il-citation-field-data"]
+                )
+            ],
             [
                 Paragraph(
                     "Dist. between axles: " + str(self.citation_info["weights_distance_between_axles"]),
                     style=styles["il-citation-field-data"]
                 )
-            ]
-        )
-        sticker_table_data.append(
+            ],
             [
                 Table(
                     [
@@ -2311,16 +2364,14 @@ class OverweightCitationReport(CitationReport):
                     ]),
                     colWidths=(4 * mm, None)
                 )
-            ]
-        )
-        sticker_table_data.append(
+            ],
             [
                 Paragraph(
                     "Weather: " + weather,
                     style=styles["il-citation-field-data"]
                 )
             ]
-        )
+        ]
 
         t1s1 = Table(
             axle_table_data,
@@ -2365,12 +2416,15 @@ class OverweightCitationReport(CitationReport):
         release_method = field_string_from_flags(self.citation_info, ["bond_includes_"])
         ps_title = styles["il-citation-field-header"]
         ps_text = extend_style(styles["il-citation-field-data"], fontSize=6, leading=6)
+        ps_fit = extend_style(styles["il-citation-field-data"], fontSize=5)
         ts = extend_table_style(styles["il-citation-main-table"], [
             ("GRID", (0, 0), (-1, -1), 0.5, "black"),
             ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
             ("LEFTPADDING", (0, 0), (-1, -1), 1),
             ("RIGHTPADDING", (0, 0), (-1, -1), 1),
         ])
+        public_notes = [self.citation_info["bond_public_notes"][i:i + 32] for i in
+                        range(0, len(self.citation_info["bond_public_notes"]), 32)]
         width = 35 * mm
         elems = list()
         elems.append(
@@ -2380,10 +2434,18 @@ class OverweightCitationReport(CitationReport):
                         SectionField("Lbs. in Excess", ps_title, excess_weight, ps_text, offset=(14 * mm, 1)),
                     ],
                     [
-                        SectionField("Assessment Schedule #:", ps_title, "", ps_text, offset=(24 * mm, 1)),
+                        SectionField("Assessment Schedule #:",
+                                     ps_fit,
+                                     self.citation_info["bond_assessment_schedule_number"],
+                                     ps_fit,
+                                     offset=(24 * mm, 1)),
                     ],
                     [
-                        SectionField("Assessments", ps_title, "", ps_text, offset=(13 * mm, 1)),
+                        SectionField("Assessments:",
+                                     ps_fit,
+                                     self.citation_info["bond_assessments"],
+                                     ps_fit,
+                                     offset=(13 * mm, 1)),
                     ],
                     [
                         SectionField("Fine", ps_title, str(self.citation_info["bond_amount"]), ps_text,
@@ -2396,10 +2458,18 @@ class OverweightCitationReport(CitationReport):
                     [
                         SectionField("Notes", ps_title, "", ps_text, offset=(6 * mm, 1)),
                     ],
-                    [None],
-                    [None],
-                    [None],
-                    [None],
+                    [
+                        Paragraph(public_notes[0], style=ps_fit),
+                    ],
+                    [
+                        Paragraph(public_notes[1] if len(public_notes) >= 2 else '', style=ps_fit)
+                    ],
+                    [
+                        Paragraph(public_notes[2] if len(public_notes) >= 3 else '', style=ps_fit)
+                    ],
+                    [
+                        Paragraph(public_notes[3] if len(public_notes) >= 4 else '', style=ps_fit)
+                    ],
                 ],
                 style=ts,
                 colWidths=width,
@@ -2445,8 +2515,8 @@ class OverweightCitationReport(CitationReport):
         return [self._section_gen_table(title="RELEASE", content=elems, title_width=4.3 * mm, content_width=width)]
 
     def _section_court_info(self):
-        time = str(self.citation_info["hearing_time"]) if self.citation_info["hearing_time"] else ""
-        date = str(self.citation_info["hearing_court_date"]) if self.citation_info["hearing_court_date"] else ""
+        time = self.citation_info["hearing_time"] if self.citation_info["hearing_time"] else ""
+        date = self.citation_info["hearing_court_date"] if self.citation_info["hearing_court_date"] else ""
         ps_header = extend_style(styles["il-citation-field-header-sm"], fontName="Arial")
         ps_text = extend_style(styles["il-citation-field-data"], fontSize=6, leading=6)
         t1 = Table(
@@ -2456,15 +2526,17 @@ class OverweightCitationReport(CitationReport):
                     None,
                     None,
                     None,
+                    None,
                 ],
                 [
                     Paragraph("Court Location:", ps_header),
                     None,
-                    Paragraph(self.citation_info["hearing_court_address"], ps_text),
+                    Paragraph(get_court_location(self.citation_info), ps_text),
                 ],
                 [
                     Paragraph("Date:", ps_header),
                     Paragraph(date, ps_text),
+                    None,
                     Paragraph("Time:", ps_header),
                     Paragraph(time, ps_text),
                 ],
@@ -2473,12 +2545,13 @@ class OverweightCitationReport(CitationReport):
                 ("OUTLINE", (0, 0), (-1, -1), 0.5, "black"),
                 ("SPAN", (0, 0), (-1, 0)),
                 ("SPAN", (0, 1), (1, 1)),
-                ("SPAN", (2, 1), (3, 1)),
+                ("SPAN", (2, 1), (-1, 1)),
+                ("SPAN", (1, 2), (2, 2)),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ("LEFTPADDING", (0, 0), (-1, -1), 1),
                 ("RIGHTPADDING", (0, 0), (-1, -1), 1),
             ]),
-            colWidths=(5 * mm, 7.4 * mm, 15.6 * mm, 27 * mm),
+            colWidths=(5 * mm, 7.4 * mm, 10 * mm, 5.6 * mm, 27 * mm),
             rowHeights=(8.7 * mm, 10.6 * mm, 3.25 * mm)
         )
         ps = extend_style(styles["il-citation-main"], fontSize=5.5, leading=6)
@@ -2494,7 +2567,18 @@ class OverweightCitationReport(CitationReport):
                     None,
                 ],
                 [
-
+                    Paragraph(
+                        datetime.today().strftime('%m'),
+                        style=ps
+                    ),
+                    Paragraph(
+                        datetime.today().strftime('%d'),
+                        style=ps
+                    ),
+                    Paragraph(
+                        datetime.today().strftime('%Y'),
+                        style=ps
+                    )
                 ],
                 [
                     Paragraph(
@@ -2508,6 +2592,15 @@ class OverweightCitationReport(CitationReport):
                     Paragraph(
                         "Year",
                         style=ps
+                    ),
+                ],
+                [
+                    None,
+                    None,
+                    None,
+                    Paragraph(
+                        self.citation_info["officer_badge_number"],
+                        style=extend_style(ps, alignment=TA_RIGHT)
                     ),
                 ],
                 [
@@ -2536,16 +2629,20 @@ class OverweightCitationReport(CitationReport):
             ],
             style=extend_table_style(styles["il-citation-main-table"], [
                 ("LINEABOVE", (0, 2), (2, 2), 0.5, "black"),
-                ("LINEABOVE", (0, 3), (-1, 3), 0.5, "black"),
-                ("LINEABOVE", (0, 5), (-1, 5), 0.5, "black"),
+                ("LINEABOVE", (0, 4), (-1, 4), 0.5, "black"),
+                ("LINEABOVE", (0, 6), (-1, 6), 0.5, "black"),
                 ("SPAN", (0, 0), (-1, 0)),
-                ("SPAN", (0, 3), (2, 3)),
-                ("SPAN", (0, 4), (-1, 4)),
+                ("SPAN", (0, 4), (2, 4)),
                 ("SPAN", (0, 5), (-1, 5)),
+                ("SPAN", (0, 6), (-1, 6)),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("VALIGN", (0, 1), (0, 1), "BOTTOM"),
+                ("VALIGN", (1, 1), (1, 1), "BOTTOM"),
+                ("VALIGN", (2, 1), (2, 1), "BOTTOM"),
+                ("VALIGN", (3, 3), (3, 3), "BOTTOM"),
             ]),
             colWidths=(12 * mm, 10.4 * mm, 4.8 * mm, 25.8 * mm),
-            rowHeights=[None, 5 * mm, 9.8 * mm, 4 * mm, 11.5 * mm, 3.3 * mm],
+            rowHeights=[None, 5 * mm, 4 * mm, 5.8 * mm, 4 * mm, 11.5 * mm, 3.3 * mm],
         )
 
         return [self._section_gen_table(title="Court Place/Date", footer=[t2], content=[t1], title_width=4.3 * mm,
@@ -2610,9 +2707,9 @@ class NonTrafficCitationReport(CitationReport):
                         None,
                         None,
                         None,
+                        Paragraph(self.citation_info["officer_badge_number"], style=ps_text),
                         None,
-                        None,
-                        None,
+                        Paragraph(datetime.today().strftime('%m/%d/%Y'), style=ps_text),
                     ],
                     [
                         Paragraph("Signature of Complainant", ps_text),
@@ -2631,9 +2728,11 @@ class NonTrafficCitationReport(CitationReport):
                     ("LINEBELOW", (4, 0), (4, 0), 0.5, "black"),
                     ("LINEBELOW", (6, 0), (6, 0), 0.5, "black"),
                     ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("VALIGN", (4, 0), (4, 0), "BOTTOM"),
+                    ("VALIGN", (6, 0), (6, 0), "BOTTOM"),
                     ("ALIGN", (0, 0), (-1, -1), "CENTER"),
                 ]),
-                colWidths=(31.5 * mm, 3 * mm, 31 * mm, 1.8 * mm, 14.8 * mm, 1.5 * mm, 14 * mm),
+                colWidths=(31.5 * mm, 1.5 * mm, 31 * mm, 1.8 * mm, 14.8 * mm, 1.5 * mm, 15.5 * mm),
                 rowHeights=(9 * mm, 7 * mm)
             )
         )
@@ -3158,6 +3257,7 @@ class NonTrafficCitationReport(CitationReport):
             colWidths=(3 * mm, 32.5 * mm, 34.5 * mm, 27.6 * mm),
             rowHeights=(5 * mm, 6 * mm),
         )
+        city_village = self.citation_info["municipality_name"]
         t2 = Table(
             [
                 [
@@ -3173,7 +3273,7 @@ class NonTrafficCitationReport(CitationReport):
                 [
                     None,
                     Paragraph("CITY/VILLAGE OF:", ps),
-                    Paragraph("%s" % self.citation_info["municipality_name"], ps)
+                    Paragraph("%s" % city_village, ps)
                 ],
             ],
             style=extend_table_style(styles["il-citation-main-table"], [
@@ -3190,7 +3290,7 @@ class NonTrafficCitationReport(CitationReport):
             colWidths=(3 * mm, 22 * mm, 16.9 * mm, 9.2 * mm, 19.3 * mm, 27.2 * mm),
             rowHeights=(5 * mm, 5.5 * mm),
         )
-        city_village = self.citation_info["complainant_municipality_township"] if self.citation_info[
+        city_village = city_village if self.citation_info[
             "complainant_is_municipality"] else ""
         t3 = Table(
             [
@@ -3257,7 +3357,7 @@ class NonTrafficCitationReport(CitationReport):
                     ],
                     [
                         Paragraph("Date of Birth", ps_title),
-                        Paragraph(str(self.citation_info["defendant_date_of_birth"]), ps_text)
+                        Paragraph(self.citation_info["defendant_date_of_birth"], ps_text)
                     ],
                 ],
                 [
@@ -3386,13 +3486,7 @@ class NonTrafficCitationReport(CitationReport):
 
     def _section_violation_info(self):
         ps_title = styles["il-citation-field-header-nt"]
-        violation_time = (
-            datetime.strptime(self.citation_info["violation_time"], "%H:%M:%S").strftime(
-                "%I:%M %p"
-            )
-            if self.citation_info["violation_time"]
-            else ""
-        )
+        violation_time = self.citation_info["violation_time"] if self.citation_info["violation_time"] else ""
         elems = list()
         elems.append(
             [
@@ -3533,17 +3627,12 @@ class NonTrafficCitationReport(CitationReport):
     def _section_court_info(self):
         ps_title = styles["il-citation-field-header-nt"]
         ps_text = styles["il-citation-field-data-nt"]
-        hearing_time = self.citation_info["hearing_time"].strftime("%I:%M %p") if self.citation_info[
-            "hearing_time"] else ""
+        hearing_time = self.citation_info["hearing_time"] if self.citation_info["hearing_time"] else ""
         t1 = Table(
             [
                 [
                     Paragraph(
-                        "Location of Court:%s - RM: %s<br />%s" % (
-                            "",
-                            self.citation_info["hearing_court_room"],
-                            self.citation_info["hearing_court_address"],
-                        ),
+                        "Location of Court:%s" % get_court_location(self.citation_info),
                         ps_title
                     ),
                     None,

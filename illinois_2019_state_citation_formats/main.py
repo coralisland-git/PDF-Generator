@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 import sys
+from datetime import datetime
 
 from generate_pdf import generate_il_state_pdf
 
@@ -28,6 +29,16 @@ if __name__ == "__main__":
             pdf_data[k] = True
         if v in boolean_false:
             pdf_data[k] = False
+        if 'date' in k and v:
+            try:
+                pdf_data[k] = datetime.strptime(v, '%Y-%m-%d').strftime('%m/%d/%Y')
+            except ValueError:
+                pass
+        if 'time' in k and v:
+            try:
+                pdf_data[k] = datetime.strptime(v, '%H:%M:%S').strftime('%I:%M %p')
+            except ValueError:
+                pass
 
     violation_text = pdf_data["violation_section"]
 
