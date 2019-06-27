@@ -31,7 +31,8 @@ def generate_il_state_pdf(citation_info, copy_type="VIOLATOR", violation_text=""
             violation_text=violation_text
         )
     elif citation_info["is_overweight"]:
-        copy_type_info["instructions_consequences"] = "INSERT APPROPRIATE TEXT HERE"
+        copy_type_info["instructions_violator"] = get_overweight_instructions_to_the_violator()
+        copy_type_info["instructions_consequences"] = get_overweight_release_instructions(citation_info)
         if not extra_title:
             extra_title = "ILLINOIS STATE POLICE"
         cr = OverweightCitationReport(
@@ -313,6 +314,96 @@ def get_traffic_release_instructions(citation_info):
             ]
         )
 
+    if len(release_info) <= 0:
+        release_info.append(
+            [
+                None,
+            ]
+        )
+    return Table(
+        release_info,
+        style=[
+            ("LEFTPADDING", (0, 0), (-1, -1), 2 * mm),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 2 * mm),
+            ("TOPPADDING", (0, 0), (-1, -1), 2 * mm),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 2 * mm),
+            ("TOPPADDING", (0, 0), (-1, 0), 1 * mm),
+        ],
+        colWidths=102 * mm,
+    )
+
+
+def get_overweight_instructions_to_the_violator():
+    return Table(
+        [
+            [
+                Paragraph(
+                    'If you wish to plead "GUILTY", complete the "PLEA OF GUILTY AND WAIVER" provided and follow those '
+                    'instructions. Mail the guilty plea with full payment in the applicable amount noted on the '
+                    'citation in the "Release" section on the "Total Amount" line.',
+                    style=styles["il-citation-instructions"]
+                ),
+            ],
+            [
+                Paragraph(
+                    'If you wish to plead "NOT GUILTY", complete the portion of the form entitled "Avoid Multiple '
+                    'Court Appearances" and follow those instructions. If you are found guilty, the total amount '
+                    'assessed may be greater than the amount assessed on a guilty plea.',
+                    style=styles["il-citation-instructions"]
+                )
+            ]
+        ],
+        style=[
+           ("LEFTPADDING", (0, 0), (-1, -1), 2 * mm),
+           ("RIGHTPADDING", (0, 0), (-1, -1), 2 * mm),
+           ("TOPPADDING", (0, 0), (-1, -1), 2 * mm),
+           ("BOTTOMPADDING", (0, 0), (-1, -1), 2 * mm),
+           ("TOPPADDING", (0, 0), (-1, 0), 1 * mm),
+       ],
+        colWidths=102 * mm,
+    )
+
+
+def get_overweight_release_instructions(citation_info):
+    ps_instructions = styles["il-citation-instructions"]
+    release_info = []
+    if citation_info["bond_includes_currency_bond"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'i. CASH BAIL A judgment of conviction may be entered against you as noted above.',
+                    style=ps_instructions
+                ),
+            ]
+        )
+    if citation_info["bond_includes_bond_card"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'ii. BOND CARD Your card will be sent to the issuing company for payment.',
+                    style=ps_instructions
+                )
+            ]
+        )
+    if citation_info["bond_includes_notice_to_appear"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'iii. NOTICE TO APPEAR The court may issue a warrant for your arrest.',
+                    style=ps_instructions
+                )
+            ]
+        )
+    if citation_info["bond_includes_individual_bond"]:
+        release_info.append(
+            [
+                Paragraph(
+                    'iv. INDIVIDUAL BOND A judgment of conviction may be entered for the FULL amount of the '
+                    'bond, and/or the court may issue a warrant for your arrest.',
+                    style=ps_instructions
+                )
+            ]
+        )
     if len(release_info) <= 0:
         release_info.append(
             [
@@ -1690,15 +1781,7 @@ class OverweightCitationReport(CitationReport):
         elems.append(
             Paragraph("Read These Instructions Carefully", style=styles["il-citation-instructions-header"])
         )
-        elems.append(
-            Paragraph(
-                "1. If you wish to plead \"GUILTY\", complete the \"PLEA OF GUILTY AND WAIVER\" provided and follow those instructions. Mail the guilty plea with full payment in the applicable amount noted on the citation in the \"Release\" section on the \"Total Amount\" line.<br /><br />"
-                "Payment Options<br />"
-                "NOTE: Payment must be cash, money order, certified check, bank draft, or traveler\'s check unless otherwise authorized by the Clerk of court. (DO NOT SEND CASH IN THE MAIL; use cash only if paying in person.)<br />"
-                "2. If you wish to plead \"NOT GUILTY\", complete the portion of the form entitled \"Avoid Multiple Court Appearances\" and follow those instructions. If you are found guilty, the total amount assessed may be greater than the amount assessed on a gulity plea.",
-                style=styles["il-citation-instructions"]
-            )
-        )
+        elems.append(self.copy_type_info["instructions_violator"])
         elems.append(Spacer(1, 10))
         elems.append(
             Paragraph("Method of Release - Failure to Appear",
@@ -1710,9 +1793,7 @@ class OverweightCitationReport(CitationReport):
                 style=styles["il-citation-instructions"])
         )
         elems.append(Spacer(1, 5))
-        elems.append(
-            Paragraph(self.copy_type_info["instructions_consequences"], style=styles["il-citation-instructions"])
-        )
+        elems.append(self.copy_type_info["instructions_consequences"])
         elems.append(Spacer(1, 10))
         elems.append(
             Table(
@@ -1723,7 +1804,7 @@ class OverweightCitationReport(CitationReport):
                     ],
                     [
                         Paragraph(
-                            "If you were charged with an offense which does not require a court appearance, YOU ARE HEREBY NOTIFIED THAT.",
+                            "If you were charged with an offense which does not require a c ourt appearance, YOU ARE HEREBY NOTIFIED THAT.",
                             style=styles["il-citation-instructions"]),
                     ],
                     [
@@ -1750,14 +1831,7 @@ class OverweightCitationReport(CitationReport):
         elems.append(
             Paragraph("Read These Instructions Carefully", style=styles["il-citation-instructions-header"])
         )
-        elems.append(
-            Paragraph(
-                "1. If you wish to plead \"GUILTY\", complete the \"PLEA OF GUILTY AND WAIVER\" provided and follow those instructions. Mail the guilty plea with full payment in the applicable amount noted on the citation in the \"Release\" section on the \"Total Amount\" line.<br /><br />"
-                "Payment Options<br />"
-                "NOTE: Payment must be cash, money order, certified check, bank draft, or traveler\'s check unless otherwise authorized by the Clerk of court. (DO NOT SEND CASH IN THE MAIL; use cash only if paying in person.)<br />"
-                "2. If you wish to plead \"NOT GUILTY\", complete the portion of the form entitled \"Avoid Multiple Court Appearances\" and follow those instructions. If you are found guilty, the total amount assessed may be greater than the amount assessed on a gulity plea.",
-                style=styles["il-citation-instructions"])
-        )
+        elems.append(self.copy_type_info["instructions_violator"])
         elems.append(Spacer(1, 10))
         elems.append(
             Paragraph("Method of Release - Failure to Appear",
@@ -1769,9 +1843,7 @@ class OverweightCitationReport(CitationReport):
                 style=styles["il-citation-instructions"])
         )
         elems.append(Spacer(1, 5))
-        elems.append(
-            Paragraph(self.copy_type_info["instructions_consequences"], style=styles["il-citation-instructions"])
-        )
+        elems.append(self.copy_type_info["instructions_consequences"])
         elems.append(Spacer(1, 10))
         elems.append(
             Table(
@@ -2686,8 +2758,11 @@ class OverweightCitationReport(CitationReport):
             ("LEFTPADDING", (0, 0), (-1, -1), 1),
             ("RIGHTPADDING", (0, 0), (-1, -1), 1),
         ])
-        public_notes = [self.citation_info["bond_public_notes"][i:i + 32] for i in
-                        range(0, len(self.citation_info["bond_public_notes"]), 32)]
+        if self.citation_info["bond_public_notes"]:
+            public_notes = [self.citation_info["bond_public_notes"][i:i + 32] for i in
+                            range(0, len(self.citation_info["bond_public_notes"]), 32)]
+        else:
+            public_notes = []
         width = 35 * mm
         elems = list()
         elems.append(
@@ -2722,7 +2797,7 @@ class OverweightCitationReport(CitationReport):
                         SectionField("Notes", ps_title, "", ps_text, offset=(6 * mm, 1)),
                     ],
                     [
-                        Paragraph(public_notes[0], style=ps_fit),
+                        Paragraph(public_notes[0] if len(public_notes) >= 1 else '', style=ps_fit),
                     ],
                     [
                         Paragraph(public_notes[1] if len(public_notes) >= 2 else '', style=ps_fit)
