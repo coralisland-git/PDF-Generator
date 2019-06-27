@@ -313,6 +313,12 @@ def get_traffic_release_instructions(citation_info):
             ]
         )
 
+    if len(release_info) <= 0:
+        release_info.append(
+            [
+                None,
+            ]
+        )
     return Table(
         release_info,
         style=[
