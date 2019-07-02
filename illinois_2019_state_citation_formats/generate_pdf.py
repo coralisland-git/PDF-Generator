@@ -1389,6 +1389,7 @@ class TrafficCitationReport(CitationReport):
             colWidths=(29 * mm, 3.5 * mm, 3 * mm, 3.5 * mm, 3 * mm),
             rowHeights=2.3 * mm
         )
+        vehicle_make_and_model = '%s %s' % (self.citation_info["vehicle_make"], self.citation_info["vehicle_model"])
         t1 = Table(
             [
                 [
@@ -1411,7 +1412,7 @@ class TrafficCitationReport(CitationReport):
                 ],
                 [
                     SectionField("MAKE", styles["il-citation-field-header"],
-                                 self.citation_info["vehicle_make"],
+                                 vehicle_make_and_model,
                                  styles["il-citation-field-data"],
                                  ),
                     None,
@@ -2424,6 +2425,7 @@ class OverweightCitationReport(CitationReport):
             colWidths=(29 * mm, 3.5 * mm, 3 * mm, 3.5 * mm, 3 * mm),
             rowHeights=2.3 * mm
         )
+        vehicle_make_and_model = '%s %s' % (self.citation_info["vehicle_make"], self.citation_info["vehicle_model"])
         t1 = Table(
             [
                 [
@@ -2446,7 +2448,7 @@ class OverweightCitationReport(CitationReport):
                 ],
                 [
                     SectionField("MAKE", styles["il-citation-field-header"],
-                                 self.citation_info["vehicle_make"],
+                                 vehicle_make_and_model,
                                  styles["il-citation-field-data"],
                                  ),
                     SectionField("YEAR", extend_style(styles["il-citation-field-header"], alignment=TA_CENTER),
