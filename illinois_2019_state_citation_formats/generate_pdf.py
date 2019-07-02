@@ -1626,7 +1626,10 @@ class TrafficCitationReport(CitationReport):
         return [self._section_gen_table(title="INCIDENT", content=[t1])]
 
     def _section_release_info(self):
-        release_method = field_string_from_flags(self.citation_info, ["bond_includes_"])
+        if self.citation_info["bond_includes_companion_case"]:
+            release_method = 'BOND ON COMPANION CASE: %s' % self.citation_info['bond_companion_case_number_with_bond']
+        else:
+            release_method = field_string_from_flags(self.citation_info, ["bond_includes_"])
         t1 = Table(
             [
                 [
