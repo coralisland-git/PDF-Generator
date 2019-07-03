@@ -1634,7 +1634,7 @@ class TrafficCitationReport(CitationReport):
         return [self._section_gen_table(title="INCIDENT", content=[t1])]
 
     def _section_release_info(self):
-        if self.citation_info["bond_includes_companion_case"]:
+        if self.citation_info["bond_companion_case_number_with_bond"]:
             release_method = 'BOND ON COMPANION CASE: %s' % self.citation_info['bond_companion_case_number_with_bond']
         else:
             release_method = field_string_from_flags(self.citation_info, ["bond_includes_"])
@@ -1677,7 +1677,7 @@ class TrafficCitationReport(CitationReport):
                 ("LEFTPADDING", (0, 1), (0, 1), 2 * mm),
                 ("RIGHTPADDING", (0, 1), (0, 1), 2 * mm),
             ]),
-            colWidths=(13.6 * mm, 38.3 * mm, 26.9 * mm, 13.8 * mm, 1.7 * mm),
+            colWidths=(13.6 * mm, 22.3 * mm, 26.9 * mm, 29.8 * mm, 1.7 * mm),
             rowHeights=(2.8 * mm, 7.7 * mm, 7.9 * mm, 2.6 * mm, 0.9 * mm)
         )
         return [self._section_gen_table(title="RELEASE", content=[t1])]
