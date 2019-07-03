@@ -1495,12 +1495,13 @@ class TrafficCitationReport(CitationReport):
 
     def _section_violation_info(self):
         ps = extend_style(styles["il-citation-field-header"], fontName="Arial")
+        ilcs_selected = self.citation_info["violation_type"] == "ILCS"
         t1s1 = Table(
             [
                 [
-                    XBox(6, True if self.citation_info["violation_type"] == "ILCS" else False),
+                    XBox(6, ilcs_selected),
                     Paragraph("ILCS", style=ps),
-                    XBox(6, False if self.citation_info["violation_type"] == "ILCS" else True),
+                    XBox(6, nullable_false_handler(ilcs_selected)),
                     Paragraph("Local Ordinance", style=ps),
                 ],
             ],
@@ -2548,12 +2549,13 @@ class OverweightCitationReport(CitationReport):
         overweight_on = self.citation_info["violation_overweight_type"].upper() if self.citation_info[
             "violation_overweight_type"] else ''
         ps = extend_style(styles["il-citation-field-header"], fontName="Arial")
+        ilcs_selected = self.citation_info["violation_type"] == "ILCS"
         t1s1 = Table(
             [
                 [
-                    XBox(6, True if self.citation_info["violation_type"] == "ILCS" else False),
+                    XBox(6, ilcs_selected),
                     Paragraph("ILCS", style=ps),
-                    XBox(6, False if self.citation_info["violation_type"] == "ILCS" else True),
+                    XBox(6, nullable_false_handler(ilcs_selected)),
                     Paragraph("Local Ordinance", style=ps),
                     Paragraph("Overweight On:", style=ps),
                     Paragraph(overweight_on, styles["il-citation-field-data"]),
@@ -3917,6 +3919,7 @@ class NonTrafficCitationReport(CitationReport):
             ]
         )
         elems.append([Spacer(0, 3.3 * mm)])
+        ilcs_selected = self.citation_info["violation_type"] == "ILCS"
         elems.append(
             [
                 Table(
@@ -3927,9 +3930,9 @@ class NonTrafficCitationReport(CitationReport):
                                 Table(
                                     [
                                         [
-                                            XBox(8, True if self.citation_info["violation_type"] == "ILCS" else False),
+                                            XBox(8, ilcs_selected),
                                             Paragraph("ILCS", ps_title),
-                                            XBox(8, False if self.citation_info["violation_type"] == "ILCS" else False),
+                                            XBox(8, nullable_false_handler(ilcs_selected)),
                                             Paragraph("Local Ordinance", ps_title),
                                         ]
                                     ],
