@@ -3591,7 +3591,7 @@ class NonTrafficCitationReport(CitationReport):
                 ],
                 [
                     None,
-                    Paragraph("%s" % self.citation_info["case_number"], ps),
+                    Paragraph("%s" % self.citation_info["hearing_court_case_number"], ps),
                     Paragraph("%s" % self.citation_info["complainant_agency_report_number"], ps),
                     Paragraph("%s" % self.citation_info["complainant_document_control_number"], ps)
                 ]
