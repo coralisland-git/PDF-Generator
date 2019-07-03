@@ -1514,6 +1514,11 @@ class TrafficCitationReport(CitationReport):
             rowHeights=5 * mm,
         )
         ps = extend_style(styles["il-citation-field-header-sm"], fontName="Arial")
+        if self.citation_info["violation_recorded_speed"] or self.citation_info["violation_speed_limit"]:
+            self.violation_text += "<br />Speeding {violation_recorded_speed} MPH in a {violation_speed_limit} MPH zone".format(
+                violation_recorded_speed=self.citation_info["violation_recorded_speed"],
+                violation_speed_limit=self.citation_info["violation_speed_limit"],
+            )
         p = Paragraph(self.violation_text, style=extend_style(ps, leftIndent=2.5 * mm, rightIndent=2.5 * mm))
         description = [self.citation_info["violation_description"][i:i + 70] for i in
                        range(0, len(self.citation_info["violation_description"]), 70)]
