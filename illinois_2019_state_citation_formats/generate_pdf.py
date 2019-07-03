@@ -12,7 +12,7 @@ import textwrap
 import io
 
 
-def generate_il_state_pdf(citation_info, copy_type="VIOLATOR", violation_text="", overweight_text="", extra_title="",
+def generate_il_state_pdf(citation_info, copy_type="VIOLATOR", violation_text="",
                           title=None, author=None):
     copy_type_info = dict()
     if citation_info["is_traffic"]:
@@ -25,7 +25,7 @@ def generate_il_state_pdf(citation_info, copy_type="VIOLATOR", violation_text=""
         copy_type_info["instructions_release"] = get_traffic_release_instructions(citation_info)
         cr = TrafficCitationReport(
             citation_info,
-            "ILLINOIS CITATION AND COMPLAINT",
+            "ILLINOIS CITATION AND COMPLAINT<br />" + citation_info["agency_description"],
             copy_type,
             copy_type_info,
             violation_text=violation_text
@@ -33,19 +33,17 @@ def generate_il_state_pdf(citation_info, copy_type="VIOLATOR", violation_text=""
     elif citation_info["is_overweight"]:
         copy_type_info["instructions_violator"] = get_overweight_instructions_to_the_violator()
         copy_type_info["instructions_consequences"] = get_overweight_release_instructions(citation_info)
-        if not extra_title:
-            extra_title = "ILLINOIS STATE POLICE"
         cr = OverweightCitationReport(
             citation_info,
-            "ILLINOIS OVERWEIGHT CITATION AND COMPLAINT<br />" + extra_title,
+            "ILLINOIS OVERWEIGHT CITATION AND COMPLAINT<br />" + citation_info["agency_description"],
             copy_type,
             copy_type_info,
-            overweight_text=overweight_text
+            violation_text=violation_text
         )
     else:
         cr = NonTrafficCitationReport(
             citation_info,
-            "NON-TRAFFIC COMPLAINT AND NOTICE TO APPEAR<br />" + extra_title,
+            "NON-TRAFFIC COMPLAINT AND NOTICE TO APPEAR<br />" + citation_info["agency_description"],
             copy_type,
             copy_type_info,
             violation_text=violation_text
@@ -1127,7 +1125,7 @@ class TrafficCitationReport(CitationReport):
             [
                 [
                     SectionField("Case No.", styles["il-citation-field-header"],
-                                 self.citation_info["case_number"], styles["il-citation-field-data"],
+                                 self.citation_info["hearing_court_case_number"], styles["il-citation-field-data"],
                                  offset=(2, -1.8 * mm)),
                     SectionField("Beat", styles["il-citation-field-header"],
                                  self.citation_info["complainant_beat"],
@@ -1172,15 +1170,17 @@ class TrafficCitationReport(CitationReport):
             colWidths=(34 * mm, 7.5 * mm, 17 * mm, 23 * mm, 6 * mm, 6.8 * mm),
             rowHeights=4.5 * mm,
         )
+        complainant_is_municipality = self.citation_info["complainant_is_municipality"]
         t3 = Table(
             [
                 [
-                    XBox(7, nullable_false_handler(self.citation_info["complainant_is_municipality"])),
+                    XBox(7, nullable_false_handler(complainant_is_municipality)),
                     Paragraph("PEOPLE STATE OF ILLINOIS", style=styles["il-citation-field-header"]),
-                    XBox(7, self.citation_info["complainant_is_municipality"]),
+                    XBox(7, complainant_is_municipality),
                     Paragraph("CITY/VILLAGE OF MUNICIPAL CORPORATION PLAINTIFF",
                               style=styles["il-citation-field-header"]),
-                    None,
+                    Paragraph(self.citation_info["municipality_name"] if complainant_is_municipality else '',
+                              style=styles["il-citation-field-data"]),
                     Paragraph("VS.", style=styles["il-citation-field-header"])
                 ]
             ],
@@ -1265,6 +1265,8 @@ class TrafficCitationReport(CitationReport):
             "defendant_address_state"] + "    " + self.citation_info["defendant_address_zip"]
         dl_expiration = self.citation_info["defendant_driver_license_expiration_date"] if self.citation_info[
             "defendant_driver_license_expiration_date"] else ""
+        is_commercial = self.citation_info["defendant_driver_license_is_commercial"]
+        cdl_indicator = 'Y' if is_commercial is True else 'N' if is_commercial is False else ''
         t2 = Table(
             [
                 [
@@ -1316,7 +1318,7 @@ class TrafficCitationReport(CitationReport):
                                  self.citation_info["defendant_driver_license_state"], styles["il-citation-field-data"],
                                  ),
                     SectionField("CDL", extend_style(styles["il-citation-field-header"], alignment=TA_CENTER),
-                                 str(self.citation_info["defendant_driver_license_is_commercial"]),
+                                 cdl_indicator,
                                  styles["il-citation-field-data"],
                                  ),
                     SectionField("EXPIR. DATE", extend_style(styles["il-citation-field-header"], alignment=TA_CENTER),
@@ -1752,14 +1754,14 @@ class TrafficCitationReport(CitationReport):
 
 
 class OverweightCitationReport(CitationReport):
-    def __init__(self, citation_info, header, copy_type, copy_type_info=None, overweight_text="", sections=None,
+    def __init__(self, citation_info, header, copy_type, copy_type_info=None, violation_text="", sections=None,
                  title=None, author=None):
         if not sections:
             sections = [
                 "header", "complaint_info", "defendant_info", "vehicle_info", "violation_info", "weights_info",
                 ["release_info", "court_info"], "instructions"
             ]
-        CitationReport.__init__(self, citation_info, sections, header, copy_type, copy_type_info, overweight_text,
+        CitationReport.__init__(self, citation_info, sections, header, copy_type, copy_type_info, violation_text,
                                 title, author)
         self.page_size = (4 * inch, 1 * inch)
         self.page_margin = 1.5 * mm
@@ -2115,7 +2117,7 @@ class OverweightCitationReport(CitationReport):
                         lquiet=1.75 * mm,
                         rquiet=1.75 * mm
                     ),
-                    Paragraph(self.violation_text, style=extend_style(
+                    Paragraph(self.citation_info["ticket_number"], style=extend_style(
                         styles["il-citation-main"], fontSize=11, leading=12, alignment=TA_RIGHT
                     )),
                 ],
@@ -2141,7 +2143,7 @@ class OverweightCitationReport(CitationReport):
             [
                 [
                     SectionField("Case No.", styles["il-citation-field-header"],
-                                 self.citation_info["case_number"], styles["il-citation-field-data"],
+                                 self.citation_info["hearing_court_case_number"], styles["il-citation-field-data"],
                                  offset=field_offset),
                     SectionField("Beat", styles["il-citation-field-header"],
                                  self.citation_info["complainant_beat"],
@@ -2204,15 +2206,17 @@ class OverweightCitationReport(CitationReport):
             colWidths=(21 * mm, 16.4 * mm, 3.5 * mm, 9.5 * mm, 13.4 * mm, 30.5 * mm,),
             rowHeights=7 * mm,
         )
+        complainant_is_municipality = self.citation_info["complainant_is_municipality"]
         t4 = Table(
             [
                 [
-                    XBox(7, nullable_false_handler(self.citation_info["complainant_is_municipality"])),
+                    XBox(7, nullable_false_handler(complainant_is_municipality)),
                     Paragraph("PEOPLE STATE OF ILLINOIS", style=styles["il-citation-field-header"]),
-                    XBox(7, self.citation_info["complainant_is_municipality"]),
+                    XBox(7, complainant_is_municipality),
                     Paragraph("CITY/VILLAGE OF MUNICIPAL CORPORATION PLAINTIFF",
                               style=styles["il-citation-field-header"]),
-                    None,
+                    Paragraph(self.citation_info["municipality_name"] if complainant_is_municipality else '',
+                              style=styles["il-citation-field-data"]),
                     Paragraph("VS.", style=styles["il-citation-field-header"])
                 ]
             ],
@@ -2297,6 +2301,8 @@ class OverweightCitationReport(CitationReport):
             "defendant_address_state"] + "    " + self.citation_info["defendant_address_zip"]
         dl_expiration = self.citation_info["defendant_driver_license_expiration_date"] if self.citation_info[
             "defendant_driver_license_expiration_date"] else ""
+        is_commercial = self.citation_info["defendant_driver_license_is_commercial"]
+        cdl_indicator = 'Y' if is_commercial is True else 'N' if is_commercial is False else ''
         t2 = Table(
             [
                 [
@@ -2351,7 +2357,7 @@ class OverweightCitationReport(CitationReport):
                                  self.citation_info["defendant_driver_license_state"], styles["il-citation-field-data"],
                                  ),
                     SectionField("CDL", extend_style(styles["il-citation-field-header"], alignment=TA_CENTER),
-                                 str(self.citation_info["defendant_driver_license_is_commercial"]),
+                                 cdl_indicator,
                                  styles["il-citation-field-data"],
                                  ),
                     SectionField("CLASS", extend_style(styles["il-citation-field-header"], alignment=TA_CENTER),

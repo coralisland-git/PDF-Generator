@@ -145,8 +145,7 @@ if __name__ == "__main__":
             pdf = generate_il_state_pdf(
                 pdf_data,
                 copy_type=copy_type,
-                overweight_text=pdf_data["ticket_number"],
-                extra_title=sys.argv[5],
+                violation_text=violation_text
             )
             shutil.copyfileobj(pdf[0], output_file)
             print(
