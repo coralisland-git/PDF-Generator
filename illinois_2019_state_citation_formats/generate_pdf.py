@@ -665,6 +665,10 @@ class TrafficCitationReport(CitationReport):
         return [p]
 
     def _section_footer(self):
+        if self.citation_info["violation_date"]:
+            signing_date = datetime.strptime(self.citation_info["violation_date"], '%m/%d/%Y')
+        else:
+            signing_date = datetime.today()
         t = Table(
             [
                 [
@@ -675,15 +679,15 @@ class TrafficCitationReport(CitationReport):
                 ],
                 [
                     Paragraph(
-                        datetime.today().strftime('%m'),
+                        signing_date.strftime('%m'),
                         style=styles["il-citation-main"]
                     ),
                     Paragraph(
-                        datetime.today().strftime('%d'),
+                        signing_date.strftime('%d'),
                         style=styles["il-citation-main"]
                     ),
                     Paragraph(
-                        datetime.today().strftime('%Y'),
+                        signing_date.strftime('%Y'),
                         style=extend_style(styles["il-citation-main"], alignment=TA_RIGHT)
                     ),
                     None,
@@ -1201,7 +1205,7 @@ class TrafficCitationReport(CitationReport):
                     Paragraph("NAME", style=styles["il-citation-field-header"]),
                     None,
                     None,
-                    Paragraph("SID #", style=styles["il-citation-field-header"]),
+                    Paragraph("SID # %s" % self.citation_info["defendant_state_identification_number"], style=styles["il-citation-field-header"]),
                 ],
                 [
                     SectionField("LAST", styles["il-citation-field-header-sm"],
@@ -2911,6 +2915,10 @@ class OverweightCitationReport(CitationReport):
             rowHeights=(8.7 * mm, 10.6 * mm, 3.25 * mm)
         )
         ps = extend_style(styles["il-citation-main"], fontSize=5.5, leading=6)
+        if self.citation_info["violation_date"]:
+            signing_date = datetime.strptime(self.citation_info["violation_date"], '%m/%d/%Y')
+        else:
+            signing_date = datetime.today()
         t2 = Table(
             [
                 [
@@ -2924,15 +2932,15 @@ class OverweightCitationReport(CitationReport):
                 ],
                 [
                     Paragraph(
-                        datetime.today().strftime('%m'),
+                        signing_date.strftime('%m'),
                         style=ps
                     ),
                     Paragraph(
-                        datetime.today().strftime('%d'),
+                        signing_date.strftime('%d'),
                         style=ps
                     ),
                     Paragraph(
-                        datetime.today().strftime('%Y'),
+                        signing_date.strftime('%Y'),
                         style=ps
                     )
                 ],
@@ -3055,6 +3063,10 @@ class NonTrafficCitationReport(CitationReport):
                 styles["il-citation-field-header-nt-tiny"]
             ),
         )
+        if self.citation_info["violation_date"]:
+            signing_date = datetime.strptime(self.citation_info["violation_date"], '%m/%d/%Y')
+        else:
+            signing_date = datetime.today()
         elems.append(
             Table(
                 [
@@ -3065,7 +3077,7 @@ class NonTrafficCitationReport(CitationReport):
                         None,
                         Paragraph(self.citation_info["officer_badge_number"], style=ps_text),
                         None,
-                        Paragraph(datetime.today().strftime('%m/%d/%Y'), style=ps_text),
+                        Paragraph(signing_date.strftime('%m/%d/%Y'), style=ps_text),
                     ],
                     [
                         Paragraph("Signature of Complainant", ps_text),
