@@ -3063,10 +3063,6 @@ class NonTrafficCitationReport(CitationReport):
                 styles["il-citation-field-header-nt-tiny"]
             ),
         )
-        if self.citation_info["violation_date"]:
-            signing_date = datetime.strptime(self.citation_info["violation_date"], '%m/%d/%Y')
-        else:
-            signing_date = datetime.today()
         elems.append(
             Table(
                 [
@@ -3077,7 +3073,7 @@ class NonTrafficCitationReport(CitationReport):
                         None,
                         Paragraph(self.citation_info["officer_badge_number"], style=ps_text),
                         None,
-                        Paragraph(signing_date.strftime('%m/%d/%Y'), style=ps_text),
+                        Paragraph(datetime.today().strftime('%m/%d/%Y'), style=ps_text),
                     ],
                     [
                         Paragraph("Signature of Complainant", ps_text),
