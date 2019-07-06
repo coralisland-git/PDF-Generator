@@ -82,11 +82,12 @@ if __name__ == "__main__":
         "violation_street_num_half",
         "weights_functioning_auxiliary_power_unit"
     ]
+    date_key_to_skip_converting = 'vehicle_registration_expiration_date'
 
     for k, v in pdf_data.iteritems():
         if not v:
             pdf_data[k] = ""
-        if 'date' in k and v:
+        if 'date' in k and v and k != date_key_to_skip_converting:
             try:
                 pdf_data[k] = datetime.strptime(v, '%Y-%m-%d').strftime('%m/%d/%Y')
             except ValueError:

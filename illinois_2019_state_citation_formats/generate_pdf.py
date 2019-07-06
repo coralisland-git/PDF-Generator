@@ -2679,10 +2679,10 @@ class OverweightCitationReport(CitationReport):
         sticker_list = ast.literal_eval(self.citation_info["weights_scale_sticker_number"])
         sticker_list_length = len(sticker_list)
         second_sticker_label = ''
-        if sticker_list_length > 3:
-            first_sticker_label = ';'.join(sticker_list[0:3])
-            if sticker_list_length > 7:
-                second_sticker_label = ';'.join(sticker_list[4:7])
+        if sticker_list_length > 4:
+            first_sticker_label = ';'.join(sticker_list[:4])
+            if sticker_list_length >= 8:
+                second_sticker_label = ';'.join(sticker_list[4:8])
         else:
             first_sticker_label = ';'.join(sticker_list[0:sticker_list_length])
         scale_sticker_number_style = extend_style(styles["il-citation-field-data"], fontSize=5)
@@ -3136,8 +3136,11 @@ class NonTrafficCitationReport(CitationReport):
                     ],
                     [
                         Paragraph(
-                            "The within complaint has been examined and there is probably cause for filing the same. Leave is hereby granted to file the complaint.<br />"
-                            "Complaint filed.", style=ps_text),
+                            "The within complaint has been examined and there is probably cause for filing the same. "
+                            "Leave is hereby granted to file the complaint.<br />"
+                            "Complaint filed.",
+                            style=ps_text
+                        ),
                     ]
                 ],
                 style=extend_table_style(styles["il-citation-main-table"], [
@@ -3146,8 +3149,9 @@ class NonTrafficCitationReport(CitationReport):
                     ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
                     ("SPAN", (0, 1), (-1, 1)),
                     ("LINEBELOW", (0, 1), (-1, 1), 0.5, "black"),
-                    ("SPAN", (0, 2), (2, 2)),
+                    ("SPAN", (0, 2), (-1, 2)),
                     ("LEFTPADDING", (0, 2), (0, 2), 3 * mm),
+                    ("RIGHTPADDING", (0, 2), (0, 2), 3 * mm),
                     ("LINEBELOW", (0, 2), (-1, 2), 0.5, "black"),
 
                 ]),
@@ -3164,7 +3168,6 @@ class NonTrafficCitationReport(CitationReport):
                         None,
                         Paragraph("Cash Bail Deposited $", style=ps_text),
                         None,
-                        None,
                     ]
                 ],
                 style=extend_table_style(styles["il-citation-main-table"], [
@@ -3173,7 +3176,7 @@ class NonTrafficCitationReport(CitationReport):
                     ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
                     ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
                 ]),
-                colWidths=(18 * mm, 20.8 * mm, 29 * mm, 19.6 * mm, 10.2 * mm),
+                colWidths=(18 * mm, 25.3 * mm, 29 * mm, 25.3 * mm),
                 rowHeights=3 * mm
             )
         )
@@ -3181,7 +3184,6 @@ class NonTrafficCitationReport(CitationReport):
             Table(
                 [
                     [
-                        None,
                         None,
                         None
                     ],
@@ -3199,7 +3201,7 @@ class NonTrafficCitationReport(CitationReport):
                     ("LINEBELOW", (1, 1), (1, 1), 0.5, "black"),
                     ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ]),
-                colWidths=(21.8 * mm, 54 * mm, 21.8 * mm,),
+                colWidths=(43.6 * mm, 54 * mm,),
                 rowHeights=(8.5 * mm, 13 * mm, 9.5 * mm)
             )
         )
@@ -3228,14 +3230,13 @@ class NonTrafficCitationReport(CitationReport):
                     [
                         None,
                         Paragraph("(Signature of Clerk)", style=ps_text),
-                        None
                     ]
                 ],
                 style=extend_table_style(styles["il-citation-main-table"], [
                     ("VALIGN", (0, 0), (-1, -1), "TOP"),
                     ("LINEABOVE", (1, 0), (1, 0), 0.5, "black"),
                 ]),
-                colWidths=(21.8 * mm, 54 * mm, 21.8 * mm,),
+                colWidths=(43.6 * mm, 54 * mm),
                 rowHeights=10 * mm
             )
         )
@@ -3253,14 +3254,22 @@ class NonTrafficCitationReport(CitationReport):
                 style=extend_table_style(styles["il-citation-main-table"], [
                     ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
                     ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
+                    ("LINEBELOW", (3, 0), (4, 0), 0.5, "black"),
                 ]),
                 colWidths=(21.3 * mm, 33 * mm, 11 * mm, 28.4 * mm, 3.9 * mm),
                 rowHeights=3.3 * mm
             )
         )
         t_data = list()
-        fields = ["Warrant Isssued", "Warrant Served", "Trial by Court", "Defendant\'s plea", "Waives trial by jury"]
+        fields = [
+            "Warrant Issued",
+            "Warrant Served",
+            "Trial by Court",
+            "Defendant's plea",
+            "Waives trial by jury",
+            "Finding by Court",
+            "Bail forfeited"
+        ]
         for field in fields:
             text_width = stringWidth(field, ps_text.fontName, ps_text.fontSize)
             line_width = self.title_width + self.content_width - text_width
@@ -3280,6 +3289,292 @@ class NonTrafficCitationReport(CitationReport):
                 t_data,
                 style=styles["il-citation-main-table"],
                 colWidths=97.6 * mm
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Guilty of violation Section",
+                            style=ps_text
+                        ),
+                        None,
+                        Paragraph(
+                            "of local ordinance or",
+                            style=ps_text
+                        )
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                ]),
+                colWidths=(33.3 * mm, 37.9 * mm, 26.4 * mm),
+                rowHeights=8.5 * mm
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Statute",
+                            style=ps_text
+                        ),
+                        None,
+                        Paragraph(
+                            "Section",
+                            style=ps_text
+                        ),
+                        None
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
+                ]),
+                colWidths=(10 * mm, 37.25 * mm, 10 * mm, 40.35 * mm),
+                rowHeights=8.5 * mm
+            )
+        )
+        elems.append(Spacer(0, 10 * mm))
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Illinois Revised Statutes.",
+                            style=ps_text
+                        ),
+                    ],
+                    [
+                        Paragraph(
+                            "The Court, therefore, enters following order",
+                            style=extend_style(ps_text, fontSize=5)
+                        ),
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (0, 0), "BOTTOM"),
+                    ("VALIGN", (0, 1), (0, 1), "TOP")
+                ]),
+                colWidths=97.6 * mm,
+                rowHeights=(5 * mm, 5 * mm)
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Fined $",
+                            style=ps_text
+                        ),
+                        None,
+                        Paragraph(
+                            "on hearing",
+                            style=ps_text
+                        ),
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                ]),
+                colWidths=(10 * mm, 73.6 * mm, 14 * mm),
+                rowHeights=(5 * mm)
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Fined $",
+                            style=ps_text
+                        ),
+                        None,
+                        Paragraph(
+                            "Ex Parte",
+                            style=ps_text
+                        ),
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                ]),
+                colWidths=(10 * mm, 76.1 * mm, 11.5 * mm),
+                rowHeights=(5 * mm)
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Jailed",
+                            style=ps_text
+                        ),
+                        None,
+                        Paragraph(
+                            "days in",
+                            style=ps_text
+                        ),
+                        None,
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
+                ]),
+                colWidths=(9 * mm, 56.6 * mm, 9.5 * mm, 22.5 * mm),
+                rowHeights=(5 * mm)
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Probation",
+                            style=ps_text
+                        ),
+                        None,
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                ]),
+                colWidths=(13 * mm, 84.6 * mm),
+                rowHeights=(5 * mm)
+            )
+        )
+        elems.append(Spacer(0, 10 * mm))
+        elems.append(
+            Table(
+                [
+                    [
+                        None,
+                        Paragraph("(Signature of Judge)", style=ps_text),
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("LINEABOVE", (1, 0), (1, 0), 0.5, "black"),
+                ]),
+                colWidths=(43.6 * mm, 54 * mm),
+                rowHeights=5 * mm
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Appeal bond of $",
+                            style=ps_text
+                        ),
+                        None,
+                        Paragraph(
+                            "filed for",
+                            style=ps_text
+                        ),
+                        None,
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
+                ]),
+                colWidths=(22 * mm, 40.6 * mm, 10.5 * mm, 24.5 * mm),
+                rowHeights=(5 * mm)
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "TESTIMONY - Judge's notes: (Or other Court Orders):",
+                            style=ps_text
+                        ),
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                ]),
+                colWidths=(97.6 * mm),
+                rowHeights=(15 * mm)
+            )
+        )
+        elems.append(Spacer(0, 40 * mm))
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Enter:",
+                            style=ps_text
+                        ),
+                        None,
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                ]),
+                colWidths=(10 * mm, 87.6 * mm),
+                rowHeights=(5 * mm)
+            )
+        )
+        elems.append(Spacer(0, 10 * mm))
+        elems.append(
+            Table(
+                [
+                    [
+                        None,
+                        Paragraph("(Judge)", style=ps_text),
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("LINEABOVE", (1, 0), (1, 0), 0.5, "black"),
+                ]),
+                colWidths=(43.6 * mm, 54 * mm),
+                rowHeights=5 * mm
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "Entered",
+                            style=ps_text
+                        ),
+                        None,
+                    ],
+                    [
+                        Paragraph(
+                            "Date",
+                            style=extend_style(ps_text, alignment=TA_CENTER)
+                        ),
+                        None,
+                    ]
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                    ("SPAN", (0, 1), (1, 1))
+                ]),
+                colWidths=(12 * mm, 85.6 * mm),
+                rowHeights=(5 * mm, 4 * mm)
             )
         )
         elems.append(Spacer(0, 10 * mm))
@@ -3445,7 +3740,7 @@ class NonTrafficCitationReport(CitationReport):
         elems.append(
             HRFlowable(width="100%", thickness=0.5, lineCap="butt", color="black", spaceBefore=0, spaceAfter=0)
         )
-        elems.append(Paragraph("(Explain)", style=extend_style(ps_text, leftIndent=20 * mm)))
+        elems.append(Paragraph("(Explain)", style=ps_text_center))
         elems.append(Spacer(0, 9 * mm))
         elems.append(
             Table(
@@ -3463,21 +3758,20 @@ class NonTrafficCitationReport(CitationReport):
                 rowHeights=3 * mm
             )
         )
-        elems.append(Paragraph("(Explain)", style=extend_style(ps_text, leftIndent=20 * mm)))
+        elems.append(Paragraph("(Explain)", style=extend_style(ps_text, leftIndent=45 * mm)))
         elems.append(Spacer(0, 9 * mm))
         elems.append(
             Table(
                 [
                     [
                         Paragraph("Other Disposition", style=ps_text),
-                        None,
                         None
                     ]
                 ],
                 style=extend_table_style(styles["il-citation-main-table"], [
                     ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
                 ]),
-                colWidths=(24 * mm, 69 * mm, 4.6 * mm),
+                colWidths=(24 * mm, 69 * mm),
                 rowHeights=3 * mm
             )
         )
@@ -3485,7 +3779,114 @@ class NonTrafficCitationReport(CitationReport):
         elems.append(
             HRFlowable(width="100%", thickness=0.5, lineCap="butt", color="black", spaceBefore=0, spaceAfter=0)
         )
-        elems.append(Paragraph("(Explain)", style=extend_style(ps_text, leftIndent=20 * mm)))
+        elems.append(Paragraph("(Explain)", style=ps_text_center))
+        elems.append(Spacer(0, 10 * mm))
+        elems.append(Paragraph("DISPOSITION:", style=ps_text))
+        elems.append(Spacer(0, 1 * mm))
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph("Date of Court Action:", style=ps_text),
+                        None,
+                        None,
+                        None
+                    ],
+                    [
+                        Paragraph("Fine: $", style=ps_text),
+                        None,
+                        None,
+                        None
+                    ],
+                    [
+                        Paragraph("Court Costs: $", style=ps_text),
+                        None,
+                        None,
+                        None
+                    ],
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("SPAN", (0, 0), (2, 0)),
+                    ("SPAN", (0, 2), (1, 2)),
+                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
+                    ("LINEBELOW", (1, 1), (3, 1), 0.5, "black"),
+                    ("LINEBELOW", (2, 2), (3, 2), 0.5, "black"),
+                ]),
+                colWidths=(10 * mm, 10 * mm, 9 * mm, 68.6 * mm),
+                rowHeights=5 * mm
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph("Jailed:", style=ps_text),
+                        None,
+                        Paragraph("in", style=ps_text),
+                        None
+                    ],
+                    [
+                        None,
+                        Paragraph("(days) (months) (years)", style=ps_text),
+                        None,
+                        Paragraph("(specify institution)", style=ps_text)
+                    ],
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
+                    ("VALIGN", (0, 0), (0, 0), "BOTTOM"),
+                    ("VALIGN", (2, 0), (2, 0), "BOTTOM"),
+                ]),
+                colWidths=(10 * mm, 53 * mm, 3 * mm, 31.6 * mm),
+                rowHeights=(5 * mm, 4 * mm)
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph("REMARKS:", style=ps_text),
+                        None,
+                        None
+                    ],
+                    [
+                        None,
+                        None,
+                        None
+                    ],
+                    [
+                        None,
+                        None,
+                        None
+                    ],
+                    [
+                        Paragraph("(Clerk of Court)", style=ps_text),
+                        None,
+                        None
+                    ],
+                    [
+                        None,
+                        None
+                    ],
+                    [
+                        Paragraph("MAIL TO:", style=ps_text),
+                        None,
+                        None
+                    ],
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    ("LINEBELOW", (1, 0), (2, 0), 0.5, "black"),
+                    ("LINEBELOW", (0, 1), (2, 1), 0.5, "black"),
+                    ("LINEBELOW", (0, 2), (2, 2), 0.5, "black"),
+                    ("LINEBELOW", (0, 4), (2, 4), 0.5, "black"),
+                    ("VALIGN", (0, 0), (0, 0), "BOTTOM"),
+                    ("SPAN", (0, 3), (1, 3)),
+                ]),
+                colWidths=(17 * mm, 10 * mm, 70.6 * mm),
+                rowHeights=(12 * mm, 7 * mm, 12 * mm, 4 * mm, 7 * mm, 7 * mm)
+            )
+        )
         elems.append(Spacer(0, 10 * mm))
         return elems
 
@@ -3566,29 +3967,81 @@ class NonTrafficCitationReport(CitationReport):
                 rowHeights=(8 * mm, 12.7 * mm, 18 * mm)
             )
         )
+        width_for_instructions = self.title_width + self.content_width
         elems.append(
             Table(
                 [
                     [
-                        Paragraph("APPEARANCE PLEA OF GUILTY AND WAIVER", style=ps_title)
+                        Paragraph("APPEARANCE PLEA OF GUILTY AND WAIVER", style=ps_title),
+                        None,
+                        None
                     ],
                     [
                         Paragraph(
                             "I, the undersigned, do hereby enter my appearance on the complaint of the offsense charged on the other side of this ticket. I have been informed of my right to a trial, that my signature of this plea of guilty will have the same force and effect as a judgement of court. I do hereby PLEAD GUILTY to said offense as charged, Waive my right to a hearing by the court, and agree to pay the penalty pre-scribed for my offense.",
                             style=ps_text
-                        )
+                        ),
+                        None,
+                        None
                     ],
                     [
                         Paragraph("(Defendant\'s name)", style=ps_text),
+                        None,
+                        None
+                    ],
+                    [
+                        Paragraph("Address", style=ps_text),
+                        None,
+                        None
+                    ],
+                    [
+                        Paragraph("City", style=ps_text),
+                        None,
+                        Paragraph("State", style=ps_text)
+                    ],
+                ],
+                style=extend_table_style(styles["il-citation-main-table"], [
+                    # ("GRID", (0, 0), (-1, -1), 1, "red"),
+                    ("SPAN", (0, 0), (2, 0)),
+                    ("SPAN", (0, 1), (2, 1)),
+                    ("SPAN", (0, 2), (2, 2)),
+                    ("LINEABOVE", (0, 2), (2, 2), 0.5, "black"),
+                    ("LINEABOVE", (0, 3), (2, 3), 0.5, "black"),
+                    ("LINEABOVE", (0, 4), (0, 4), 0.5, "black"),
+                    ("LINEABOVE", (2, 4), (2, 4), 0.5, "black"),
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ]),
+                colWidths= (width_for_instructions*0.5, width_for_instructions*0.1, width_for_instructions*0.4),
+                rowHeights=(9 * mm, 37 * mm, 14 * mm, 14 * mm, 14 * mm)
+            )
+        )
+        elems.append(
+            Table(
+                [
+                    [
+                        Paragraph(
+                            "If cash or an individual bond was posted as your bail, you are hereby advised that IN "
+                            "THE EVENT you FAIL TO APPEAR in court to answer the charge on the date set for your "
+                            "appearance, or any date to which the case might be continued, you hereby consent to the "
+                            "forfeiture of the bond posted and the entry of a judgment against you in the full amount "
+                            "of the bond.",
+                            style=ps_text
+                        )
+                    ],
+                    [
+                        Paragraph(
+                            "Any bond forfeiture or judgement thereon may be in addition to the issuance of a "
+                            "<b>WARRANT FOR YOUR ARREST.</b>",
+                            style=ps_text
+                        )
                     ]
                 ],
                 style=extend_table_style(styles["il-citation-main-table"], [
                     # ("GRID", (0, 0), (-1, -1), 1, "red"),
-                    ("LINEBELOW", (0, 1), (-1, 1), 0.5, "black"),
                     ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ]),
-                colWidths=self.title_width + self.content_width,
-                rowHeights=(9 * mm, 37 * mm, 14 * mm)
+                colWidths=width_for_instructions,
+                rowHeights=(30 * mm, 14 * mm)
             )
         )
         return elems
@@ -3713,7 +4166,7 @@ class NonTrafficCitationReport(CitationReport):
                             self.citation_info["defendant_last_name"],
                             self.citation_info["defendant_first_name"],
                             self.citation_info["defendant_middle_initial"]
-                        ), ps_text),
+                        ), styles["il-citation-field-data"]),
                     ],
                     [
                         Paragraph("Alias", ps_title),
@@ -3998,7 +4451,7 @@ class NonTrafficCitationReport(CitationReport):
                 [
                     Paragraph(
                         "Location of Court:%s" % get_court_location(self.citation_info),
-                        ps_title
+                        extend_style(ps_title, fontSize=5)
                     ),
                     None,
                     None,
@@ -4088,7 +4541,7 @@ class NonTrafficCitationReport(CitationReport):
                     ),
                 ],
                 [
-                    Paragraph("$ %s" % self.citation_info["bond_amount"], ps_text),
+                    Paragraph("%s" % self.citation_info["bond_amount"], ps_text),
                     Paragraph(
                         "Notice: The Court may Issue a warrant for the arrest of any<br />"
                         "Defendant who has failed to appear and answer an arrest ticket<br />"
