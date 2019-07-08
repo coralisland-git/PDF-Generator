@@ -202,7 +202,7 @@ def get_traffic_release_instructions(citation_info):
             release_info.append(
                 [
                     Paragraph(
-                        'i. CASH BAIL 1. FULL a. NO COURT APPEARANCE REQUIRED: A judgement of conviction may be '
+                        'FULL CASH BAIL:<br/><b>No Court Appearance Required</b>: A judgement of conviction may be '
                         'entered against you as noted above.',
                         style=ps_instructions
                     ),
@@ -212,7 +212,7 @@ def get_traffic_release_instructions(citation_info):
             release_info.append(
                 [
                     Paragraph(
-                        'i. CASH BAIL 1. FULL b. Court Appearance Required: A judgment of conviction may be entered '
+                        'FULL CASH BAIL<br/><b>Court Appearance Required</b>: A judgment of conviction may be entered '
                         'for the FULL amount of the bond, and/or the court may issue a warrant for your arrest. Any '
                         'cash deposited will be applied toward the judgment.',
                         style=ps_instructions
@@ -223,7 +223,7 @@ def get_traffic_release_instructions(citation_info):
         release_info.append(
             [
                 Paragraph(
-                    'i. CASH BAIL 2. 10% CASH BAIL: A judgment of conviction may be entered against you for the '
+                    '10% CASH BAIL:<br/>A judgment of conviction may be entered against you for the '
                     'FULL amount of the bond and/or the court may issue a warrant for your arrest. Any cash '
                     'deposited will be applied toward the judgment.',
                     style=ps_instructions
@@ -234,7 +234,7 @@ def get_traffic_release_instructions(citation_info):
         release_info.append(
             [
                 Paragraph(
-                    'ii. ILLINOIS DRIVER\'S LICENSE: Your driving privileges may be suspended, and/or the court may '
+                    'ILLINOIS DRIVER\'S LICENSE:<br/>Your driving privileges may be suspended, and/or the court may '
                     'issue a warrant for your arrest.',
                     style=ps_instructions
                 ),
@@ -245,7 +245,7 @@ def get_traffic_release_instructions(citation_info):
             release_info.append(
                 [
                     Paragraph(
-                        'iii. BOND CARD 2. COURT APPEARANCE REQUIRED: The card will be sent to the issuing company '
+                        'BOND CARD<br/><b>Court Appearance Required</b>: The card will be sent to the issuing company '
                         'for payment. Or, instead, a judgment of conviction may be entered for the FULL amount of '
                         'the bond, and/or the court may issue a warrant for your arrest.',
                         style=ps_instructions
@@ -256,7 +256,7 @@ def get_traffic_release_instructions(citation_info):
             release_info.append(
                 [
                     Paragraph(
-                        'iii. BOND CARD 1. NO COURT APPEARANCE REQUIRED: Your card will be sent to the issuing '
+                        'BOND CARD<br/><b>No Court Appearance Required</b>: Your card will be sent to the issuing '
                         'company for payment.',
                         style=ps_instructions
                     )
@@ -266,7 +266,7 @@ def get_traffic_release_instructions(citation_info):
         release_info.append(
             [
                 Paragraph(
-                    'iv. BOND DEPOSITED ON COMPANION CASE (See RELEASE section on e-Citation) The security which '
+                    'BOND DEPOSITED ON COMPANION CASE (See RELEASE section on e-Citation)<br/>The security which '
                     'has been posted in another ticket or document also covers this ticket.',
                     style=ps_instructions
                 )
@@ -276,7 +276,7 @@ def get_traffic_release_instructions(citation_info):
         release_info.append(
             [
                 Paragraph(
-                    'v. NO BOND You were unable to secure release with the arresting officer at the time this '
+                    'NO BOND<br/>You were unable to secure release with the arresting officer at the time this '
                     'ticket was issued.',
                     style=ps_instructions
                 )
@@ -286,7 +286,7 @@ def get_traffic_release_instructions(citation_info):
         release_info.append(
             [
                 Paragraph(
-                    'vi. NOTICE TO APPEAR The court may issue a warrant for your arrest.',
+                    'NOTICE TO APPEAR<br/>The court may issue a warrant for your arrest.',
                     style=ps_instructions
                 )
             ]
@@ -295,7 +295,7 @@ def get_traffic_release_instructions(citation_info):
         release_info.append(
             [
                 Paragraph(
-                    'vii. PROMISE TO COMPLY A notice of suspension of your driving privileges will be sent to your '
+                    'PROMISE TO COMPLY<br/>A notice of suspension of your driving privileges will be sent to your '
                     'licensing state; or, the court may issue a warrant for your arrest.',
                     style=ps_instructions
                 )
@@ -305,7 +305,7 @@ def get_traffic_release_instructions(citation_info):
         release_info.append(
             [
                 Paragraph(
-                    'viii. INDIVIDUAL BOND A judgment of conviction may be entered for the FULL amount of the '
+                    'INDIVIDUAL BOND<br/>A judgment of conviction may be entered for the FULL amount of the '
                     'bond, and/or the court may issue a warrant for your arrest.',
                     style=ps_instructions
                 )
@@ -757,7 +757,12 @@ class TrafficCitationReport(CitationReport):
         )
         elems.append(
             Paragraph(
-                "The method of release is noted in the \"Release\" section. The result of your failure to appear or pay this ticket is determined by the method of release identified below and whether your ticket is marked \"Court Appearance Required\" or \"<u>No</u> Court Appearance Required\" and may result in either a judgement of confliction being entered against you for fine, penalties, assessments, and costs as provided in the NOTICE OF CONSENT FOR ENTRY OF JUDGEMENT, or, the court may order other consequences identified below.",
+                "The method of release is noted in the \"Release\" section. The result of your failure to appear or "
+                "pay this ticket is determined by the method of release identified below and whether your ticket is "
+                "marked \"Court Appearance Required\" or \"<u>No</u> Court Appearance Required\" and may result in "
+                "either a judgement of confliction being entered against you for fine, penalties, assessments, "
+                "and costs as provided in the NOTICE OF CONSENT FOR ENTRY OF JUDGEMENT, or, the court may order other "
+                "consequences identified below.",
                 style=styles["il-citation-instructions"])
         )
         elems.append(Spacer(1, 5))
@@ -1638,10 +1643,41 @@ class TrafficCitationReport(CitationReport):
         return [self._section_gen_table(title="INCIDENT", content=[t1])]
 
     def _section_release_info(self):
-        if self.citation_info["bond_companion_case_number_with_bond"]:
-            release_method = 'BOND ON COMPANION CASE: %s' % self.citation_info['bond_companion_case_number_with_bond']
-        else:
-            release_method = field_string_from_flags(self.citation_info, ["bond_includes_"])
+        def _create_string_from_bonds(citation_data):
+            release_info = ''
+            if citation_data["bond_includes_none"]:
+                release_info += 'NO BOND, '
+            if citation_data["bond_includes_drivers_license_bond"]:
+                release_info += "ILLINOIS DRIVER'S LICENSE, "
+            if citation_data["bond_includes_individual_bond"]:
+                release_info += 'INDIVIDUAL BOND (*), '
+            if citation_data["bond_includes_cash_bond_full"]:
+                release_info += 'CASH BAIL (FULL), '
+            if citation_data["bond_includes_bond_card"]:
+                release_info += 'BOND CARD, '
+            if citation_data["bond_includes_cash_bond_ten_percent"]:
+                release_info += '10% CASH BAIL (10% DEPOSIT BAIL), '
+            if citation_data['bond_includes_dui_bond']:
+                release_info += 'DUI BOND (DL + $1000 OR 10% OR INDIVIDUAL BOND), '
+            if citation_data["bond_includes_companion_case"]:
+                if self.citation_info["bond_companion_case_number_with_bond"]:
+                    release_info += 'BOND ON COMPANION CASE: %s, ' % self.citation_info['bond_companion_case_number_with_bond']
+                else:
+                    release_info += 'BOND ON COMPANION CASE, '
+            if citation_data["bond_includes_notice_to_appear"]:
+                release_info += 'NOTICE TO APPEAR, '
+            if citation_data["bond_includes_promise_to_comply"]:
+                release_info += 'PROMISE TO COMPLY (*), '
+            if citation_data['bond_includes_electronic_bond']:
+                release_info += 'E-BAIL, '
+            if citation_data['bond_includes_personal_recognizance']:
+                release_info += 'PERSONAL RECOGNIZANCE, '
+
+            if release_info:
+                return release_info[:-2]
+
+            return ''
+
         t1 = Table(
             [
                 [
@@ -1653,7 +1689,7 @@ class TrafficCitationReport(CitationReport):
                     None,
                 ],
                 [
-                    Paragraph(release_method, styles["il-citation-field-data"]),
+                    Paragraph(_create_string_from_bonds(self.citation_info), styles["il-citation-field-data"]),
                 ],
                 [
                     Paragraph("WITHOUT ADMITTING GUILT, I promise to comply with the terms of this Ticket and Release",
@@ -4411,7 +4447,24 @@ class NonTrafficCitationReport(CitationReport):
                                 )
                             ],
                             None,
-                            Paragraph("%s" % self.violation_text, ps_title),
+                            [
+                                Table(
+                                    [
+                                        [
+                                            Paragraph("Chapter", ps_title),
+                                            Paragraph("Act", ps_title),
+                                            Paragraph("Section", ps_title),
+                                        ]
+                                    ],
+                                    style=extend_table_style(styles["il-citation-main-table"], [
+                                        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                                        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                                    ]),
+                                    colWidths=(17 * mm, 17 * mm, 17 * mm),
+                                    rowHeights=4 * mm
+                                ),
+                                Paragraph("%s" % self.violation_text, ps_title),
+                            ]
                         ],
                         [
                             Paragraph("Location:", ps_title),
