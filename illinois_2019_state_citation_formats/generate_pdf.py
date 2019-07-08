@@ -1820,7 +1820,7 @@ class OverweightCitationReport(CitationReport):
                     ],
                     [
                         Paragraph(
-                            "If you were charged with an offense which does not require a c ourt appearance, YOU ARE HEREBY NOTIFIED THAT.",
+                            "YOU ARE HEREBY NOTIFIED THAT.",
                             style=styles["il-citation-instructions"]),
                     ],
                     [
@@ -2039,9 +2039,14 @@ class OverweightCitationReport(CitationReport):
                     ],
                     [
                         Paragraph(
-                            "If you intend to plead <u>GUILTY</u> to the ticket and <u>No</u> Court Appearance is Required.<br />"
+                            "If you intend to plead <u>GUILTY</u> to the ticket:<br />"
                             "1. Complete this form.<br />"
                             "2. Mail this form, together with the applicable payment to the Clerk of the the Court, Traffic Section, at the address noted in the \"Court Place/Date\" section on the bottom half of the ticket. You must mail this completed form, with the total applicable payment <b> no earlier than ten (10) work days</b> after the ticket was issues (noted on other top half <u>below \"Defendant\" section</u>, of thet ticket), <b>and no later than three (3) work days</b> before the court appearance date noted on the bottom half of the ticket in the \"Court Place/Date\" section or as may have been provided by the clerk of the court.",
+                            style=styles["il-citation-instructions"]),
+                    ],
+                    [
+                        Paragraph(
+                            "<b>Note: Payment must be by cash, money order, certified check, bank draft, or traveler's check unless otherwise authorized by the clerk of the court. (DO NOT SEND CASH IN THE MAIL; use cash only if paying in person.)</b>",
                             style=styles["il-citation-instructions"]),
                     ],
                     [
@@ -2051,7 +2056,7 @@ class OverweightCitationReport(CitationReport):
                     ],
                     [
                         Paragraph(
-                            "I, the undersigned, do hereby plead guilty to the charge noted on this ticket, which does not require a court appearance. I understand my right to a trial, that my signature to this plea of guilty will have the same force and effect as a conviction by the court and that this record will be sent to the Secretary of State of this State (or of the State where I received my license to drive). I hearby PLEAD GUILTY to the said offense on this ticket, GIVE UP my right to trial, and agree to pay the amount required.",
+                            "I, the undersigned, do hereby plead guilty to the charge noted on this ticket, which does not require a court appearance. I understand my right to a trial, that my signature to this plea of guilty will have the same force and effect as a conviction entered by the court. I hearby PLEAD GUILTY to the said offense on this ticket, GIVE UP my right to trial, and agree to pay the amount required.",
                             style=styles["il-citation-instructions"]),
                     ],
                     [
