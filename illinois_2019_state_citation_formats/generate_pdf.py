@@ -1128,8 +1128,12 @@ class TrafficCitationReport(CitationReport):
             rowHeights=(3.75 * mm, 5.6 * mm, 3.75 * mm),
         )
         hr = HRFlowable(width="100%", thickness=1, lineCap="butt", color="lightgrey", spaceAfter=1 * mm, dash=(5, 5))
-        township = self.citation_info["complainant_municipality_township"] if self.citation_info[
-            "complainant_municipality_township"] else ""
+        if self.citation_info['complainant_city_or_township'] == 'T':
+            complainant_location_type = "Township of"
+            complainant_location = self.citation_info["complainant_municipality_township"]
+        else:
+            complainant_location_type = "City/Village of"
+            complainant_location = self.citation_info['complainant_city']
         t2 = Table(
             [
                 [
@@ -1151,8 +1155,8 @@ class TrafficCitationReport(CitationReport):
                                  self.citation_info["municipality_county"], styles["il-citation-field-data"],
                                  offset=(2, -1.8 * mm)),
                     None,
-                    SectionField("Township of", styles["il-citation-field-header"],
-                                 township,
+                    SectionField(complainant_location_type, styles["il-citation-field-header"],
+                                 complainant_location,
                                  styles["il-citation-field-data"],
                                  offset=(2, -1.8 * mm)),
                     None,
@@ -1180,16 +1184,18 @@ class TrafficCitationReport(CitationReport):
             rowHeights=4.5 * mm,
         )
         complainant_is_municipality = self.citation_info["complainant_is_municipality"]
+        if self.citation_info["complainant_is_municipality"]:
+            complainant_information = self.citation_info["municipality_name"]
+        else:
+            complainant_information = 'PEOPLE STATE OF ILLINOIS'
         t3 = Table(
             [
                 [
-                    XBox(7, nullable_false_handler(complainant_is_municipality)),
-                    Paragraph("PEOPLE STATE OF ILLINOIS", style=styles["il-citation-field-header"]),
-                    XBox(7, complainant_is_municipality),
-                    Paragraph("CITY/VILLAGE OF MUNICIPAL CORPORATION PLAINTIFF",
-                              style=styles["il-citation-field-header"]),
-                    Paragraph(self.citation_info["municipality_name"] if complainant_is_municipality else '',
-                              style=styles["il-citation-field-data"]),
+                    XBox(7, True),
+                    Paragraph(complainant_information, style=styles["il-citation-field-header"]),
+                    None,
+                    None,
+                    None,
                     Paragraph("VS.", style=styles["il-citation-field-header"])
                 ]
             ],
@@ -1197,6 +1203,7 @@ class TrafficCitationReport(CitationReport):
                 ("OUTLINE", (0, 0), (-1, -1), 0.5, "black"),
                 ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
                 ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("SPAN", (1, 0), (4, 0)),
             ]),
             colWidths=(6 * mm, 16 * mm, 6 * mm, 31 * mm, 30.8 * mm, 4.5 * mm),
             rowHeights=6 * mm,
