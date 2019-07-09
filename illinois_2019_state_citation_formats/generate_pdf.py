@@ -1183,7 +1183,6 @@ class TrafficCitationReport(CitationReport):
             colWidths=(34 * mm, 7.5 * mm, 17 * mm, 23 * mm, 6 * mm, 6.8 * mm),
             rowHeights=4.5 * mm,
         )
-        complainant_is_municipality = self.citation_info["complainant_is_municipality"]
         if self.citation_info["complainant_is_municipality"]:
             complainant_information = self.citation_info["municipality_name"]
         else:
@@ -4122,7 +4121,12 @@ class NonTrafficCitationReport(CitationReport):
             colWidths=(3 * mm, 32.5 * mm, 34.5 * mm, 27.6 * mm),
             rowHeights=(5 * mm, 6 * mm),
         )
-        city_village = self.citation_info["municipality_name"]
+        if self.citation_info['complainant_city_or_township'] == 'T':
+            complainant_location_type = "TOWNSHIP OF"
+            complainant_location = self.citation_info["complainant_municipality_township"]
+        else:
+            complainant_location_type = "CITY/VILLAGE OF"
+            complainant_location = self.citation_info['complainant_city']
         t2 = Table(
             [
                 [
@@ -4137,8 +4141,8 @@ class NonTrafficCitationReport(CitationReport):
                 ],
                 [
                     None,
-                    Paragraph("CITY/VILLAGE OF:", ps),
-                    Paragraph("%s" % city_village, ps)
+                    Paragraph(complainant_location_type, ps),
+                    Paragraph(complainant_location, ps)
                 ],
             ],
             style=extend_table_style(styles["il-citation-main-table"], [
@@ -4155,14 +4159,18 @@ class NonTrafficCitationReport(CitationReport):
             colWidths=(3 * mm, 22 * mm, 16.9 * mm, 9.2 * mm, 19.3 * mm, 27.2 * mm),
             rowHeights=(5 * mm, 5.5 * mm),
         )
-        city_village = city_village if self.citation_info[
+        city_village = self.citation_info["municipality_name"] if self.citation_info[
             "complainant_is_municipality"] else ""
         t3 = Table(
             [
                 [
                     None,
                     None,
-                    Paragraph("IN THE CIRCUIT COURT OF THE 19TH JUDICIAL CIRCUIT<br />LAKE COUNTY,ILLINOIS", ps),
+                    Paragraph(
+                        "IN THE CIRCUIT COURT OF THE %s JUDICIAL CIRCUIT<br />%s COUNTY,ILLINOIS" %
+                        (self.citation_info['complainant_judicial_circuit'], self.citation_info['municipality_county']),
+                        ps
+                    ),
                     None,
                     None,
                     None,
