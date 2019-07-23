@@ -1535,26 +1535,31 @@ class TrafficCitationReport(CitationReport):
                 violation_speed_limit=self.citation_info["violation_speed_limit"],
             )
         p = Paragraph(self.violation_text, style=extend_style(ps, leftIndent=2.5 * mm, rightIndent=2.5 * mm))
-        description = [self.citation_info["violation_description"][i:i + 70] for i in
-                       range(0, len(self.citation_info["violation_description"]), 70)]
+        description_zero = self.citation_info["violation_description"][0:71]
+        description = [self.citation_info["violation_description"][i:i + 88] for i in
+                       range(71, len(self.citation_info["violation_description"]), 88)]
         t1s2_content = [
             [
                 None,
                 Paragraph("Nature of Offense:", style=ps),
-                Paragraph(description[0], style=ps),
+                Paragraph(description_zero, style=ps),
+                None
             ]
         ]
-        for i in range(1, 4):
+        for i in range(0, 2):
             try:
                 if description[i]:
                     t1s2_content.append(
                         [
                             None,
                             Paragraph(description[i], style=ps),
+                            None,
+                            None
                         ]
                     )
             except IndexError:
                 t1s2_content.append([None, None, None, None])
+        t1s2_content.append([None, None, None, None])
         t1s2 = Table(
             t1s2_content,
             style=extend_table_style(styles["il-citation-main-table"], [
