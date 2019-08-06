@@ -2231,8 +2231,10 @@ class OverweightCitationReport(CitationReport):
             colWidths=(31.8 * mm, 20 * mm, 4.1 * mm, 7.9 * mm, 30.5 * mm),
             rowHeights=7 * mm,
         )
-        township = self.citation_info["complainant_municipality_township"] if self.citation_info[
-            "complainant_municipality_township"] else ""
+        city_or_township = self.citation_info["complainant_city_or_township"]
+        city_township_label = "City/Village of" if city_or_township == "C" else "Township of"
+        city_township_value = self.citation_info["complainant_city"]\
+            if city_or_township == "C" else self.citation_info["complainant_municipality_township"]
         scale_no = self.citation_info["complainant_scale_number"] if self.citation_info[
             "complainant_scale_number"] else ""
         scale_op = self.citation_info["complainant_scale_operator"] if self.citation_info[
@@ -2243,8 +2245,8 @@ class OverweightCitationReport(CitationReport):
                     SectionField("County of", styles["il-citation-field-header"],
                                  self.citation_info["municipality_county"], styles["il-citation-field-data"],
                                  offset=field_offset),
-                    SectionField("Township of", styles["il-citation-field-header"],
-                                 township,
+                    SectionField(city_township_label, styles["il-citation-field-header"],
+                                 city_township_value,
                                  styles["il-citation-field-data"],
                                  offset=field_offset),
                     XBox(7, self.citation_info["complainant_is_township_road"]),
