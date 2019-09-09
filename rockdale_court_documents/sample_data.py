@@ -5,12 +5,10 @@ fdo_data = {
         {
             "citation_number": "1231234423",
             "violation": "111-1: TEST VIOLATION",
-            "plea": True,
         },
         {
             "citation_number": "213242345",
             "violation": "222-2: TEST VIOLATION 2",
-            "plea": False,
         },
     ],
     "term": "TERM",
