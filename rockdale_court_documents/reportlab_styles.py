@@ -1,6 +1,7 @@
 import os
 
 from reportlab.lib import colors
+from reportlab.lib.fonts import ps2tt
 from reportlab.lib.pagesizes import letter, landscape, A4
 from reportlab.lib.styles import (
     getSampleStyleSheet,
@@ -929,3 +930,93 @@ styles["il-citation-instructions-nt"] = ParagraphStyle(
     leading=12
 )
 # END ILLINOIS CITATION REPORT
+
+
+# START ROCKDALE COURT REPORT
+try:
+    ps2tt("Times-Roman")
+except ValueError:
+    pdfmetrics.registerFont(TTFont("Times-Roman", os.path.join(os.getcwd(), "fonts", "times.ttf")))
+    pdfmetrics.registerFont(TTFont("Times-Bold", os.path.join(os.getcwd(), "fonts", "timesbd.ttf")))
+    pdfmetrics.registerFont(TTFont("Times-Italic", os.path.join(os.getcwd(), "fonts", "timesi.ttf")))
+    pdfmetrics.registerFont(TTFont("Times-BoldItalic", os.path.join(os.getcwd(), "fonts", "timesbi.ttf")))
+    pdfmetrics.registerFontFamily(
+        "Times-Roman",
+        normal="Times-Roman",
+        bold="Times-Bold",
+        italic="Times-Italic",
+        boldItalic="Times-BoldItalic"
+    )
+
+styles["rc-main"] = ParagraphStyle(
+    "rc-main",
+    fontSize=10,
+    leading=14,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    alignment=TA_LEFT,
+    fontName="Times-Roman",
+)
+
+styles["rc-doc-header"] = ParagraphStyle(
+    "rc-doc-header",
+    parent=styles["rc-main"],
+    fontSize=12,
+    leading=13.5,
+    trailing=0,
+    fontName="Times-Bold",
+    alignment=TA_CENTER,
+)
+styles["rc-header"] = ParagraphStyle(
+    "rc-main",
+    parent=styles["rc-main"],
+    fontSize=12,
+    leading=13.5,
+    trailing=0,
+    fontName="Times-Bold",
+    alignment=TA_CENTER,
+)
+styles["rc-section-header"] = ParagraphStyle(
+    "rc-main",
+    parent=styles["rc-main"],
+    fontSize=12,
+    leading=13.5,
+    leftIndent=8.3 * mm,
+    trailing=0,
+    spaceBefore=4.3 * mm,
+    spaceAfter=4.3 * mm,
+    fontName="Times-Bold",
+    alignment=TA_LEFT,
+)
+styles["rc-aawp-main"] = ParagraphStyle(
+    "rc-aawp-main",
+    parent=styles["rc-main"],
+    fontSize=12,
+    leading=13.7,
+)
+styles["rc-fdo-main"] = ParagraphStyle(
+    "rc-fdo-main",
+    parent=styles["rc-main"],
+    leading=11.5,
+)
+styles["rc-fdo-doc-header"] = ParagraphStyle(
+    "rc-fdo-doc-header",
+    parent=styles["rc-main"],
+    fontSize=10,
+    leading=11.5,
+    trailing=0,
+    spaceBefore=10,
+    spaceAfter=10,
+    fontName="Times-Bold",
+    alignment=TA_CENTER,
+)
+styles["rc-main-table"] = TableStyle([
+    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+    ("TOPPADDING", (0, 0), (-1, -1), 0),
+    ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+])
+# END ROCKDALE COURT REPORT

@@ -1,3 +1,4 @@
+from reportlab_styles import styles, extend_style, extend_table_style
 import cStringIO
 import io
 import datetime
@@ -7,77 +8,6 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Flowable, Paragraph, Table, Spacer
-
-# START ROCKDALE COURT REPORT
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.platypus import TableStyle
-
-
-def extend_style(style, **params):
-    return ParagraphStyle("extended", parent=style, **params)
-
-
-def extend_table_style(style, *params):
-    return TableStyle(parent=style, *params)
-
-
-styles = dict()
-styles["rc-main"] = ParagraphStyle(
-    "rc-main",
-    fontSize=10,
-    leading=14,
-    spaceBefore=0,
-    spaceAfter=0,
-    leftIndent=0,
-    rightIndent=0,
-    wordWrap=None,
-    alignment=TA_LEFT,
-    fontName="Times-Roman",
-)
-styles["rc-doc-header"] = ParagraphStyle(
-    "rc-doc-header",
-    parent=styles["rc-main"],
-    fontSize=12,
-    leading=13.5,
-    trailing=0,
-    fontName="Times-Bold",
-    alignment=TA_CENTER,
-)
-styles["rc-header"] = ParagraphStyle(
-    "rc-main",
-    parent=styles["rc-main"],
-    fontSize=12,
-    leading=13.5,
-    trailing=0,
-    fontName="Times-Bold",
-    alignment=TA_CENTER,
-)
-styles["rc-fdo-main"] = ParagraphStyle(
-    "rc-fdo-main",
-    parent=styles["rc-main"],
-    leading=11.5,
-)
-styles["rc-fdo-doc-header"] = ParagraphStyle(
-    "rc-fdo-doc-header",
-    parent=styles["rc-main"],
-    fontSize=10,
-    leading=11.5,
-    trailing=0,
-    spaceBefore=10,
-    spaceAfter=10,
-    fontName="Times-Bold",
-    alignment=TA_CENTER,
-)
-
-styles["rc-main-table"] = TableStyle([
-    ("LEFTPADDING", (0, 0), (-1, -1), 0),
-    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-    ("TOPPADDING", (0, 0), (-1, -1), 0),
-    ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-])
-
-
-# END ROCKDALE COURT REPORT
 
 
 def generate_fdo(pdf_dict, title=None, author=None):
