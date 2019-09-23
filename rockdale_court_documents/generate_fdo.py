@@ -185,8 +185,10 @@ class FDOReport:
                                     None,
                                     None,
                                     None,
-                                    Paragraph("%s" % self.data["term"],
-                                              extend_style(styles["rc-fdo-main"], alignment=TA_CENTER)),
+                                    Paragraph(
+                                        "%s" % self.data["term"],
+                                        extend_style(styles["rc-fdo-main"], alignment=TA_CENTER)
+                                    ),
                                     Paragraph("Term", ps),
                                 ]
                             ],
@@ -363,10 +365,14 @@ class FDOReport:
                         None,
                         XBox(6.7, True if self.data["defendant_filed_bond_forfeiture_form"] else False),
                         Paragraph("<b>Defendant filed Bond Forfeiture Form</b>", styles["rc-fdo-main"]),
-                        XBox(6.7,
-                             True if self.data["defendant_filed_acknowledgment_of_waiver_of_rights_form"] else False),
-                        Paragraph("<b>Defendant filed Acknowledgment of Waiver of Rights Form</b>",
-                                  styles["rc-fdo-main"]),
+                        XBox(
+                            6.7,
+                            True if self.data["defendant_filed_acknowledgment_of_waiver_of_rights_form"] else False
+                        ),
+                        Paragraph(
+                            "<b>Defendant filed Acknowledgment of Waiver of Rights Form</b>",
+                            styles["rc-fdo-main"]
+                        ),
                     ],
                     [
                         None
@@ -456,7 +462,7 @@ class FDOReport:
         elems.append(
             Paragraph("<b>IT IS FURTHER ORDERED that (Check only the section that applies)</b>:", ps)
         )
-        line_data = []
+        line_data = list()
         line_data.append(
             Table(
                 [
@@ -520,8 +526,7 @@ class FDOReport:
                                         6.5,
                                         True if self.data["3"] else False
                                     ),
-                                    Paragraph("%s" % self.data["3_month"],
-                                              extend_style(ps, alignment=TA_CENTER)),
+                                    Paragraph("%s" % self.data["3_month"], extend_style(ps, alignment=TA_CENTER)),
                                     Paragraph(
                                         "months on probation, provided that the Defendant remains in",
                                         extend_style(ps, alignment=TA_JUSTIFY, justifyLastLine=1),
@@ -561,8 +566,7 @@ class FDOReport:
                                         6.5,
                                         True if self.data["4"] else False
                                     ),
-                                    Paragraph("%s" % self.data["4_month"],
-                                              extend_style(ps, alignment=TA_CENTER)),
+                                    Paragraph("%s" % self.data["4_month"], extend_style(ps, alignment=TA_CENTER)),
                                     Paragraph(
                                         "months on probation, which will be:",
                                         extend_style(ps, alignment=TA_JUSTIFY, justifyLastLine=1),
@@ -608,8 +612,7 @@ class FDOReport:
                                         6.5,
                                         True if self.data["5"] else False
                                     ),
-                                    Paragraph("%s" % self.data["5_day"],
-                                              extend_style(ps, alignment=TA_CENTER)),
+                                    Paragraph("%s" % self.data["5_day"], extend_style(ps, alignment=TA_CENTER)),
                                     Paragraph(
                                         "days of this sentence in confinement and the remainder",
                                         extend_style(ps, alignment=TA_JUSTIFY, justifyLastLine=1),
@@ -703,29 +706,29 @@ class FDOReport:
         return [t1]
 
     def _section_section_5(self):
-        def create_victim_table(victim, num):
+        def create_victim_table(victim, num, ps):
             address_parts = victim["victim_address"].split(",")
             vt = Table(
                 [
                     [
-                        Paragraph("(%s) Victim Name:" % unichr(num), style=styles["rc-fdo-main"]),
-                        Paragraph("%s" % victim["victim_name"], style=styles["rc-fdo-main"]),
+                        Paragraph("(%s) Victim Name:" % unichr(num), ps),
+                        Paragraph("%s" % victim["victim_name"], ps),
                         None,
                         None,
                     ],
                     [
-                        Paragraph("Victim Mailing Address:", style=styles["rc-fdo-main"]),
+                        Paragraph("Victim Mailing Address:", ps),
                         None,
                         None,
-                        Paragraph("%s" % address_parts[0], style=styles["rc-fdo-main"]),
+                        Paragraph("%s" % address_parts[0], ps),
                     ],
                     [
-                        Paragraph("%s" % ", ".join(address_parts[1:]), style=styles["rc-fdo-main"]),
+                        Paragraph("%s" % ", ".join(address_parts[1:]), ps),
                     ],
                     [
-                        Paragraph("Ordered Restitution:&nbsp;&nbsp;$", style=styles["rc-fdo-main"]),
+                        Paragraph("Ordered Restitution:&nbsp;&nbsp;$", ps),
                         None,
-                        Paragraph("%s" % victim["amount"], style=styles["rc-fdo-main"]),
+                        Paragraph("%s" % victim["amount"], ps),
                         None,
                     ]
                 ],
@@ -760,14 +763,14 @@ class FDOReport:
         for i in range(0, victim_nums, 2):
             try:
                 victim_data.append([
-                    create_victim_table(self.data["victims"][i], num),
+                    create_victim_table(self.data["victims"][i], num, ps),
                     None,
-                    create_victim_table(self.data["victims"][i + 1], num + 1),
+                    create_victim_table(self.data["victims"][i + 1], num + 1, ps),
                 ])
                 num += 2
             except IndexError:
                 victim_data.append(
-                    [create_victim_table(self.data["victims"][i], num), None, None]
+                    [create_victim_table(self.data["victims"][i], num, ps), None, None]
                 )
                 num += 1
         elems.append(
@@ -924,7 +927,7 @@ class FDOReport:
                     [
                         None,
                         XBox(6, True if self.data["other"] else False),
-                        Paragraph("Other: ", styles["rc-fdo-main"]),
+                        Paragraph("Other: ", ps),
                         Paragraph("%s" % self.data["other_text"], ps),
                     ],
                     [
