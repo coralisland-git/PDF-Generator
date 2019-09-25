@@ -32,8 +32,8 @@ if __name__ == "__main__":
             generate_il_state_pdf(
                 overweight_citation,
                 copy_type="VIOLATOR",
-                overweight_text="Text Input",
-                extra_title=Municipality().name.upper() + " PD",
+                #overweight_text="Text Input",
+                #extra_title=Municipality().name.upper() + " PD",
             )[0],
             output_file,
         )
