@@ -426,7 +426,6 @@ class FDOReport:
             ]
         ]
         ps = extend_style(styles["rc-fdo-main"], fontSize=9)
-        row_heights = [None]
         for citation in self.data["citation_table"]:
             data.append([
                 Paragraph("<font size=10><seq>.</font> <b>%s</b>" % citation["citation_number"], ps),
@@ -435,22 +434,21 @@ class FDOReport:
                 Paragraph("%s" % citation["computation_of_sentence"], ps),
                 Paragraph("$ %s" % citation["fine"], ps),
                 Paragraph("%s" % citation["community_service_hours"], ps),
-                Paragraph("%s" % citation["restitution"], ps)
+                Paragraph("%s" % citation["restitution"], ps),
+                Spacer(0, 8.2*mm)
             ])
-            row_heights.append(8.2 * mm)
         elems.append(
             Table(
                 data,
                 style=extend_table_style(styles["rc-main-table"], [
-                    ("GRID", (0, 0), (-1, -1), 0.5, "black"),
-                    ("LEFTPADDING", (0, 0), (-1, -1), 1.5 * mm, "black"),
-                    ("RIGHTPADDING", (0, 0), (-1, -1), 1.5 * mm, "black"),
-                    ("BOTTOMPADDING", (0, 0), (-1, 0), 0.25 * mm, "black"),
-                    ("ALIGN", (0, 0), (-1, 0), "CENTER"),
-                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("GRID", (0, 0), (-2, -1), 0.5, "black"),
+                    ("LEFTPADDING", (0, 0), (-2, -1), 1.5 * mm),
+                    ("RIGHTPADDING", (0, 0), (-2, -1), 1.5 * mm),
+                    ("BOTTOMPADDING", (0, 0), (-2, 0), 0.25 * mm),
+                    ("ALIGN", (0, 0), (-2, 0), "CENTER"),
+                    ("VALIGN", (0, 0), (-2, -1), "TOP"),
                 ]),
-                colWidths=(35 * mm, 22.3 * mm, 23.9 * mm, 33.3 * mm, 22.2 * mm, 22.2 * mm, 20.6 * mm),
-                rowHeights=row_heights,
+                colWidths=(35 * mm, 22.3 * mm, 23.9 * mm, 33.3 * mm, 22.2 * mm, 22.2 * mm, 20.6 * mm, 1),
                 hAlign="LEFT"
             )
         )
