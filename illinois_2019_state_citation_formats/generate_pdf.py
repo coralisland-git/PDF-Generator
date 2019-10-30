@@ -4425,8 +4425,8 @@ class NonTrafficCitationReport(CitationReport):
             num_chars = len(self.citation_info["incident_public_narrative"])
             line_chars = num_chars / num_pieces
             lines = textwrap.wrap(self.citation_info["incident_public_narrative"], line_chars, break_long_words=False)
-            if len(lines) >= 9:
-                lines[8] = "%s%s" % (lines[9][:-3], "...")
+            if len(lines) > 9:
+                lines[8] = "%s%s" % (lines[8][:-3], "...")
         line_arr = [[Paragraph("Narration:(Describe Offense)", ps_title)]]
         for i in range(0, 9):
             try:
