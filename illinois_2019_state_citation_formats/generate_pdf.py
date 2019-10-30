@@ -4141,6 +4141,7 @@ class NonTrafficCitationReport(CitationReport):
                     Paragraph("State of Illinois, County of", ps),
                     None,
                     Paragraph("%s" % self.citation_info["municipality_county"], ps),
+                    None,
                     Paragraph("N<u>\xc2\xb0</u>", extend_style(
                         styles["il-citation-field-data-nt"], fontSize=12, alignment=TA_RIGHT
                     )),
@@ -4153,17 +4154,18 @@ class NonTrafficCitationReport(CitationReport):
                 ],
             ],
             style=extend_table_style(styles["il-citation-main-table"], [
-                ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
+                ("LINEBELOW", (3, 0), (4, 0), 0.5, "black"),
                 ("LINEBELOW", (2, 1), (2, 1), 0.5, "black"),
                 ("SPAN", (1, 0), (2, 0)),
+                ("SPAN", (3, 0), (4, 0)),
                 ("LEFTPADDING", (0, 0), (-1, -1), 0.5 * mm),
                 ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
                 ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-                ("SPAN", (4, 0), (4, 1)),
-                ("VALIGN", (4, 0), (4, 0), "TOP"),
-                ("TOPPADDING", (4, 0), (4, 0), 0.25 * mm),
+                ("SPAN", (5, 0), (5, 1)),
+                ("VALIGN", (5, 0), (5, 0), "TOP"),
+                ("TOPPADDING", (5, 0), (5, 0), 0.25 * mm),
             ]),
-            colWidths=(3 * mm, 22 * mm, 16.9 * mm, 9.2 * mm, 19.3 * mm, 27.2 * mm),
+            colWidths=(3 * mm, 22 * mm, 16.9 * mm, 9.2 * mm, 10 * mm, 10.3 * mm, 25.2 * mm),
             rowHeights=(5 * mm, 5.5 * mm),
         )
         city_village = self.citation_info["municipality_name"] if self.citation_info[
