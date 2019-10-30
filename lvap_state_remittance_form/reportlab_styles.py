@@ -114,20 +114,25 @@ styles = dict(
 styles["heading"] = ParagraphStyle(
     "bold",
     parent=styles["body"],
-    leading=14,
+    leading=18,
     textTransform="uppercase",
     fontName="Times-Roman",
     bulletFontName="Times-Roman",
     alignment=TA_CENTER,
 )
 
-#styles["address"] = ParagraphStyle(
-    #parent=styles["body"],
-
-#)
-
 styles["detail"] = ParagraphStyle(
     "detail",
+    parent=styles["body"],
+    fontSize=10,
+    leading=11,
+    leftIndent=3,
+    rightIndent=3,
+)
+
+# used for notes underline
+styles["note"] = ParagraphStyle(
+    "note",
     parent=styles["body"],
     fontSize=8,
     leading=9.6,
@@ -675,6 +680,7 @@ styles["detail-slimfit-right"] = ParagraphStyle(
     alignment=TA_RIGHT,
 )
 
+# new style for ivap form main tables
 styles["iv-main-table"] = TableStyle([
     ("LEFTPADDING", (0, 0), (-1, -1), 0),
     ("RIGHTPADDING", (0, 0), (-1, -1), 0),
@@ -709,13 +715,13 @@ def auto_span_table(table_list, **params):
 
 
 black_line = flowables.HRFlowable(
-    width="70%",
+    width="92%",
     color="black",
-    thickness=0.5,
+    thickness=1,
     lineCap="round",
     spaceBefore=0,
     spaceAfter=1,
-    hAlign="RIGHT",
+    hAlign="CENTER",
     vAlign="BOTTOM",
     dash=None,
 )
@@ -737,6 +743,18 @@ black_line_ul = flowables.HRFlowable(
     spaceBefore=0,
     spaceAfter=1,
     hAlign="CENTER",
+    vAlign="BOTTOM",
+    dash=None,
+)
+
+black_line_short = flowables.HRFlowable(
+    width="70%",
+    color="black",
+    thickness=0.5,
+    lineCap="round",
+    spaceBefore=0,
+    spaceAfter=1,
+    hAlign="RIGHT",
     vAlign="BOTTOM",
     dash=None,
 )

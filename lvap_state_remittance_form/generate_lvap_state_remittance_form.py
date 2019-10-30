@@ -48,7 +48,7 @@ def _create_story(doc_data):
     story.append(
         Paragraph(
             "<strong>Georgia Criminal Justice Coordinating Council<br />Local Victim Assistance Program –Surcharge Report</strong>",
-            style=styles["heading"]
+            style=extend_style(styles["heading"], leading=14)
         )
     )
 
@@ -102,7 +102,7 @@ def _create_general_info_table(doc_data):
         ],
         [
             '',
-            Paragraph("(County Name/City Name)", style=styles['detail']),
+            Paragraph("(County Name/City Name)", style=styles['note']),
             ""
         ],
         [
@@ -115,7 +115,7 @@ def _create_general_info_table(doc_data):
         [
             Paragraph(
                 "(Juvenile, Magistrate, Municipal, Probate, State or Superior Court) Complete a separate form for each court served and Court ORI #",
-                style=extend_style(styles['detail'], alignment=TA_RIGHT)
+                style=extend_style(styles['note'], alignment=TA_RIGHT)
             ),
             ""
         ],
@@ -129,7 +129,7 @@ def _create_general_info_table(doc_data):
         [
             "",
             Paragraph("(i.e. {} thru {})".format(_format_short_date(doc_data["date_range_from"]), _format_short_date(doc_data["date_range_to"])),
-                      style=extend_style(styles['detail'], alignment=TA_CENTER)),
+                      style=extend_style(styles['note'], alignment=TA_CENTER)),
             ""
         ],
         [
@@ -139,7 +139,7 @@ def _create_general_info_table(doc_data):
         ],
         [
             Paragraph("<u>(This amount is calculated by total applicable fines multiplied by 5%. This amount should equal the sum of the surcharge paid out below.)</u>",
-                      style=extend_style(styles['detail'], alignment=TA_CENTER, )),
+                      style=extend_style(styles['note'], alignment=TA_CENTER, )),
             "", ""
         ]
     ]
@@ -188,7 +188,7 @@ def _create_payment_info_table(doc_data):
         [
             Paragraph("<u><b>Rockdale County Board of Commissioners</b></u>", style=styles["body"]),
             Paragraph("<u><b>${}</b></u>".format(doc_data["total_amount"]), style=styles["body"]),
-            black_line
+            black_line_short
         ]
     ]
 
