@@ -114,19 +114,26 @@ styles = dict(
 styles["heading"] = ParagraphStyle(
     "bold",
     parent=styles["body"],
-    leading=18,
+    leading=14,
     textTransform="uppercase",
     fontName="Times-Roman",
     bulletFontName="Times-Roman",
     alignment=TA_CENTER,
 )
+
+#styles["address"] = ParagraphStyle(
+    #parent=styles["body"],
+
+#)
+
 styles["detail"] = ParagraphStyle(
     "detail",
     parent=styles["body"],
-    fontSize=10,
-    leading=11,
-    leftIndent=3,
-    rightIndent=3,
+    fontSize=8,
+    leading=9.6,
+    leftIndent=0,
+    rightIndent=0,
+    vAlign='TOP'
 )
 
 styles["detail-utc"] = ParagraphStyle(
@@ -668,6 +675,13 @@ styles["detail-slimfit-right"] = ParagraphStyle(
     alignment=TA_RIGHT,
 )
 
+styles["iv-main-table"] = TableStyle([
+    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+    ("TOPPADDING", (0, 0), (-1, -1), 0),
+    ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+])
+
 
 def extend_style(style, **params):
     return ParagraphStyle("extended", parent=style, **params)
@@ -695,13 +709,13 @@ def auto_span_table(table_list, **params):
 
 
 black_line = flowables.HRFlowable(
-    width="92%",
+    width="70%",
     color="black",
-    thickness=1,
+    thickness=0.5,
     lineCap="round",
     spaceBefore=0,
     spaceAfter=1,
-    hAlign="CENTER",
+    hAlign="RIGHT",
     vAlign="BOTTOM",
     dash=None,
 )
