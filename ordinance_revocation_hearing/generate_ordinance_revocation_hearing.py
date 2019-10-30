@@ -92,22 +92,23 @@ class AAWPReport:
                 [
                     [
                         Paragraph(self.data["defendant_name"], style=extend_style(styles["rc-aawp-main"], alignment=TA_CENTER)),
+                        None,
                         Paragraph("CASE NO", style=extend_style(styles["rc-aawp-main"], alignment=TA_CENTER)),
                         Paragraph(self.data['case_number'], style=extend_style(styles["rc-aawp-main"], alignment=TA_CENTER)),
                     ]
                 ],
                 style=extend_table_style(styles["rc-main-table"], [
                     ("LINEBELOW", (0, 0), (0, 0), 0.7, "black"),
-                    ("LINEBELOW", (2, 0), (2, 0), 0.7, "black"),
+                    ("LINEBELOW", (3, 0), (3, 0), 0.7, "black"),
                     # ("TOPPADDING", (0, 0), (0, 0), 0.5 * mm),
                     # ("LEFTPADDING", (0, 0), (0,0), 2 * mm),
                     # ("TOPPADDING", (0, 0), (0, 0), 1 * mm)
                 ]),
-                colWidths=45 * mm,
+                colWidths=(40 * mm, 50 * mm, 30 * mm, 40 * mm)
             )
         )
         elems.append(Spacer(0, 3 * mm))
-        elems.append(Paragraph("Defendant.", extend_style(styles["rc-aawp-main"], leftIndent=4.9 * mm, rightIndent=1.9 * mm)))
+        elems.append(Paragraph("Defendant.", extend_style(styles["rc-aawp-main"], leftIndent=16 * mm, rightIndent=1.9 * mm)))
         elems.append(Spacer(0, 7 * mm))
         elems = elems + [
             Paragraph(
@@ -180,7 +181,7 @@ class AAWPReport:
                     ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
                     ("LINEBELOW", (4, 0), (4, 0), 0.5, "black"),
                 ]),
-                colWidths=(18 * mm, 16.5 * mm, 12.8 * mm, 28 * mm, 13.3 * mm, 2 * mm, None)
+                colWidths=(9 * mm, 16.5 * mm, 12.8 * mm, 28 * mm, 13.3 * mm, 2 * mm, None)
             )
         )
         elems.append(Spacer(0, 5 * mm))
