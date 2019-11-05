@@ -120,6 +120,7 @@ styles["heading"] = ParagraphStyle(
     bulletFontName="Times-Roman",
     alignment=TA_CENTER,
 )
+
 styles["detail"] = ParagraphStyle(
     "detail",
     parent=styles["body"],
@@ -127,6 +128,17 @@ styles["detail"] = ParagraphStyle(
     leading=11,
     leftIndent=3,
     rightIndent=3,
+)
+
+# used for notes underline
+styles["note"] = ParagraphStyle(
+    "note",
+    parent=styles["body"],
+    fontSize=8,
+    leading=9.6,
+    leftIndent=0,
+    rightIndent=0,
+    vAlign='TOP'
 )
 
 styles["detail-utc"] = ParagraphStyle(
@@ -668,6 +680,14 @@ styles["detail-slimfit-right"] = ParagraphStyle(
     alignment=TA_RIGHT,
 )
 
+# new style for ivap form main tables
+styles["iv-main-table"] = TableStyle([
+    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+    ("TOPPADDING", (0, 0), (-1, -1), 0),
+    ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+])
+
 
 def extend_style(style, **params):
     return ParagraphStyle("extended", parent=style, **params)
@@ -723,6 +743,18 @@ black_line_ul = flowables.HRFlowable(
     spaceBefore=0,
     spaceAfter=1,
     hAlign="CENTER",
+    vAlign="BOTTOM",
+    dash=None,
+)
+
+black_line_short = flowables.HRFlowable(
+    width="70%",
+    color="black",
+    thickness=0.5,
+    lineCap="round",
+    spaceBefore=0,
+    spaceAfter=1,
+    hAlign="RIGHT",
     vAlign="BOTTOM",
     dash=None,
 )

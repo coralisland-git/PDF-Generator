@@ -10,9 +10,7 @@ if __name__ == "__main__":
         os.path.expanduser("~/Desktop/lvap_state_remittance_form.pdf"), "wb+"
     ) as output_file:
         shutil.copyfileobj(
-            generate_lvap_state_remittance_form(
-                generate_lvap_state_remittance_form(lvap_state_remittance_form_data)
-            ),
+            generate_lvap_state_remittance_form(lvap_state_remittance_form_data),
             output_file,
         )
 
