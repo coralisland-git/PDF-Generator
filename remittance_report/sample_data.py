@@ -1,4 +1,27 @@
 remittance_report_data = {
+    "defendant_name": "John Doe",
+    "case_number": "123456",
+    "order_date": "08/31/2019",  # %m/%d/%Y
+    "citation_table": [  # citation table can have more than 4 entries
+        {
+            "citation_number": "1223253",
+            "disposition": "Guilty",
+            "length_of_sentence": "30 days",
+            "computation_of_sentence": "Concurrent",
+            "fine": 50.00,
+            "community_service_hours": "24",
+            "restitution": "TEST",
+        },
+        {
+            "citation_number": "324342",
+            "disposition": "Contest",
+            "length_of_sentence": "60 days",
+            "computation_of_sentence": "Probation",
+            "fine": 100.00,
+            "community_service_hours": "48",
+            "restitution": "TEST 2",
+        },
+    ],
     "date_range_from": "08/01/2019",    # %m/%d/%Y
     "date_range_to": "08/31/2019",  # %m/%d/%Y
     "4_to_25": {

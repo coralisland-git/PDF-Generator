@@ -993,17 +993,17 @@ styles["rc-main"] = ParagraphStyle(
     rightIndent=0,
     wordWrap=None,
     alignment=TA_LEFT,
-    fontName="Times-Roman",
+    fontName="Arial",
 )
 
 styles["rc-doc-header"] = ParagraphStyle(
     "rc-doc-header",
     parent=styles["rc-main"],
-    fontSize=12,
+    fontSize=14,
     leading=13.5,
     trailing=0,
-    fontName="Times-Bold",
-    alignment=TA_CENTER,
+    fontName="Arial",
+    alignment=TA_LEFT,
 )
 styles["rc-header"] = ParagraphStyle(
     "rc-main",

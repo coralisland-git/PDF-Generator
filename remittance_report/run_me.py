@@ -7,7 +7,7 @@ if __name__ == "__main__":
     from sample_data import remittance_report_data
 
     with open(
-        os.path.expanduser("~/Desktop/remittance_report.pdf"), "wb+"
+        os.path.expanduser("remittance_report.pdf"), "wb+"
     ) as output_file:
         shutil.copyfileobj(
             generate_remittance_report(remittance_report_data), output_file
