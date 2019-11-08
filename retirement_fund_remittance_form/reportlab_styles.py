@@ -139,6 +139,14 @@ styles["heading"] = ParagraphStyle(
     alignment=TA_CENTER,
 )
 
+styles["body-smaller-font"] = ParagraphStyle(
+    "extended-default",
+    parent=styles["body"],
+    fontSize=11,
+    leading=13,
+    leftIndent=0
+)
+
 styles["detail"] = ParagraphStyle(
     "detail",
     parent=styles["body"],
