@@ -985,8 +985,8 @@ styles["il-citation-instructions-nt"] = ParagraphStyle(
 # START ROCKDALE COURT REPORT
 styles["rc-main"] = ParagraphStyle(
     "rc-main",
-    fontSize=10,
-    leading=14,
+    fontSize=8,
+    leading=9,
     spaceBefore=0,
     spaceAfter=0,
     leftIndent=0,
@@ -996,11 +996,24 @@ styles["rc-main"] = ParagraphStyle(
     fontName="Arial",
 )
 
+styles["rc-main-1"] = ParagraphStyle(
+    "rc-main-1",
+    fontSize=8,
+    leading=0,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    fontName="Arial",
+)
+
 styles["rc-doc-header"] = ParagraphStyle(
     "rc-doc-header",
     parent=styles["rc-main"],
-    fontSize=14,
-    leading=13.5,
+    fontSize=16,
+    leading=32.5,
+    leftIndent=7,
     trailing=0,
     fontName="Arial",
     alignment=TA_LEFT,
