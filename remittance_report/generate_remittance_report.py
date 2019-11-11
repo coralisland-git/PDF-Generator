@@ -72,16 +72,16 @@ class AAWPReport:
         elems.append(
             Paragraph(
                 "REMITTANCE REPORT",
-                style=styles["rc-doc-header"]
+                style=styles["rc-doc-header-rmt"]
             )
         )
         elems.append(
             Table(
                 [
                     [
-                        Paragraph("To:", style=extend_style(styles["rc-main"], alignment=TA_RIGHT)),
-                        Paragraph("Peace Officers'<br/>Annuity and Benefit Fund<br/>P.O. Box 56<br/>Griffin, GA 30224", style=styles["rc-main"]),
-                        Paragraph("From:<br/>Magistrate Court<br/>Rockdale County<br/>Court No. 122033J", style=styles["rc-main"])
+                        Paragraph("To:", style=extend_style(styles["rc-main-rmt"], alignment=TA_RIGHT)),
+                        Paragraph("Peace Officers'<br/>Annuity and Benefit Fund<br/>P.O. Box 56<br/>Griffin, GA 30224", style=styles["rc-main-rmt"]),
+                        Paragraph("From:<br/>Magistrate Court<br/>Rockdale County<br/>Court No. 122033J", style=styles["rc-main-rmt"])
                     ]
                 ],
                 colWidths=(10 * mm, 60 * mm, 90 * mm),
@@ -99,7 +99,7 @@ class AAWPReport:
         elems.append(
             Paragraph(
                 "Report of Fines and/or Forfeitures for cases during the month(s).",
-                styles["rc-fdo-main"]
+                styles["rc-rmt-main"]
             )
         )
         elems.append(Spacer(0, 2.5 * mm))
@@ -109,11 +109,11 @@ class AAWPReport:
         elems.append(
             Paragraph(
                 "{} To {}".format(date1.strftime('%B %d, %Y'), date2.strftime('%B %d, %Y')),
-                styles["rc-fdo-main"]
+                styles["rc-rmt-main"]
             )
         )
         elems.append(Spacer(0, 6 * mm))
-        ps_title = extend_style(styles["rc-fdo-main"], alignment=TA_CENTER)
+        ps_title = extend_style(styles["rc-rmt-main"], alignment=TA_CENTER)
         data = [
             [
                 Paragraph("Amount of Fine and/or<br/> Bond forteiture", ps_title),
@@ -122,7 +122,7 @@ class AAWPReport:
                 Paragraph("Total", ps_title),
             ]
         ]
-        ps = extend_style(styles["rc-fdo-main"], fontSize=9, alignment=TA_CENTER)
+        ps = extend_style(styles["rc-rmt-main"], fontSize=9, alignment=TA_CENTER)
 
         title_map = {
             '4_to_25': '$4.01 through $25.00', 
@@ -173,7 +173,7 @@ class AAWPReport:
         elems += [
             Paragraph(
                 "To the best of my knowledge and belief this is a correct amount for the period stated above which is due the Peace Officers' Annuity and Benefit Fund of Georgia as provided by GA. Laws, 1950. p.50, as amended.",
-                extend_style(styles["rc-main"], leftIndent=0 * mm, rightIndent=1.9 * mm, fontSize=8)
+                extend_style(styles["rc-main-rmt"], leftIndent=0 * mm, rightIndent=1.9 * mm, fontSize=8)
             ),
         ]
         elems.append(Spacer(0, 6 * mm))
@@ -182,7 +182,7 @@ class AAWPReport:
                 [
                     [
                         Paragraph("Date", style=extend_style(styles["rc-main-1"], alignment=TA_RIGHT)),
-                        None,
+                        Paragraph(self.data['order_date'], style=extend_style(styles["rc-main-1"], alignment=TA_CENTER)),
                         None,
                         None,
                     ],
@@ -210,13 +210,14 @@ class AAWPReport:
                     ("VALIGN", (3, 3), (3, 3), "TOP"),
                     ("VALIGN", (0, 0), (0, 2), "MIDDLE"),
                     # ("VALIGN", (0, 2), (3, 2), "BOTTOM"),
+                    ("VALIGN", (1, 0), (1, 0), 0.5, "TOP"),
                     ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
                     ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
                     ("LINEBELOW", (1, 2), (1, 2), 0.5, "black"),
                     ("LINEBELOW", (3, 2), (3, 2), 0.5, "black"),
                 ],
                 colWidths=(15 * mm, 50 * mm, 30 * mm, 68 * mm),
-                rowHeights=5.2 * mm
+                rowHeights=(7.2 * mm, 5.2 * mm, 5.2 * mm, 5.2 * mm)
             )
         )
         elems.append(Spacer(0, 6 * mm))
@@ -224,7 +225,7 @@ class AAWPReport:
         elems += [
             Paragraph(
                 "Each remitting agent is required to keep accurate records of all cases handled so that they may be inspected or audited at any time. For your information, please refer to 47-17-60 section of Georgia Laws on making remittances. Please note that there is a time limitation for making such remittances as set forth in the Section of Georgia Law referred to.",
-                extend_style(styles["rc-main"], leftIndent=5.3 * mm, rightIndent=5.4 * mm, fontSize=8)
+                extend_style(styles["rc-main-rmt"], leftIndent=5.3 * mm, rightIndent=5.4 * mm, fontSize=8)
             ),
         ]
         elems.append(Spacer(0, 8 * mm))
@@ -233,11 +234,11 @@ class AAWPReport:
             Table(
                 [
                     [
-                        Paragraph("This report should be mailed with your remittance to:", style=styles['rc-main']),
-                        Paragraph("Peace Officers' A & B Fund of Ga.<br/>P.O. Box 56<br/>Griffin, GA 30224", style=styles['rc-main'])
+                        Paragraph("This report should be mailed with your remittance to:", style=styles['rc-main-rmt']),
+                        Paragraph("Peace Officers' A & B Fund of Ga.<br/>P.O. Box 56<br/>Griffin, GA 30224", style=styles['rc-main-rmt'])
                     ],
                     [
-                        Paragraph("Form No. 701. - Revised July 1, 2004", style=styles['rc-main']), ""
+                        Paragraph("Form No. 701. - Revised July 1, 2004", style=styles['rc-main-rmt']), ""
                     ]
                 ],
                 rowHeights=15 * mm,
@@ -247,12 +248,12 @@ class AAWPReport:
         ]
         elems.append(Spacer(0, 8 * mm))
 
-        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %-I:%m %p')
+        timestamp = datetime.datetime.now().strftime('%m/%d/%Y %I:%m %p')
         elems += [
             Table(
                 [
                     [
-                        Paragraph("Printed on {}".format(timestamp), style=styles['rc-main'])
+                        Paragraph("Printed on {}".format(timestamp), style=styles['rc-main-rmt'])
                     ]
                 ],
                 rowHeights=5 * mm,

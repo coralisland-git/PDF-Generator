@@ -985,6 +985,19 @@ styles["il-citation-instructions-nt"] = ParagraphStyle(
 # START ROCKDALE COURT REPORT
 styles["rc-main"] = ParagraphStyle(
     "rc-main",
+    fontSize=10,
+    leading=14,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    alignment=TA_LEFT,
+    fontName="Times-Roman",
+)
+
+styles["rc-main-rmt"] = ParagraphStyle(
+    "rc-main-rmt",
     fontSize=8,
     leading=9,
     spaceBefore=0,
@@ -1009,6 +1022,16 @@ styles["rc-main-1"] = ParagraphStyle(
 )
 
 styles["rc-doc-header"] = ParagraphStyle(
+    "rc-doc-header",
+    parent=styles["rc-main"],
+    fontSize=12,
+    leading=13.5,
+    trailing=0,
+    fontName="Times-Bold",
+    alignment=TA_CENTER,
+)
+
+styles["rc-doc-header-rmt"] = ParagraphStyle(
     "rc-doc-header",
     parent=styles["rc-main"],
     fontSize=16,
@@ -1044,6 +1067,9 @@ styles["rc-aawp-main"] = ParagraphStyle(
 )
 styles["rc-fdo-main"] = ParagraphStyle(
     "rc-fdo-main", parent=styles["rc-main"], leading=11.5
+)
+styles["rc-rmt-main"] = ParagraphStyle(
+    "rc-rmt-main", parent=styles["rc-main-rmt"], leading=11.5
 )
 styles["rc-fdo-doc-header"] = ParagraphStyle(
     "rc-fdo-doc-header",
