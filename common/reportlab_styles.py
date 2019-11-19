@@ -1087,4 +1087,44 @@ styles["rc-main-table"] = TableStyle(
         ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
     ]
 )
+
+styles["rc-main-rmt"] = ParagraphStyle(
+    "rc-main-rmt",
+    fontSize=8,
+    leading=9,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    alignment=TA_LEFT,
+    fontName="Arial",
+)
+
+styles["rc-main-1"] = ParagraphStyle(
+    "rc-main-1",
+    fontSize=8,
+    leading=0,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    fontName="Arial",
+)
+
+styles["rc-doc-header-rmt"] = ParagraphStyle(
+    "rc-doc-header",
+    parent=styles["rc-main"],
+    fontSize=16,
+    leading=32.5,
+    leftIndent=7,
+    trailing=0,
+    fontName="Arial",
+    alignment=TA_LEFT,
+)
+
+styles["rc-rmt-main"] = ParagraphStyle(
+    "rc-rmt-main", parent=styles["rc-main-rmt"], leading=11.5
+)
 # END ROCKDALE COURT REPORT
