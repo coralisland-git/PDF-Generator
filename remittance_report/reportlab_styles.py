@@ -996,6 +996,31 @@ styles["rc-main"] = ParagraphStyle(
     fontName="Times-Roman",
 )
 
+styles["rc-main-rmt"] = ParagraphStyle(
+    "rc-main-rmt",
+    fontSize=8,
+    leading=9,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    alignment=TA_LEFT,
+    fontName="Arial",
+)
+
+styles["rc-main-1"] = ParagraphStyle(
+    "rc-main-1",
+    fontSize=8,
+    leading=0,
+    spaceBefore=0,
+    spaceAfter=0,
+    leftIndent=0,
+    rightIndent=0,
+    wordWrap=None,
+    fontName="Arial",
+)
+
 styles["rc-doc-header"] = ParagraphStyle(
     "rc-doc-header",
     parent=styles["rc-main"],
@@ -1004,6 +1029,17 @@ styles["rc-doc-header"] = ParagraphStyle(
     trailing=0,
     fontName="Times-Bold",
     alignment=TA_CENTER,
+)
+
+styles["rc-doc-header-rmt"] = ParagraphStyle(
+    "rc-doc-header",
+    parent=styles["rc-main"],
+    fontSize=16,
+    leading=32.5,
+    leftIndent=7,
+    trailing=0,
+    fontName="Arial",
+    alignment=TA_LEFT,
 )
 styles["rc-header"] = ParagraphStyle(
     "rc-main",
@@ -1031,6 +1067,9 @@ styles["rc-aawp-main"] = ParagraphStyle(
 )
 styles["rc-fdo-main"] = ParagraphStyle(
     "rc-fdo-main", parent=styles["rc-main"], leading=11.5
+)
+styles["rc-rmt-main"] = ParagraphStyle(
+    "rc-rmt-main", parent=styles["rc-main-rmt"], leading=11.5
 )
 styles["rc-fdo-doc-header"] = ParagraphStyle(
     "rc-fdo-doc-header",
