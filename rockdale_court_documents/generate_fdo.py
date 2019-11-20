@@ -1,4 +1,4 @@
-from reportlab_styles import styles, extend_style, extend_table_style
+from reportlab_styles import styles, extend_style, extend_table_style, SignatureDocTemplate, SignatureRect
 import cStringIO
 import io
 import datetime
@@ -94,7 +94,7 @@ class FDOReport:
                 topPadding=0,
             )
         ])
-        doc_t = BaseDocTemplate(
+        doc_t = SignatureDocTemplate(
             buff,
             pagesize=letter,
             title=self.title,
@@ -105,10 +105,12 @@ class FDOReport:
             bottomMargin=self.page_margin[1],
         )
         doc_t.addPageTemplates(page_t)
-        doc_t.build(story)
-
+        metadata = doc_t.build(story)
         buff.seek(0)
-        return buff
+        return {
+            "metadata": metadata,
+            "document": buff
+        }
 
     def _section_header(self):
         elems = list()
@@ -976,6 +978,7 @@ class FDOReport:
                 spaceAfter=1.5 * mm
             )
         )
+        signature_label = "Defendant's Attorney" if self.data["defendant_represented_by_attorney"] else "Defendant"
         elems.append(
             Table(
                 [
@@ -985,7 +988,7 @@ class FDOReport:
                         Paragraph("Self <b>OR </b>", ps),
                         XBox(6.7, True if self.data["defendant_represented_by_attorney"] else False),
                         Paragraph("Attorney at Law: ", ps),
-                        None
+                        SignatureRect(75 * mm, 3.8 * mm, label=signature_label, showBoundary=True)
                     ],
                 ],
                 style=extend_table_style(styles["rc-main-table"], [
@@ -1024,7 +1027,8 @@ class FDOReport:
                 hAlign="LEFT"
             )
         )
-        elems.append(Spacer(0, 8 * mm))
+        elems.append(Spacer(0, 1 * mm))
+        elems.append(SignatureRect(88 * mm, 7 * mm, label="Magistrate Judge", leftIndent=86 * mm, showBoundary=True))
         elems.append(
             Table(
                 [
@@ -1073,9 +1077,9 @@ class FDOReport:
                             [
                                 [
                                     None,
+                                    SignatureRect(65 * mm, 4.3 * mm, label="Defendant", showBoundary=True),
                                     None,
-                                    None,
-                                    None
+                                    SignatureRect(82 * mm, 4.3 * mm, label="Probation Officer/Supervisor", showBoundary=True)
                                 ],
                                 [
                                     None,

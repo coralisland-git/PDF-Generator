@@ -1,4 +1,6 @@
-from reportlab_styles import styles, extend_style, extend_table_style
+from reportlab_styles import (
+    styles, extend_style, extend_table_style, SignatureDocTemplate, SignatureRect, SignatureDatetimeRect
+)
 import cStringIO
 import io
 import datetime
@@ -76,7 +78,7 @@ class AAWPReport:
                 topPadding=0,
             )
         ])
-        doc_t = BaseDocTemplate(
+        doc_t = SignatureDocTemplate(
             buff,
             pagesize=letter,
             title=self.title,
@@ -87,10 +89,12 @@ class AAWPReport:
             bottomMargin=self.page_margin[1],
         )
         doc_t.addPageTemplates(page_t)
-        doc_t.build(story)
-
+        metadata = doc_t.build(story)
         buff.seek(0)
-        return buff
+        return {
+            "metadata": metadata,
+            "document": buff
+        }
 
     def _section_header(self):
         elems = list()
@@ -221,9 +225,10 @@ class AAWPReport:
                             [
                                 [
                                     Paragraph("<b>Defendant's Signature</b>", style=ps),
-                                    None,  # TODO signature field
+                                    SignatureRect(66 * mm, 5 * mm, label="Defendant", sig_id="DS-01",
+                                                  showBoundary=True),
                                     Paragraph("<b>Date</b>", style=ps_center),
-                                    None  # TODO signature date field
+                                    SignatureDatetimeRect(39 * mm, 5 * mm, sig_id="DS-01", showBoundary=True)
                                 ]
                             ],
                             style=extend_table_style(styles["rc-main-table"], [
@@ -443,11 +448,11 @@ class AAWPReport:
                 [
                     [
                         Paragraph("<b>Defendant's Signature</b>", style=styles["rc-aawp-main"]),
-                        None,  # TODO signature field
+                        SignatureRect(70 * mm, 4.8 * mm, label="Defendant", sig_id="DS-02", showBoundary=True),
                         None,
                         None,
                         Paragraph("<b>Date</b>", style=extend_style(styles["rc-aawp-main"], alignment=TA_CENTER)),
-                        None,  # TODO signature date field
+                        SignatureDatetimeRect(41 * mm, 4.8 * mm, sig_id="DS-02", showBoundary=True)
                     ],
                     [
                         Paragraph("<b>Defendant's Printed Name</b>", style=styles["rc-aawp-main"]),
@@ -459,11 +464,11 @@ class AAWPReport:
                     ],
                     [
                         Paragraph("<b>Defendant's Attorney Signature</b>", style=styles["rc-aawp-main"]),
-                        None,  # TODO signature field
                         None,
                         None,
+                        SignatureRect(52 * mm, 4.8 * mm, label="Defendant", sig_id="DAS-01", showBoundary=True),
                         Paragraph("<b>Date</b>", style=extend_style(styles["rc-aawp-main"], alignment=TA_CENTER)),
-                        None,  # TODO signature date field
+                        SignatureDatetimeRect(41 * mm, 4.8 * mm, sig_id="DAS-01", showBoundary=True)
                     ]
                 ],
                 style=extend_table_style(styles["rc-main-table"], [
@@ -528,7 +533,8 @@ class AAWPReport:
                 colWidths=(38 * mm, 10.5 * mm, 12.8 * mm, 28.5 * mm, 5.5 * mm, 7.3 * mm, 2 * mm, None)
             )
         )
-        elems.append(Spacer(0, 10 * mm))
+        elems.append(Spacer(0, 1 * mm))
+        elems.append(SignatureRect(98 * mm, 9 * mm, label="Magistrate Judge", leftIndent=66 * mm, showBoundary=True))
         elems.append(
             Table(
                 [
