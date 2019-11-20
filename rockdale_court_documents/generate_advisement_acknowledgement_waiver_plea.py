@@ -225,10 +225,9 @@ class AAWPReport:
                             [
                                 [
                                     Paragraph("<b>Defendant's Signature</b>", style=ps),
-                                    SignatureRect(66 * mm, 5 * mm, label="Defendant", sig_id="DS-01",
-                                                  showBoundary=True),
+                                    SignatureRect(66 * mm, 5 * mm, label="Defendant", sig_id="DS-01"),
                                     Paragraph("<b>Date</b>", style=ps_center),
-                                    SignatureDatetimeRect(39 * mm, 5 * mm, sig_id="DS-01", showBoundary=True)
+                                    SignatureDatetimeRect(39 * mm, 5 * mm, sig_id="DS-01")
                                 ]
                             ],
                             style=extend_table_style(styles["rc-main-table"], [
@@ -448,11 +447,11 @@ class AAWPReport:
                 [
                     [
                         Paragraph("<b>Defendant's Signature</b>", style=styles["rc-aawp-main"]),
-                        SignatureRect(70 * mm, 4.8 * mm, label="Defendant", sig_id="DS-02", showBoundary=True),
+                        SignatureRect(70 * mm, 4.8 * mm, label="Defendant", sig_id="DS-02"),
                         None,
                         None,
                         Paragraph("<b>Date</b>", style=extend_style(styles["rc-aawp-main"], alignment=TA_CENTER)),
-                        SignatureDatetimeRect(41 * mm, 4.8 * mm, sig_id="DS-02", showBoundary=True)
+                        SignatureDatetimeRect(41 * mm, 4.8 * mm, sig_id="DS-02")
                     ],
                     [
                         Paragraph("<b>Defendant's Printed Name</b>", style=styles["rc-aawp-main"]),
@@ -466,9 +465,9 @@ class AAWPReport:
                         Paragraph("<b>Defendant's Attorney Signature</b>", style=styles["rc-aawp-main"]),
                         None,
                         None,
-                        SignatureRect(52 * mm, 4.8 * mm, label="Defendant", sig_id="DAS-01", showBoundary=True),
+                        SignatureRect(52 * mm, 4.8 * mm, label="Defendant", sig_id="DAS-01"),
                         Paragraph("<b>Date</b>", style=extend_style(styles["rc-aawp-main"], alignment=TA_CENTER)),
-                        SignatureDatetimeRect(41 * mm, 4.8 * mm, sig_id="DAS-01", showBoundary=True)
+                        SignatureDatetimeRect(41 * mm, 4.8 * mm, sig_id="DAS-01")
                     ]
                 ],
                 style=extend_table_style(styles["rc-main-table"], [
@@ -534,7 +533,7 @@ class AAWPReport:
             )
         )
         elems.append(Spacer(0, 1 * mm))
-        elems.append(SignatureRect(98 * mm, 9 * mm, label="Magistrate Judge", leftIndent=66 * mm, showBoundary=True))
+        elems.append(SignatureRect(98 * mm, 9 * mm, label="Magistrate Judge", leftIndent=66 * mm))
         elems.append(
             Table(
                 [

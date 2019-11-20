@@ -988,7 +988,7 @@ class FDOReport:
                         Paragraph("Self <b>OR </b>", ps),
                         XBox(6.7, True if self.data["defendant_represented_by_attorney"] else False),
                         Paragraph("Attorney at Law: ", ps),
-                        SignatureRect(75 * mm, 3.8 * mm, label=signature_label, showBoundary=True)
+                        SignatureRect(75 * mm, 3.8 * mm, label=signature_label)
                     ],
                 ],
                 style=extend_table_style(styles["rc-main-table"], [
@@ -1028,7 +1028,7 @@ class FDOReport:
             )
         )
         elems.append(Spacer(0, 1 * mm))
-        elems.append(SignatureRect(88 * mm, 7 * mm, label="Magistrate Judge", leftIndent=86 * mm, showBoundary=True))
+        elems.append(SignatureRect(88 * mm, 7 * mm, label="Magistrate Judge", leftIndent=86 * mm))
         elems.append(
             Table(
                 [
@@ -1077,9 +1077,9 @@ class FDOReport:
                             [
                                 [
                                     None,
-                                    SignatureRect(65 * mm, 4.3 * mm, label="Defendant", showBoundary=True),
+                                    SignatureRect(65 * mm, 4.3 * mm, label="Defendant"),
                                     None,
-                                    SignatureRect(82 * mm, 4.3 * mm, label="Probation Officer/Supervisor", showBoundary=True)
+                                    SignatureRect(82 * mm, 4.3 * mm, label="Probation Officer/Supervisor")
                                 ],
                                 [
                                     None,
