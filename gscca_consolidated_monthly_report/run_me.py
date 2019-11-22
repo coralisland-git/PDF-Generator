@@ -8,7 +8,7 @@ from generate_gscca_consolidated_monthly_report import (
 if __name__ == "__main__":
     buff = generate_gscca_consolidated_monthly_report()
     with open(
-        os.path.expanduser("~/Desktop/generate_gscca_consolidated_monthly_report.pdf"),
+        os.path.expanduser("~/Desktop/gscca_consolidated_monthly_report.pdf"),
         "wb+",
     ) as output_file:
         shutil.copyfileobj(buff, output_file)
