@@ -1112,10 +1112,10 @@ class LocationRect(Flowable):
         self.coords = list()
 
     def _get_page_coords(self):
-        x_1 = self.canv._currentMatrix[4]
-        y_1 = self.canv._currentMatrix[5]
-        x_2 = x_1 + self.width
-        y_2 = y_1 + self.height
+        x_1 = int(self.canv._currentMatrix[4])
+        y_1 = int(self.canv._currentMatrix[5])
+        x_2 = int(x_1 + self.width)
+        y_2 = int(y_1 + self.height)
         # top_left, top_right, bottom_right, bottom_left
         return (x_1, y_2), (x_2, y_2), (x_2, y_1), (x_1, y_1)
 
