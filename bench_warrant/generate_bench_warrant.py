@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from reportlab_styles import styles, extend_style, extend_table_style
+from reportlab_styles import styles, extend_style, extend_table_style, SignatureDocTemplate, SignatureRect
 from reportlab.lib.enums import TA_RIGHT, TA_CENTER, TA_JUSTIFY
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, Table, BaseDocTemplate, PageTemplate, Frame, Spacer
+from reportlab.platypus import Paragraph, Table, PageTemplate, Frame, Spacer
 from reportlab.platypus.flowables import HRFlowable, PageBreak
 import datetime
 import io
@@ -53,7 +53,7 @@ class BenchWarrantReport:
                 topPadding=0,
             )
         ])
-        doc_t = BaseDocTemplate(
+        doc_t = SignatureDocTemplate(
             buff,
             pagesize=letter,
             title=self.title,
@@ -64,9 +64,12 @@ class BenchWarrantReport:
             bottomMargin=self.page_margin[1],
         )
         doc_t.addPageTemplates(page_t)
-        doc_t.build(story)
+        metadata = doc_t.build(story)
         buff.seek(0)
-        return buff
+        return {
+            "metadata": metadata,
+            "document": buff
+        }
 
     @staticmethod
     def _create_border_table(elems, width=None, border_outer=None, border_inner=None, padding=(0, 0)):
@@ -189,8 +192,7 @@ class BenchWarrantReport:
                 ),
                 extend_style(ps, firstLineIndent=13 * mm)
             ),
-            Spacer(0, 9 * mm),
-            # Signature
+            SignatureRect(59 * mm, 9 * mm, label="Magistrate Judge", leftIndent=85 * mm),
             HRFlowable(thickness=0.15 * mm, lineCap="butt", color="black", dash=[0, 84.75 * mm, 61 * mm]),
             Spacer(0, 2 * mm),
             Paragraph(
