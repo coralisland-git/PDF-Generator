@@ -131,11 +131,11 @@ def _create_main_table():
         ],
         [#2
             '', '',
-            Paragraph('(1)', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('(2)', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('(3)', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('(4)', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('(5)', style=extend_style(text_style, alignment=TA_CENTER))
+            Paragraph('<b>(1)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b>(2)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b>(3)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b>(4)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b>(5)</b>', style=extend_style(text_style, alignment=TA_CENTER))
         ],
         [#3
             '', '',
@@ -265,7 +265,7 @@ def _create_main_table():
         ],
 
         [#18
-            Paragraph('0.5', style=text_style),
+            Paragraph('5', style=text_style),
             Paragraph('<b>Driver Education and Training Fund</b> (OCGA 15-21-179)', style=text_style),
             Paragraph('', style=text_style),
             Paragraph('Full Payments', style=text_style),
@@ -386,7 +386,7 @@ def _create_main_table():
     table = Table(
         data,
         colWidths=(10*mm, 55*mm, None, 30*mm, 25*mm, 45*mm, None),
-        rowHeights=row_heights
+        rowHeights=_get_row_heights()
     )
     table.setStyle(extend_table_style(
         styles['iv-main-table'],
@@ -444,21 +444,31 @@ def _create_main_table():
 
             ('INNERGRID', (0,3), (-1,-1), 0.3, colors.black),
             ('LINEBELOW', (0,0), (6, 2), 0.3, colors.black),
-            ('LINEBELOW', (6,30), (6,30), 0.3, colors.black)
+            ('LINEBELOW', (6,30), (6,30), 0.3, colors.black),
+
+            ('LINEABOVE', (0,10), (6,10), 1, colors.black),
+            ('LINEABOVE', (0,13), (6,13), 1, colors.black),
+            ('LINEABOVE', (0,15), (6,15), 1, colors.black),
+            ('LINEABOVE', (0,18), (6,18), 1, colors.black),
+            ('LINEABOVE', (0,23), (6,23), 1, colors.black),
+            ('LINEABOVE', (0,27), (6,27), 1, colors.black),
+            ('LINEABOVE', (0,28), (6,28), 1, colors.black),
         ]
         )
     )
     return table
 
 
-row_heights = [ROW_HEIGHT] * 31
-row_heights[3] = 15 * mm
-row_heights[4] = 4 * mm
-row_heights[10] = 9 * mm
-row_heights[11] = 9 * mm
-row_heights[18] = 9 * mm
-row_heights[19] = 9 * mm
-row_heights[21] = 4 * mm
-row_heights[22] = 9 * mm
-row_heights[27] = 9 * mm
-row_heights[30] = 4 * mm
+def _get_row_heights():
+    row_heights = [ROW_HEIGHT] * 31
+    row_heights[3] = 15 * mm
+    row_heights[4] = 4 * mm
+    row_heights[10] = 9 * mm
+    row_heights[11] = 9 * mm
+    row_heights[18] = 9 * mm
+    row_heights[19] = 9 * mm
+    row_heights[21] = 4 * mm
+    row_heights[22] = 9 * mm
+    row_heights[27] = 9 * mm
+    row_heights[30] = 4 * mm
+    return row_heights
