@@ -3,7 +3,7 @@ import cStringIO
 import io
 import datetime
 import textwrap
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
+from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
 from reportlab.pdfbase.pdfmetrics import stringWidth
@@ -82,18 +82,21 @@ class FDOReport:
             for elem in elems:
                 story.append(elem)
 
-        page_t = PageTemplate('normal', [
-            Frame(
-                self.page_margin[0],
-                self.page_margin[1],
-                self.page_size[0] - self.page_margin[0] * 2,
-                self.page_size[1] - self.page_margin[1] * 2,
-                leftPadding=0,
-                bottomPadding=0,
-                rightPadding=0,
-                topPadding=0,
-            )
-        ])
+        page_t = PageTemplate(
+            'normal', [
+                Frame(
+                    self.page_margin[0],
+                    self.page_margin[1],
+                    self.page_size[0] - self.page_margin[0] * 2,
+                    self.page_size[1] - self.page_margin[1] * 2,
+                    leftPadding=0,
+                    bottomPadding=0,
+                    rightPadding=0,
+                    topPadding=0,
+                )
+            ],
+            onPage=self._page_footer
+        )
         doc_t = SignatureDocTemplate(
             buff,
             pagesize=letter,
@@ -111,6 +114,16 @@ class FDOReport:
             "metadata": metadata,
             "document": buff
         }
+
+    @staticmethod
+    def _page_footer(canv, doc):
+        dt = datetime.datetime.now().strftime("%m/%d/%Y %I:%M %p")
+        p = Paragraph(dt, style=extend_style(
+            styles["rc-fdo-main"],
+            alignment=TA_RIGHT,
+        ))
+        p_height = p.wrapOn(canv, doc.width, doc.height)[1]
+        p.drawOn(canv, doc.leftMargin, doc.bottomMargin - p_height)
 
     def _section_header(self):
         elems = list()
