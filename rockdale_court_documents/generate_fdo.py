@@ -7,7 +7,7 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT, TA_JUSTIFY
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
 from reportlab.pdfbase.pdfmetrics import stringWidth
-from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Flowable, Paragraph, Table, Spacer
+from reportlab.platypus import PageTemplate, Frame, Flowable, Paragraph, Table, Spacer
 
 
 def generate_fdo(pdf_dict, title=None, author=None):
@@ -450,7 +450,7 @@ class FDOReport:
                 Paragraph("$ %s" % citation["fine"], ps),
                 Paragraph("%s" % citation["community_service_hours"], ps),
                 Paragraph("%s" % citation["restitution"], ps),
-                Spacer(0, 8.2*mm)
+                Spacer(0, 8.2 * mm)
             ])
         elems.append(
             Table(
