@@ -30,7 +30,8 @@ def _create_story():
             "APPEARANCE BOND – CITY OF BROOKHAVEN – DEKALB COUNTY – STATE OF GEORGIA",
             style = extend_style(
                 styles["heading"],
-                fontName="Calibri-bold",
+                fontName="Arial-Bold",
+                fontSize=11,
                 spaceAfter=10
             )
         )
@@ -47,7 +48,7 @@ def _create_story():
             """.format("ANA MEDRANO-SORIA", "IVO FRANCISCO BAKOVIC GUZMAR"),
             style = extend_style(
                 styles["detail-mini"],
-                fontName="Calibri",
+                fontName="Arial",
                 leading=10.8
             )
         )
@@ -57,12 +58,11 @@ def _create_story():
         Paragraph("BOND TYPE: CASH",
                   style=extend_style(
                       styles["body"],
-                      fontName="Calibri-bold",
+                      fontName="Arial-Bold",
                       fontSize=11,
                       leading=13,
                       alignment=TA_CENTER,
-                      spaceBefore=10,
-                      spaceAfter=10
+                      spaceBefore=10
                   )
         )
     )
@@ -74,11 +74,11 @@ def _create_story():
         Paragraph("<u>CONDITIONS OF BOND</u>",
                   style=extend_style(
                       styles["body"],
-                      fontName="Calibri-bold",
+                      fontName="Arial-Bold",
                       fontSize=11,
                       leading=13,
                       alignment=TA_CENTER,
-                      spaceBefore=20,
+                      spaceBefore=10,
                       spaceAfter=15
                   )
         )
@@ -95,7 +95,7 @@ def _create_story():
             """,
             style = extend_style(
                 styles["detail-mini"],
-                fontName="Calibri",
+                fontName="Arial",
                 leading=10.8,
                 spaceBefore=10
             )
@@ -116,7 +116,7 @@ def _create_story():
             """,
             style=extend_style(
                 styles["body"],
-                fontName="Calibri-bold",
+                fontName="Arial-Bold",
                 fontSize=10,
                 leading=12,
                 spaceBefore=0,
@@ -138,14 +138,14 @@ def _create_footer():
         [
             Paragraph("ORIGINAL-COURT", style=extend_style(
                 styles["body"],
-                fontName="Calibri-bold",
+                fontName="Arial-Bold",
                 fontSize=10,
                 leading=13,
                 spaceBefore=10
             )),
             Paragraph("COPY-SURETY/DEFENDANT", style=extend_style(
                 styles["body"],
-                fontName="Calibri-bold",
+                fontName="Arial-Bold",
                 fontSize=10,
                 leading=13,
                 spaceBefore=10
@@ -168,44 +168,46 @@ def _create_footer():
 def _create_general_info_table():
     data = [
         [
-            Paragraph("", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8)),
+            Paragraph("", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8)),
             "",
-            Paragraph("CASH BOND may be applied to fine", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8))
+            Paragraph("CASH BOND may be applied to fine", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8))
         ],
         [
-            Paragraph("Principal (or) Surety’s Signature", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8)),
+            Paragraph("Principal (or) Surety’s Signature", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8)),
             "",
             Paragraph("<u>{}</u>-<u>{}</u>=<u>{}</u>".format("&nbsp;"*16, "&nbsp;"*24, "&nbsp;"*24),
-                      style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8))
+                      style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8))
         ],
         [
-            Paragraph("Current Street Address", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8)),
+            Paragraph("Current Street Address", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8)),
             "",
-            Paragraph("<b>OR</b>", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8))
+            Paragraph("<b>OR</b>", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8))
         ],
         [
-            Paragraph("Current City, State, Zip", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8)),
+            Paragraph("Current City, State, Zip", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8)),
             "",
             Paragraph("CASH BOND may be refunded to", style = extend_style(styles["detail-mini"], leading=10.8))
         ],
         [
-            Paragraph("Current Phone Number", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8)),
+            Paragraph("Current Phone Number", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8)),
             "",
             Paragraph("<u>{}</u>Surety OR<u>{}</u>Principal".format("&nbsp;"*10, "&nbsp;"*12),
-                      style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8))
+                      style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8))
         ],
         [
-            Paragraph("Signed and Acknowledged in the presence of:", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8)),
+            Paragraph("Signed and Acknowledged in the presence of:", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8)),
             "", ""
         ],
         [
-            Paragraph("City of Brookhaven Representative", style = extend_style(styles["detail-mini"], fontName="Calibri", leading=10.8)),
+            Paragraph("City of Brookhaven Representative", style = extend_style(styles["detail-mini"], fontName="Arial", leading=10.8)),
             "", ""
         ]
     ]
 
-
-    table = Table(data, rowHeights=[11*mm]*7)
+    row_heights=[11*mm]*6
+    row_heights[0] = 8*mm
+    row_heights.append(8*mm)
+    table = Table(data, colWidths=[190, 100, None], rowHeights=row_heights)
     table.setStyle(
         extend_table_style(
             styles['iv-main-table'],
@@ -237,7 +239,7 @@ def _get_bond_conditions():
                 """,
                 style=extend_style(
                     styles["detail-mini"],
-                    fontName="Calibri",
+                    fontName="Arial",
                     leading=10.8,
                     spaceAfter=10
                 )
@@ -252,7 +254,7 @@ def _get_bond_conditions():
                 """,
                 style=extend_style(
                     styles["detail-mini"],
-                    fontName="Calibri",
+                    fontName="Arial",
                     leading=10.8,
                     spaceAfter=10
                 )
@@ -269,7 +271,7 @@ def _get_bond_conditions():
                 """.format("3/28/2016", "1 PM", "100", "100"),
                 style=extend_style(
                     styles["detail-mini"],
-                    fontName="Calibri",
+                    fontName="Arial",
                     leading=10.8,
                     spaceAfter=10
                 )
@@ -285,13 +287,13 @@ def _get_bond_conditions():
                 """,
                 style=extend_style(
                     styles["detail-mini"],
-                    fontName="Calibri-bold",
+                    fontName="Arial-Bold",
                     leading=10.8
                 )
             )
         )
         ],
-        style=extend_list_style(bulletFontName="Calibri", bulletFontSize=9)
+        style=extend_list_style(bulletFontName="Arial", bulletFontSize=9)
     )
 
     data = [[list_]]
@@ -314,7 +316,7 @@ def _create_bond_type_table():
             Paragraph("DATE: <u><i><b>{}</b></i></u>".format("02-25-2016"),
                       style=extend_style(
                           styles["detail"],
-                          fontName="Calibri",
+                          fontName="Arial",
                           leading=12,
                           leftIndent=0,
                           rightIndent=0,
@@ -323,7 +325,7 @@ def _create_bond_type_table():
             Paragraph("BOND AMOUNT: $ <u><i><b>{}</b></i></u>".format("908.00"),
                       style=extend_style(
                           styles["detail"],
-                          fontName="Calibri",
+                          fontName="Arial",
                           leading=12,
                           leftIndent=0,
                           rightIndent=0,
@@ -334,7 +336,7 @@ def _create_bond_type_table():
             Paragraph("CHARGES: <u><i><b>{}</b></i></u>".format("NO LICENSE & CROSSWALKS"),
                       style=extend_style(
                           styles["detail"],
-                          fontName="Calibri",
+                          fontName="Arial",
                           leading=12,
                           leftIndent=0,
                           rightIndent=0,
@@ -343,7 +345,7 @@ def _create_bond_type_table():
             Paragraph("CASE/CITATION No. (s) <u><i><b>{}</b></i></u>".format("E25670 & E25672"),
                       style=extend_style(
                           styles["detail"],
-                          fontName="Calibri",
+                          fontName="Arial",
                           leading=12,
                           leftIndent=0,
                           rightIndent=0,
@@ -352,13 +354,7 @@ def _create_bond_type_table():
         ]
     ]
 
-    table = Table(data, rowHeights=[10*mm, 10*mm])
-    table.setStyle(
-        extend_table_style(
-            styles['iv-main-table'],
-            [
-            ]
-        )
-    )
+    table = Table(data, spaceBefore=0, rowHeights=[7*mm, 10*mm])
+    table.setStyle(styles['iv-main-table'])
 
     return table
