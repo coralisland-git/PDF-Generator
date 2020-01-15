@@ -9,7 +9,7 @@ if __name__ == "__main__":
     from sample_data import retirement_fund_remittance_form_data
 
     with open(
-        os.path.expanduser("~/Desktop/retirement_fund_remittance_form.pdf"), "wb+"
+        os.path.expanduser("retirement_fund_remittance_form.pdf"), "wb+"
     ) as output_file:
         shutil.copyfileobj(
             generate_retirement_fund_remittance_form(
