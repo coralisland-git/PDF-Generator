@@ -154,7 +154,7 @@ class CNReport:
         )
         elems.append(
             Paragraph(
-                "-----------------------------------------------------------------------------------------------------",
+                "-" * 102,
                 extend_style(styles["rc-aawp-main-content"], leading=15)
             )
         )
