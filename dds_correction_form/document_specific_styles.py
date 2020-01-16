@@ -8,23 +8,23 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import TableStyle
 
 registerFont(
-    TTFont("Arial", os.path.join(os.getcwd(), "fonts", "arial.ttf"))
+    TTFont("LiberationSans", os.path.join(os.getcwd(), "fonts", "LiberationSans-Regular.ttf"))
 )
 registerFont(
-    TTFont("Arial-Bold", os.path.join(os.getcwd(), "fonts", "arialbd.ttf"))
+    TTFont("LiberationSans-Bold", os.path.join(os.getcwd(), "fonts", "LiberationSans-Bold.ttf"))
 )
 registerFont(
-    TTFont("Arial-Italic", os.path.join(os.getcwd(), "fonts", "ariali.ttf"))
+    TTFont("LiberationSans-Italic", os.path.join(os.getcwd(), "fonts", "LiberationSans-Italic.ttf"))
 )
 registerFont(
-    TTFont("Arial-BoldItalic", os.path.join(os.getcwd(), "fonts", "arialbi.ttf"))
+    TTFont("LiberationSans-BoldItalic", os.path.join(os.getcwd(), "fonts", "LiberationSans-BoldItalic.ttf"))
 )
 registerFontFamily(
-    "Arial",
-    normal="Arial",
-    bold="Arial-Bold",
-    italic="Arial-Italic",
-    boldItalic="Arial-BoldItalic",
+    "LiberationSans",
+    normal="LiberationSans",
+    bold="LiberationSans-Bold",
+    italic="LiberationSans-Italic",
+    boldItalic="LiberationSans-BoldItalic",
 )
 
 styles = dict()
@@ -39,7 +39,7 @@ styles["main"] = ParagraphStyle(
     rightIndent=0,
     wordWrap=None,
     alignment=TA_LEFT,
-    fontName="Arial",
+    fontName="LiberationSans",
 )
 styles["doc-header"] = ParagraphStyle(
     "doc-header",
