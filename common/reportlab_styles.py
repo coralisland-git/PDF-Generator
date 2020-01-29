@@ -78,25 +78,45 @@ pdfmetrics.registerFont(
 pdfmetrics.registerFont(
     TTFont(
         "LiberationSerif",
-        os.path.join(os.getcwd(), "fonts", "LiberationSerif-Regular.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LiberationSerif-Regular.ttf",
+        ),
     )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LiberationSerif-Bold",
-        os.path.join(os.getcwd(), "fonts", "LiberationSerif-Bold.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LiberationSerif-Bold.ttf",
+        ),
     )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LiberationSerif-Italic",
-        os.path.join(os.getcwd(), "fonts", "LiberationSerif-Italic.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LiberationSerif-Italic.ttf",
+        ),
     )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LiberationSerif-BoldItalic",
-        os.path.join(os.getcwd(), "fonts", "LiberationSerif-BoldItalic.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LiberationSerif-BoldItalic.ttf",
+        ),
     )
 )
 
@@ -875,12 +895,25 @@ class RotatedPara(Paragraph):
 
 # START ILLINOIS CITATION REPORT
 pdfmetrics.registerFont(
-    TTFont("LucidaType", os.path.join(os.getcwd(), "fonts", "LucidaSansTypewriter.ttf"))
+    TTFont(
+        "LucidaType",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LucidaSansTypewriter.ttf",
+        ),
+    )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LucidaType-Bold",
-        os.path.join(os.getcwd(), "fonts", "LucidaSansTypewriter-Bold.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LucidaSansTypewriter-Bold.ttf",
+        ),
     )
 )
 pdfmetrics.registerFontFamily("LucidaType", normal="LucidaType", bold="LucidaType-Bold")
