@@ -1,4 +1,6 @@
-from reportlab_styles import *
+from reportlab.lib import colors
+from reportlab.platypus import BaseDocTemplate
+from reportlab.platypus.flowables import Flowable
 
 
 class SignatureDocTemplate(BaseDocTemplate):
@@ -31,12 +33,12 @@ class SignatureDocTemplate(BaseDocTemplate):
         return self.metadata
 
 
-class LocationRect(flowables.Flowable):
+class LocationRect(Flowable):
     _fixedWidth = 1
     _fixedHeight = 1
 
     def __init__(self, width, height, leftIndent=0, spaceBefore=0, showBoundary=False):
-        flowables.Flowable.__init__(self)
+        Flowable.__init__(self)
         self.width = width
         self.height = height
         self.leftIndent = leftIndent
@@ -45,11 +47,12 @@ class LocationRect(flowables.Flowable):
         self.coords = {}
 
     def _get_page_coords(self):
-        shift_above_signing_line = 0.5 * mm
+        shift_above_signing_line = min(self.height * 0.1, 3)
         x_1 = int(self.canv._currentMatrix[4])
-        y_1 = int(self.canv._currentMatrix[5] + shift_above_signing_line)
+        y_1 = int(self.canv._currentMatrix[5])
         x_2 = int(x_1 + self.width)
         y_2 = int(y_1 + self.height)
+        y_1 += int(shift_above_signing_line)
         # top_left, top_right, bottom_right, bottom_left
         # (x_1, y_2), (x_2, y_2), (x_2, y_1), (x_1, y_1)
         return {
