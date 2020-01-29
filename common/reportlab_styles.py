@@ -41,16 +41,39 @@ from reportlab.platypus import Paragraph, Table, flowables
 from reportlab.pdfbase.pdfmetrics import registerFontFamily, stringWidth
 
 pdfmetrics.registerFont(
-    TTFont("Arial", os.path.join(os.getcwd(), "fonts", "arial.ttf"))
+    TTFont(
+        "Arial",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "common", "fonts", "arial.ttf"
+        ),
+    )
 )
 pdfmetrics.registerFont(
-    TTFont("Arial-Bold", os.path.join(os.getcwd(), "fonts", "arialbd.ttf"))
+    TTFont(
+        "Arial-Bold",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "common", "fonts", "arialbd.ttf"
+        ),
+    )
 )
 pdfmetrics.registerFont(
-    TTFont("Arial-Narrow", os.path.join(os.getcwd(), "fonts", "arialn.ttf"))
+    TTFont(
+        "Arial-Narrow",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "common", "fonts", "arialn.ttf"
+        ),
+    )
 )
 pdfmetrics.registerFont(
-    TTFont("Arial-Narrow-Bold", os.path.join(os.getcwd(), "fonts", "arialnbd.ttf"))
+    TTFont(
+        "Arial-Narrow-Bold",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "arialnbd.ttf",
+        ),
+    )
 )
 pdfmetrics.registerFont(
     TTFont(
