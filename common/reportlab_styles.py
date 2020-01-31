@@ -41,39 +41,82 @@ from reportlab.platypus import Paragraph, Table, flowables
 from reportlab.pdfbase.pdfmetrics import registerFontFamily, stringWidth
 
 pdfmetrics.registerFont(
-    TTFont("Arial", os.path.join(os.getcwd(), "fonts", "arial.ttf"))
+    TTFont(
+        "Arial",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "common", "fonts", "arial.ttf"
+        ),
+    )
 )
 pdfmetrics.registerFont(
-    TTFont("Arial-Bold", os.path.join(os.getcwd(), "fonts", "arialbd.ttf"))
+    TTFont(
+        "Arial-Bold",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "common", "fonts", "arialbd.ttf"
+        ),
+    )
 )
 pdfmetrics.registerFont(
-    TTFont("Arial-Narrow", os.path.join(os.getcwd(), "fonts", "arialn.ttf"))
+    TTFont(
+        "Arial-Narrow",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "common", "fonts", "arialn.ttf"
+        ),
+    )
 )
 pdfmetrics.registerFont(
-    TTFont("Arial-Narrow-Bold", os.path.join(os.getcwd(), "fonts", "arialnbd.ttf"))
+    TTFont(
+        "Arial-Narrow-Bold",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "arialnbd.ttf",
+        ),
+    )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LiberationSerif",
-        os.path.join(os.getcwd(), "fonts", "LiberationSerif-Regular.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LiberationSerif-Regular.ttf",
+        ),
     )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LiberationSerif-Bold",
-        os.path.join(os.getcwd(), "fonts", "LiberationSerif-Bold.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LiberationSerif-Bold.ttf",
+        ),
     )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LiberationSerif-Italic",
-        os.path.join(os.getcwd(), "fonts", "LiberationSerif-Italic.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LiberationSerif-Italic.ttf",
+        ),
     )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LiberationSerif-BoldItalic",
-        os.path.join(os.getcwd(), "fonts", "LiberationSerif-BoldItalic.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LiberationSerif-BoldItalic.ttf",
+        ),
     )
 )
 
@@ -852,12 +895,25 @@ class RotatedPara(Paragraph):
 
 # START ILLINOIS CITATION REPORT
 pdfmetrics.registerFont(
-    TTFont("LucidaType", os.path.join(os.getcwd(), "fonts", "LucidaSansTypewriter.ttf"))
+    TTFont(
+        "LucidaType",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LucidaSansTypewriter.ttf",
+        ),
+    )
 )
 pdfmetrics.registerFont(
     TTFont(
         "LucidaType-Bold",
-        os.path.join(os.getcwd(), "fonts", "LucidaSansTypewriter-Bold.ttf"),
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "common",
+            "fonts",
+            "LucidaSansTypewriter-Bold.ttf",
+        ),
     )
 )
 pdfmetrics.registerFontFamily("LucidaType", normal="LucidaType", bold="LucidaType-Bold")
