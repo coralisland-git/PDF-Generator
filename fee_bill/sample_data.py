@@ -1,0 +1,61 @@
+fee_bill_data = {
+    "clerk": "MYAP",
+    "inst_type": "UNLAWFUL USE OF WIRELESS DEVICE-1ST",
+    "paid_by": "ALEXI SKACHKOV",
+    "trans_id": "70696",
+    "posting_date": "07/18/2019 12:43 PM",
+    "report_date": "07/18/2019",
+    "type": "MUNICIPAL",
+    "case_number": "E65336",
+    "comment": "UNLAWFUL USE OF WIRELESS DEVICE-1ST - Approval Code 024019",
+    "name": "BIBIANO CRUZ, GILDARDO",
+    "line_items": [
+        {
+            "description": "Base Fine",
+            "fee": "82.05",
+            "payment": "",
+        },
+        {
+            "description": "Police Off Annuity",
+            "fee": "5.00",
+            "payment": "",
+        },
+        {
+            "description": "POPIDF-A",
+            "fee": "8.66",
+            "payment": "",
+        },
+        {
+            "description": "POPIDF-B",
+            "fee": "8.66",
+            "payment": "",
+        },
+        {
+            "description": "Local Vic Asst Prg",
+            "fee": "4.33",
+            "payment": "",
+        },
+        {
+            "description": "Processing Fee",
+            "fee": "40.00",
+            "payment": "",
+        },
+        {
+            "description": "Dr Edu Train (1.5%)",
+            "fee": "1.30",
+            "payment": "",
+        },
+        {
+            "description": "Credit Card",
+            "fee": "",
+            "payment": "100.00",
+        },
+    ],
+    "beginning_balance": "0.00",
+    "total_charges": "150.00",
+    "total_payments": "0.00",
+    "change": "0.00",
+    "ending_balance": "150.00",
+    "all_balance": "150.00",
+    "next_payment_due": "07/18/19",
+}
