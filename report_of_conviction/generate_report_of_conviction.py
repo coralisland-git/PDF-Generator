@@ -84,7 +84,7 @@ class ROCReport:
                 [
                     [
                         Paragraph("Name &nbsp; <u>TAMICA SHEREE JOHNSON"+"&nbsp;"*41+"</u>", styles["rc-tdwp-main"]),
-                        Paragraph("Operator I Drivers License Number / Class &nbsp; <u>060274748 / C"+"&nbsp;"*24+"</u>", styles["rc-tdwp-main"])
+                        Paragraph("Operator / Drivers License Number / Class &nbsp; <u>060274748 / C"+"&nbsp;"*24+"</u>", styles["rc-tdwp-main"])
                     ],
                     [
                         Paragraph("Street Address &nbsp; <u>2086 GRAMERCY CIR"+"&nbsp;"*38+"</u>", styles["rc-tdwp-main"]),
@@ -133,7 +133,7 @@ class ROCReport:
                         None
                     ],
                     [
-                        Paragraph("Hazardous Materials Violatioin / Placard(s)", styles["rc-tdwp-main-chk"]),
+                        Paragraph("Hazardous Materials Violation / Placard(s)", styles["rc-tdwp-main-chk"]),
                         XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None,
