@@ -6,7 +6,7 @@ from document_specific_styles import *
 from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Flowable, Paragraph, Table, Spacer
 
 
-def generate_report_of_conviction(title=None, author=None):
+def report_of_conviction(title=None, author=None):
     cr =ROCReport(title, author)
     buff = cStringIO.StringIO()
     return cr.create_report(buff)
@@ -104,51 +104,51 @@ class ROCReport:
                 [
                     [
                         Paragraph("Commercial Driver?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None,
                         Paragraph("License Attached?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("Lost License Affidavit", styles["rc-tdwp-main-chk"]),
                     ],
                     [
                         Paragraph("Commercial Vehicle?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None,
                         Paragraph("Involved in an Accident?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None
                     ],
                     [
                         Paragraph("16+ Passengers?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None,
                         Paragraph("If Accident, Injuries?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None
                     ],
                     [
                         Paragraph("Hazardous Materials Violatioin / Placard(s)", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None,
                         Paragraph("If Accident, Fatality?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None
                     ],
                     [
                         Paragraph("Interlock Device Ordered?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None,
                         Paragraph("2-Lane Road?", styles["rc-tdwp-main-chk"]),
-                        XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                        XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                         XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                         None
                     ]
@@ -235,12 +235,12 @@ class ROCReport:
                                         [
                                             [
                                                 Paragraph("Zero Points Court Order Issued per 0.C.G.A. 40-5-57(c)(1)(C)?", styles["rc-tdwp-main-chk"]),
-                                                XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                                                XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                                                 XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                                             ],
                                             [
                                                 Paragraph("License Suspension Court Ordered as a Condition of Probation?", styles["rc-tdwp-main-chk"]),
-                                                XBox(9), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
+                                                XBox(9, True), Paragraph("Yes", styles["rc-tdwp-main-chk"]),
                                                 XBox(9), Paragraph("No", styles["rc-tdwp-main-chk"]),
                                             ],
                                             []
