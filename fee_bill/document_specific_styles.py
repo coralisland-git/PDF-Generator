@@ -1,23 +1,25 @@
+import common
 from common.reportlab_styles import extend_style, extend_table_style
 import os
-from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.enums import TA_LEFT, TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import TableStyle
 
+font_dir = os.path.dirname(common.__file__)
 registerFont(
-    TTFont("LiberationSans", os.path.join(os.getcwd(), "fonts", "LiberationSans-Regular.ttf"))
+    TTFont("LiberationSans", os.path.join(font_dir, "fonts", "LiberationSans-Regular.ttf"))
 )
 registerFont(
-    TTFont("LiberationSans-Bold", os.path.join(os.getcwd(), "fonts", "LiberationSans-Bold.ttf"))
+    TTFont("LiberationSans-Bold", os.path.join(font_dir, "fonts", "LiberationSans-Bold.ttf"))
 )
 registerFont(
-    TTFont("LiberationSans-Italic", os.path.join(os.getcwd(), "fonts", "LiberationSans-Italic.ttf"))
+    TTFont("LiberationSans-Italic", os.path.join(font_dir, "fonts", "LiberationSans-Italic.ttf"))
 )
 registerFont(
-    TTFont("LiberationSans-BoldItalic", os.path.join(os.getcwd(), "fonts", "LiberationSans-BoldItalic.ttf"))
+    TTFont("LiberationSans-BoldItalic", os.path.join(font_dir, "fonts", "LiberationSans-BoldItalic.ttf"))
 )
 registerFontFamily(
     "LiberationSans",
@@ -30,8 +32,8 @@ registerFontFamily(
 styles = dict()
 styles["main"] = ParagraphStyle(
     "main",
-    fontSize=12,
-    leading=14,
+    fontSize=9.75,
+    leading=11.5,
     trailing=0,
     spaceBefore=0,
     spaceAfter=0,
@@ -44,28 +46,29 @@ styles["main"] = ParagraphStyle(
 styles["doc-header"] = ParagraphStyle(
     "doc-header",
     parent=styles["main"],
-    fontSize=16,
-    leading=18.5,
-    textColor="white",
+    fontSize=11.75,
+    leading=14,
+    alignment=TA_CENTER,
 )
 styles["field-label"] = ParagraphStyle(
     "field-label",
     parent=styles["main"],
+    fontName="LiberationSans-Bold",
 )
 styles["field-value"] = ParagraphStyle(
     "field-value",
     parent=styles["main"],
 )
 styles["main-table"] = TableStyle([
+    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
     ("LEFTPADDING", (0, 0), (-1, -1), 0),
     ("RIGHTPADDING", (0, 0), (-1, -1), 0),
     ("TOPPADDING", (0, 0), (-1, -1), 0),
     ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
 ])
 styles["section-table"] = TableStyle([
-    ("OUTLINE", (0, 0), (-1, -1), 0.8 * mm, "black", "projecting"),
-    ("LEFTPADDING", (0, 0), (-1, -1), 3 * mm),
-    ("RIGHTPADDING", (0, 0), (-1, -1), 3 * mm),
-    ("TOPPADDING", (0, 0), (-1, -1), 1.4 * mm),
-    ("BOTTOMPADDING", (0, 0), (-1, -1), 4 * mm),
+    ("LEFTPADDING", (0, 0), (-1, -1), 1 * mm),
+    ("RIGHTPADDING", (0, 0), (-1, -1), 1 * mm),
+    ("TOPPADDING", (0, 0), (-1, -1), 0.5 * mm),
+    ("BOTTOMPADDING", (0, 0), (-1, -1), 0.5 * mm),
 ])
