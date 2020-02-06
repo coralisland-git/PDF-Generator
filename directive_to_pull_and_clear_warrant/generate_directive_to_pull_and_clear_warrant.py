@@ -5,7 +5,7 @@ from reportlab.platypus.flowables import HRFlowable, PageBreak
 from document_specific_styles import *
 
 
-def directive_to_pull_and_clear_warrant(title=None, author=None):
+def generate_directive_to_pull_and_clear_warrant(title=None, author=None):
     cr = DPCWReport(title, author)
     buff = cStringIO.StringIO()
     return cr.create_report(buff)
