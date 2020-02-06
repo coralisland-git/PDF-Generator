@@ -1,9 +1,7 @@
 import os
 import shutil
 
-from generate_directive_to_pull_and_clear_warrant import (
-    generate_directive_to_pull_and_clear_warrant,
-)
+from generate_directive_to_pull_and_clear_warrant import generate_directive_to_pull_and_clear_warrant
 
 if __name__ == "__main__":
     buff = generate_directive_to_pull_and_clear_warrant()
