@@ -64,6 +64,14 @@ pdfmetrics.registerFont(
         ),
     )
 )
+pdfmetrics.registerFont(    
+    TTFont(
+        "Arial-Italic",
+        os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "common", "fonts", "arialit.ttf"
+        ),
+    )
+)
 pdfmetrics.registerFont(
     TTFont(
         "Arial-Narrow-Bold",
