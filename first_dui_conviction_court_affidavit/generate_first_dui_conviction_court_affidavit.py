@@ -155,7 +155,7 @@ class FDCCAReport:
                         None
                     ],
                     [
-                        Paragraph("Date of Violation", styles["rc-aawp-main-content"]), None,
+                        Paragraph("Driver's License Number", styles["rc-aawp-main-content"]), None,
                         Paragraph("Class", styles["rc-aawp-main-content"]), None,
                         Paragraph("Expiration Date", styles["rc-aawp-main-content"]), None,
                         Paragraph("Restrictions", styles["rc-aawp-main-content"])
