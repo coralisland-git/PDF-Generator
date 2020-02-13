@@ -122,7 +122,7 @@ class NORReport:
             ),
             Paragraph(
                 """
-                YOU ARE HEREBY ORDERED to surrender any learner's, operator's, chauffeur's, and or veteran's license in your possession 
+                YOU ARE HEREBY ORDERED to surrender any learner's, operator's, chauffeur's, and / or veteran's license in your possession 
                 and particularly the below numbered license(s), to the clerk of this court to be forwarded to the Department of 
                 Driver Services, P.O. Box 80447, Conyers, Georgia 30013.
                 """,
@@ -142,7 +142,7 @@ class NORReport:
                     ],
                     [
                         None, None, None,
-                        Paragraph("Signature of License", styles["rc-aawp-main-content-tb"]), None
+                        Paragraph("Signature of Licensee", styles["rc-aawp-main-content-tb"]), None
                     ]
                 ],
                 style=extend_table_style(styles["rc-main-table"], [
