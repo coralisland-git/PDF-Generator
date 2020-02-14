@@ -93,7 +93,7 @@ class ORFReport:
             ),
             Paragraph("<b>ALLEGED OFFENSE:</b>", styles["rc-aawp-main-content"]),
             Paragraph("_"*6+" PARKING TICKET (OFFENSE CITED) "+"_"*37, styles["rc-aawp-main-content"]),
-            Paragraph("_"*6+" INTERSECTION SAFETY VIOLATIONS (PHOTO-ENFORCED", styles["rc-aawp-main-content"]),
+            Paragraph("_"*6+" INTERSECTION SAFETY VIOLATIONS (PHOTO-ENFORCED)", styles["rc-aawp-main-content"]),
             Paragraph("_"*6+" UNIFORM TRAFFIC CITATION (OFFENSE CITED) "+"_"*27, styles["rc-aawp-main-content"]),
             Paragraph("_"*6+" CODE ENFORCEMENT OFFICER (OFFENSE CITED) "+"_"*25, styles["rc-aawp-main-content"]),
             Paragraph("OFFENSE DATE: "+"_"*24+" TIME: "+"_"*31, styles["rc-aawp-main-content"]),
