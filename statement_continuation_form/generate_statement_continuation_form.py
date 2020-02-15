@@ -11,7 +11,7 @@ def generate_statement_continuation_form():
     return cr.create_report(buff)
 
 
-class SCFReport:
+class ORFReport:
     def __init__(self, title=None, author=None):
         self.page_size = letter
         self.page_margin = (12.4 * mm, 5.4 * mm)
@@ -70,13 +70,13 @@ class SCFReport:
             Table(
                 [
                     [
-                        Image('brookhaven.jpg', 19 * mm, 27 * mm),
+                        Image('brookhaven_police.jpg', 19 * mm, 27 * mm),
                         Table(
                             [
                                 [
                                     Paragraph(
                                         "BROOKHAVEN POLICE DEPARTMENT",
-                                        extend_style(styles["rc-doc-header-scf"]),
+                                        styles["rc-doc-header-scf"],
                                     ),
                                 ],
                                 [
@@ -86,8 +86,7 @@ class SCFReport:
                                     )
                                 ]
                             ],
-                            style=extend_table_style(styles["rc-main-table"], [                              
-                            ])
+                            style=styles["rc-main-table"]
                         )
                     ]
                 ],
@@ -105,7 +104,7 @@ class SCFReport:
         ]
         for idx in range(0, 22):
             elems.append(
-                Paragraph("_"*98, extend_style(styles["rc-aawp-main-content"])),
+                Paragraph("_"*103, styles["rc-aawp-main-content"]),
             )
         elems +=[
             Spacer(0, 12.8 * mm),
@@ -114,12 +113,12 @@ class SCFReport:
                     [
                         Paragraph(
                             "PERSON MAKING STATEMENT SIGNATURE",
-                            extend_style(styles["rc-aawp-main-content-tb"]),
+                            styles["rc-aawp-main-content-tb"],
                         ),
                         None,
                         Paragraph(
                             "TODAY'S DATE & TIME",
-                            extend_style(styles["rc-aawp-main-content-tb"]),
+                            styles["rc-aawp-main-content-tb"],
                         ),
                         None
                     ]
@@ -129,7 +128,7 @@ class SCFReport:
                     ("LINEABOVE", (2, 0), (2, 0), 0.1, "black"),
                     ("LEFTPADDING", (0, 0), ( -1, -1), 1.6 * mm )
                 ]),
-                colWidths=(80*mm, 12*mm, 70*mm, 28*mm)
+                colWidths=(76*mm, 10*mm, 68*mm, 36*mm)
             ),
             Spacer(0, 6.4 * mm),
             Table(
@@ -137,15 +136,15 @@ class SCFReport:
                     [
                         Paragraph(
                             "OFFICER'S SIGNATURE",
-                            extend_style(styles["rc-aawp-main-content-tb"]),
+                            styles["rc-aawp-main-content-tb"],
                         ), None,
                         Paragraph(
                             "BADGE #",
-                            extend_style(styles["rc-aawp-main-content-tb"]),
+                            styles["rc-aawp-main-content-tb"],
                         ), None,
                         Paragraph(
                             "CASE NUMBER",
-                            extend_style(styles["rc-aawp-main-content-tb"]),
+                            styles["rc-aawp-main-content-tb"],
                         ), None                 
                     ]
                 ],
@@ -155,9 +154,8 @@ class SCFReport:
                     ("LINEABOVE", (4, 0), (4, 0), 0.1, "black"),
                     ("LEFTPADDING", (0, 0), ( -1, -1), 1.6 * mm )
                 ]),
-                colWidths=(55*mm, 5*mm, 52*mm, 5*mm, 60*mm, 13*mm)
+                colWidths=(55*mm, 5*mm, 48*mm, 5*mm, 60*mm, 17*mm)
             )
         ]
         
         return elems
-
