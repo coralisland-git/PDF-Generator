@@ -14,7 +14,7 @@ def generate_statement_continuation_form():
 class ORFReport:
     def __init__(self, title=None, author=None):
         self.page_size = letter
-        self.page_margin = (12.4 * mm, 5.4 * mm)
+        self.page_margin = (12.4 * mm, 12.4 * mm)
         self.sections = ["content"]
         self.title = title
         self.author = author
@@ -70,7 +70,7 @@ class ORFReport:
             Table(
                 [
                     [
-                        Image('brookhaven_police.jpg', 19 * mm, 27 * mm),
+                        Image('brookhaven.jpg', 42 * mm, 15 * mm),
                         Table(
                             [
                                 [
@@ -93,8 +93,8 @@ class ORFReport:
                 style=extend_table_style(styles["rc-main-table"], [
                     ("ALIGN", (0, 0), (0, 0), "RIGHT"),
                     ("RIGHTPADDING", (0, 0), ( 0, 0), 7 * mm )
-                ]),
-                colWidths=(46*mm, 134*mm)
+                ]),                
+                colWidths=(48*mm, 132*mm)
             ),
             Spacer(0, .8 * mm),
             Paragraph(
