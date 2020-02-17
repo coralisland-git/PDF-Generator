@@ -102,11 +102,24 @@ class ORFReport:
                 extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER, spaceBefore=20, leftIndent=22),
             )
         ]
+        table_lines = []
+        table_styles = []
         for idx in range(0, 22):
-            elems.append(
-                Paragraph("_"*103, styles["rc-aawp-main-content"]),
+            table_lines.append(
+                [Paragraph(
+                    "This is test data",
+                    styles["rc-aawp-main-content-tb"],
+                )],
+            )
+            table_styles.append(
+                ("LINEBELOW", (0, idx), (0, idx), 0.1, "black")
             )
         elems +=[
+            Table(
+                table_lines,
+                style=extend_table_style(styles["rc-main-table"], table_styles),
+                rowHeights=8.1*mm
+            ),
             Spacer(0, 12.8 * mm),
             Table(
                 [
