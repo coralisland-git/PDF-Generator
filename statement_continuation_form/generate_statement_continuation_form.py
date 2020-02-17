@@ -6,7 +6,7 @@ from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER, TA_RIGHT
 
 
 def generate_statement_continuation_form():
-    cr = SCFReport()
+    cr = ORFReport()
     buff = cStringIO.StringIO()
     return cr.create_report(buff)
 
