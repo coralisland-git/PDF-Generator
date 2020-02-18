@@ -3,9 +3,9 @@ import cStringIO
 from document_specific_styles import *
 from common.signatures import *
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER, TA_RIGHT
+from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Flowable, Paragraph, Table, Spacer
 
-
-def generate_statement_continuation_form():
+def generate_officer_recommendation_form():
     cr = ORFReport()
     buff = cStringIO.StringIO()
     return cr.create_report(buff)
@@ -93,8 +93,8 @@ class ORFReport:
                 style=extend_table_style(styles["rc-main-table"], [
                     ("ALIGN", (0, 0), (0, 0), "RIGHT"),
                     ("RIGHTPADDING", (0, 0), ( 0, 0), 7 * mm )
-                ]),                
-                colWidths=(48*mm, 132*mm)
+                ]),
+                colWidths=(48*mm, 130*mm)
             ),
             Spacer(0, .8 * mm),
             Paragraph(
@@ -102,73 +102,77 @@ class ORFReport:
                 extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER, spaceBefore=20, leftIndent=22),
             )
         ]
-        table_lines = []
-        table_styles = []
-        for idx in range(0, 22):
-            table_lines.append(
-                [Paragraph(
-                    "This is test data",
-                    styles["rc-aawp-main-content-tb"],
-                )],
-            )
-            table_styles.append(
-                ("LINEBELOW", (0, idx), (0, idx), 0.1, "black")
-            )
+        description = """This is test data"""
         elems +=[
-            Table(
-                table_lines,
-                style=extend_table_style(styles["rc-main-table"], table_styles),
-                rowHeights=8.1*mm
-            ),
-            Spacer(0, 12.8 * mm),
-            Table(
-                [
-                    [
-                        Paragraph(
-                            "PERSON MAKING STATEMENT SIGNATURE",
-                            styles["rc-aawp-main-content-tb"],
-                        ),
-                        None,
-                        Paragraph(
-                            "TODAY'S DATE & TIME",
-                            styles["rc-aawp-main-content-tb"],
-                        ),
-                        None
-                    ]
-                ],
-                style=extend_table_style(styles["rc-main-table"], [
-                    ("LINEABOVE", (0, 0), (0, 0), 0.1, "black"),
-                    ("LINEABOVE", (2, 0), (2, 0), 0.1, "black"),
-                    ("LEFTPADDING", (0, 0), ( -1, -1), 1.6 * mm )
-                ]),
-                colWidths=(76*mm, 10*mm, 68*mm, 36*mm)
-            ),
-            Spacer(0, 6.4 * mm),
-            Table(
-                [
-                    [
-                        Paragraph(
-                            "OFFICER'S SIGNATURE",
-                            styles["rc-aawp-main-content-tb"],
-                        ), None,
-                        Paragraph(
-                            "BADGE #",
-                            styles["rc-aawp-main-content-tb"],
-                        ), None,
-                        Paragraph(
-                            "CASE NUMBER",
-                            styles["rc-aawp-main-content-tb"],
-                        ), None                 
-                    ]
-                ],
-                style=extend_table_style(styles["rc-main-table"], [
-                    ("LINEABOVE", (0, 0), (0 , 0), 0.1, "black"),
-                    ("LINEABOVE", (2, 0), (2, 0), 0.1, "black"),
-                    ("LINEABOVE", (4, 0), (4, 0), 0.1, "black"),
-                    ("LEFTPADDING", (0, 0), ( -1, -1), 1.6 * mm )
-                ]),
-                colWidths=(55*mm, 5*mm, 48*mm, 5*mm, 60*mm, 17*mm)
+            GridLines(),
+            Paragraph(
+                description,
+                extend_style(styles["rc-aawp-main-content"], leading=24)
             )
         ]
         
         return elems
+
+
+class GridLines(Flowable):
+    def __init__(self):
+        Flowable.__init__(self)
+
+    def draw(self):
+        self.canv.saveState()
+        self.canv.setLineWidth(0.1)
+        for idx in range(0, 22):
+            yh = -24*(idx+1)
+            self.canv.line(0, yh, 542, yh)
+        self.canv.restoreState()
+        table1 = Table(
+            [
+                [
+                    Paragraph(
+                        "PERSON MAKING STATEMENT SIGNATURE",
+                        styles["rc-aawp-main-content-tb"],
+                    ),
+                    None,
+                    Paragraph(
+                        "TODAY'S DATE & TIME",
+                        styles["rc-aawp-main-content-tb"],
+                    ),
+                    None
+                ]
+            ],
+            style=extend_table_style(styles["rc-main-table"], [
+                ("LINEABOVE", (0, 0), (0, 0), 0.1, "black"),
+                ("LINEABOVE", (2, 0), (2, 0), 0.1, "black"),
+                ("LEFTPADDING", (0, 0), ( -1, -1), 1.6 * mm )
+            ]),
+            colWidths=(76*mm, 10*mm, 68*mm, 36*mm)
+        )
+        table1.wrapOn(self.canv, 0, 0)
+        table1.drawOn(self.canv, 0, -24*24.1)
+        table2 = Table(
+            [
+                [
+                    Paragraph(
+                        "OFFICER'S SIGNATURE",
+                        styles["rc-aawp-main-content-tb"],
+                    ), None,
+                    Paragraph(
+                        "BADGE #",
+                        styles["rc-aawp-main-content-tb"],
+                    ), None,
+                    Paragraph(
+                        "CASE NUMBER",
+                        styles["rc-aawp-main-content-tb"],
+                    ), None                 
+                ]
+            ],
+            style=extend_table_style(styles["rc-main-table"], [
+                ("LINEABOVE", (0, 0), (0 , 0), 0.1, "black"),
+                ("LINEABOVE", (2, 0), (2, 0), 0.1, "black"),
+                ("LINEABOVE", (4, 0), (4, 0), 0.1, "black"),
+                ("LEFTPADDING", (0, 0), ( -1, -1), 1.6 * mm )
+            ]),
+            colWidths=(55*mm, 5*mm, 48*mm, 5*mm, 60*mm, 17*mm)
+        )
+        table2.wrapOn(self.canv, 0, 0)
+        table2.drawOn(self.canv, 0, -24*25.4)
