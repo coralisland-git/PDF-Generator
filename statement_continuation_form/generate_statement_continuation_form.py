@@ -99,7 +99,7 @@ class ORFReport:
             Spacer(0, .8 * mm),
             Paragraph(
                 "PAGE &nbsp;"+"_"*6+" &nbsp;&nbsp; OF &nbsp;&nbsp; "+"_"*6,
-                extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER, spaceBefore=20, leftIndent=22),
+                extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER, spaceBefore=30, leftIndent=22, leading=13),
             )
         ]
         description = """This is test data"""
@@ -107,7 +107,15 @@ class ORFReport:
             GridLines(),
             Paragraph(
                 description,
-                extend_style(styles["rc-aawp-main-content"], leading=24)
+                extend_style(styles["rc-aawp-main-content"], spaceBefore=10)
+            ),
+            Paragraph(
+                description,
+                styles["rc-aawp-main-content"]
+            ),
+            Paragraph(
+                description,
+                styles["rc-aawp-main-content"]
             )
         ]
         
@@ -148,7 +156,7 @@ class GridLines(Flowable):
             colWidths=(76*mm, 10*mm, 68*mm, 36*mm)
         )
         table1.wrapOn(self.canv, 0, 0)
-        table1.drawOn(self.canv, 0, -24*24.1)
+        table1.drawOn(self.canv, 0, -24*24.5)
         table2 = Table(
             [
                 [
@@ -175,4 +183,4 @@ class GridLines(Flowable):
             colWidths=(55*mm, 5*mm, 48*mm, 5*mm, 60*mm, 17*mm)
         )
         table2.wrapOn(self.canv, 0, 0)
-        table2.drawOn(self.canv, 0, -24*25.4)
+        table2.drawOn(self.canv, 0, -24*25.8)
