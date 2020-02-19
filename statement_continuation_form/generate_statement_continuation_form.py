@@ -5,13 +5,13 @@ from common.signatures import *
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Flowable, Paragraph, Table, Spacer
 
-def generate_officer_recommendation_form():
-    cr = ORFReport()
+def generate_statement_continuation_form():
+    cr = SCForm()
     buff = cStringIO.StringIO()
     return cr.create_report(buff)
 
 
-class ORFReport:
+class SCForm:
     def __init__(self, title=None, author=None):
         self.page_size = letter
         self.page_margin = (12.4 * mm, 12.4 * mm)
@@ -109,14 +109,6 @@ class ORFReport:
                 description,
                 extend_style(styles["rc-aawp-main-content"], spaceBefore=10)
             ),
-            Paragraph(
-                description,
-                styles["rc-aawp-main-content"]
-            ),
-            Paragraph(
-                description,
-                styles["rc-aawp-main-content"]
-            )
         ]
         
         return elems
