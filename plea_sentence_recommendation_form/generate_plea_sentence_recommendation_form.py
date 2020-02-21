@@ -315,7 +315,7 @@ class PSRFReport:
                     [
                         XBox(7, True),
                         Paragraph(
-                            "Drug I Alcohol Counseling (7 weeks)",
+                            "Drug / Alcohol Counseling (7 weeks)",
                             styles["rc-aawp-main-content-s"]
                         ),
                         XBox(7, True),
@@ -540,7 +540,7 @@ class PSRFReport:
             ),
             Spacer(0, 5.4 * mm),
             Paragraph(
-                "<u>Note: All Flea/Sentence Recommendations are subject to the approval of the Court.</u>",
+                "<u>Note: All Plea/Sentence Recommendations are subject to the approval of the Court.</u>",
                 extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER, fontSize=9, leftIndent=12*mm)
             ),
             Paragraph(
