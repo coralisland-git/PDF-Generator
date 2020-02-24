@@ -174,7 +174,7 @@ class DRFReport:
                     [
                         Paragraph(
                             """
-                            Please be advised that GSP charges $33.50 (VHS) and $11.14 (DVD). Please calf GSP prior to 
+                            Please be advised that GSP charges $33.50 (VHS) and $11.14 (DVD). Please call GSP prior to 
                             sending payment to determine format and cost of the arrest video. Mail form and check to : 
                             GSP, ATTN: Open Records, P.O. Box 1456, Atlanta, GA 30371. Phone number is 404-624-7591
                             """, 
