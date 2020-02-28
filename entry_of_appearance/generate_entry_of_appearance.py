@@ -32,7 +32,7 @@ class EOAReport:
                 return ''
             else:
                 m_t = '0' + str(month) if month < 10 else str(month)
-                return mon_arr[month-1] + '(' + m_t + ')'
+                return mon_arr[month-1] + ' (' + m_t + ')'
         except:
             return ''
 
@@ -103,7 +103,7 @@ class EOAReport:
             Spacer(0, 4 * mm),
             Image('brookhaven.jpg', 40 * mm, 16 * mm),            
             Paragraph(
-                "IN THE MUNICIPAL. COURT OF BROOICHAVEN <br />STATE OF GEORGIA",
+                "IN THE MUNICIPAL COURT OF BROOKHAVEN <br />STATE OF GEORGIA",
                 styles["rc-doc-header"]
             ),
             Spacer(0, 8.8 * mm),
