@@ -5,14 +5,14 @@ from common.signatures import *
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Flowable, Paragraph, Table, Spacer
 
-def generate_officer_recommendation_form():
-    cr = ORFReport()
+def generate_statement_continuation_form():
+    cr = SCForm()
     buff = cStringIO.StringIO()
     page_count = cr.get_page_count(buff)    
     return cr.create_report(buff, page_count)
 
 
-class ORFReport:
+class SCForm:
     def __init__(self, title=None, author=None):
         self.page_size = letter
         self.page_margin = (12.4 * mm, 12.4 * mm)
