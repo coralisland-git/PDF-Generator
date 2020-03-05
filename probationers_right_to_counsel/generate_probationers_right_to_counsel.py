@@ -2,19 +2,18 @@ import cStringIO
 
 from document_specific_styles import *
 from common.signatures import *
-
+from reportlab.platypus import NextPageTemplate
 
 def generate_probationers_right_to_counsel():
-    cr_en =PRTCReport_EN()
-    buff_en = cStringIO.StringIO()
-    cr_sp =PRTCReport_SP()
-    buff_sp = cStringIO.StringIO()
-    return [cr_en.create_report(buff_en), cr_sp.create_report(buff_sp)]
+    cr =PRTCReport()
+    buff = cStringIO.StringIO()
+    return cr.create_report(buff)
 
-class PRTCReport_EN:
+class PRTCReport:
     def __init__(self, title=None, author=None):
         self.page_size = letter
         self.page_margin = (25.4 * mm, 26 * mm)
+        self.page_margin_sp = (11.8 * mm, 14.4 * mm)
         self.sections = ["header", "front", "back"]
         self.title = title
         self.author = author
@@ -39,12 +38,6 @@ class PRTCReport_EN:
         if not buff:
             buff = io.BytesIO()
 
-        story = []
-        for section in self.sections:
-            elems = get_method(section)()
-            for elem in elems:
-                story.append(elem)
-
         page_t = PageTemplate('normal', [
             Frame(
                 self.page_margin[0],
@@ -57,6 +50,33 @@ class PRTCReport_EN:
                 topPadding=0,
             )
         ], onPage=page_number)
+        page_t_sp = PageTemplate('normal_sp', [
+            Frame(
+                self.page_margin_sp[0],
+                self.page_margin_sp[1],
+                self.page_size[0] - self.page_margin_sp[0] * 2,
+                self.page_size[1] - self.page_margin_sp[1] * 2,
+                leftPadding=0,
+                bottomPadding=0,
+                rightPadding=0,
+                topPadding=0,
+            )
+        ], onPage=page_number)
+
+        story = []
+        for section in self.sections:
+            elems = get_method(section)()
+            for elem in elems:
+                story.append(elem)
+
+        story.append(NextPageTemplate('normal_sp'))
+        story.append(PageBreak())
+
+        for section in self.sections:
+            elems = get_method(section+'_sp')()
+            for elem in elems:
+                story.append(elem)
+
         doc_t = BaseDocTemplate(
             buff,
             pagesize=letter,
@@ -67,7 +87,7 @@ class PRTCReport_EN:
             topMargin=self.page_margin[1],
             bottomMargin=self.page_margin[1],
         )
-        doc_t.addPageTemplates(page_t)
+        doc_t.addPageTemplates([page_t, page_t_sp])
         doc_t.build(story)
 
         buff.seek(0)
@@ -422,69 +442,7 @@ class PRTCReport_EN:
 
         return elems
 
-class PRTCReport_SP:
-    def __init__(self, title=None, author=None):
-        self.page_size = letter
-        self.page_margin = (11.8 * mm, 14.4 * mm)
-        self.sections = ["header", "front", "back"]
-        self.title = title
-        self.author = author
-        self.data = None
-
-    def create_report(self, buff=None):
-        def get_method(section):
-            try:
-                method = getattr(self, "_section_" + section)
-            except AttributeError:
-                raise Exception("Section method not found: " + section)
-            return method
-
-        def page_number(canv, doc):
-            page_num = Paragraph(
-                str(doc.page),
-                extend_style(styles["rc-tdwp-main"], alignment=TA_CENTER, fontSize=11),
-            )
-            page_num.wrapOn(canv, self.page_size[0], 0)
-            page_num.drawOn(canv, 0, 14.4*mm)
-        
-        if not buff:
-            buff = io.BytesIO()
-
-        story = []
-        for section in self.sections:
-            elems = get_method(section)()
-            for elem in elems:
-                story.append(elem)
-
-        page_t = PageTemplate('normal', [
-            Frame(
-                self.page_margin[0],
-                self.page_margin[1],
-                self.page_size[0] - self.page_margin[0] * 2,
-                self.page_size[1] - self.page_margin[1] * 2,
-                leftPadding=0,
-                bottomPadding=0,
-                rightPadding=0,
-                topPadding=0,
-            )
-        ], onPage=page_number)
-        doc_t = BaseDocTemplate(
-            buff,
-            pagesize=letter,
-            title=self.title,
-            author=self.author,
-            leftMargin=self.page_margin[0],
-            rightMargin=self.page_margin[0],
-            topMargin=self.page_margin[1],
-            bottomMargin=self.page_margin[1],
-        )
-        doc_t.addPageTemplates(page_t)
-        doc_t.build(story)
-
-        buff.seek(0)
-        return buff
-
-    def _section_header(self):
+    def _section_header_sp(self):
         elems = list()
         elems += [
             Spacer(0, 2.4* mm),
@@ -534,7 +492,7 @@ class PRTCReport_SP:
             
         return elems
 
-    def _section_front(self):
+    def _section_front_sp(self):
         pre_space = "&nbsp;"*11
         elems = [
             Paragraph(
@@ -652,7 +610,7 @@ class PRTCReport_SP:
 
         return elems
 
-    def _section_back(self):
+    def _section_back_sp(self):
         pre_space = "&nbsp;"*11
         elems = [
             Paragraph(
