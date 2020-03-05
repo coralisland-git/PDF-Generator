@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# coding=utf-8
 import cStringIO
 
 from document_specific_styles import *
@@ -8,6 +10,7 @@ def generate_probationers_right_to_counsel():
     cr =PRTCReport()
     buff = cStringIO.StringIO()
     return cr.create_report(buff)
+
 
 class PRTCReport:
     def __init__(self, title=None, author=None):
@@ -455,7 +458,7 @@ class PRTCReport:
                 [
                     [
                         Paragraph("Ciudad de Brookhaven <br /> &nbsp;", styles["rc-tdwp-main"]),
-                        Paragraph("Audiencia de Revocacion/Modificacion de <br />la Libertard Condicional", styles["rc-tdwp-main"])
+                        Paragraph("Audiencia de Revocación/Modificación de<br/>la Libertard Condicional", styles["rc-tdwp-main"])
                     ]
                 ],
                 style=extend_table_style(styles["rc-main-table"], [
@@ -497,32 +500,30 @@ class PRTCReport:
         elems = [
             Paragraph(
                 pre_space + """
-                    La Oficina de Libertad Condicional asignada a la Ciudad de Brookhaven (la "Ciudad") ha presentado una 
-                    peticiOn (la "Peticion") por medio de la cual se pide la revocaciOn y/o modificacion de su libertad condicional. 
-                    Como individuo que ha sido condenado a un regimen de libertad condicional, Ud. tiene el derecho de ser 
-                    representado por medio de un abogado en la audiencia de la Peticion, bien sea contratado o de oficio. Si Ud. 
-                    no tiene suficiente dinero para contratar a un abogado, Ud. tiene el derecho de solicitarle al Juez a que le 
-                    asigne un abogado de oficio pago por la ciudadania. Si el Juez determina (1) que Ud. no tiene suficiente dinero 
-                    para contratar a un abogado que lo represente, y (2) las garantias procesales de su caso meritan que lo tenga, 
-                    el Juez le asignard un abogado para que lo represente pago por la ciudadania. <b>Ud. tiene que notificarle al juez si Ud. 
-                    desea llenar una solicitud para que le asignen un abogado de oficio.</b>
+                    La Oficina de Libertad Condicional asignada a la Ciudad de Brookhaven (la "Ciudad") ha presentado una petición (la "Petición") 
+                    por medio de la cual se pide la revocación y/o modificación de su libertad condicional. Corno individuo que ha sido condenado a un 
+                    régimen de libertad condicional, Ud. tiene el derecho de ser representado por medio de un abogado en la audiencia de la Petición, 
+                    bien sea contratado o de oficio. Si Ud. no tiene suficiente dinero para contratar a un abogado, Ud. tiene el derecho de solicitarle 
+                    al Juez a que le asigne un abogado de oficio pago por la ciudadanía. Si el Juez determina (1) que Ud. no tiene suficiente dinero para 
+                    contratar a un abogado que lo represente, y (2) las garantías procesales de su caso meritan que lo tenga, el Juez le asignará un abogado 
+                    para que lo represente pago por la ciudadanía. <b>Ud. tiene que notificarle al juez si Ud. desea llenar una solicitud para que le asignen un 
+                    abogado de oficio.</b>
                 """,
                 styles["rc-tdwp-main"]
             ),
             Paragraph(
                 pre_space + """
-                    Si Ud. decide contratar a un abogado para que lo represente, o si el Juez le asigna un abogado de oficio, <b>la audiencia 
-                    para tal Petition puede set aplazada.</b> Si Ud. se encuentra encarcelado, el juez va a decidir si Ud. va a seguir 
-                    encarcelado hasta tal audiencia o si se le deja en libertad antes de la misma.
+                    Si Ud. decide contratar a un abogado para que lo represente, o si el Juez le asigna un abogado de oficio, <b>la audiencia para tal Petición 
+                    puede ser aplazada.</b> Si Ud. se encuentra encarcelado, el juez va a decidir si Ud. va a seguir encarcelado hasta tal audiencia o si se 
+                    le deja en libertad antes de la misma.
                 """,
                 styles["rc-tdwp-main"]
             ),
             Paragraph(
                 pre_space + """
-                    A pesar de que Ud. tiene el derecho de hablar con la Ciudad y/o el Fiscal, Ud. no tiene ninguna obligacion de hacerlo. 
-                    <b>Cualquier cosy que Ud. le diga a la Ciudad y/o at Fiscal puede ser utilizada como prueba en su contra.</b> Aunque Ud. puede 
-                    renunciar al derecho de tener un abogado, es importante que Ud. sepa que un abogado le puede ayudar a entender y a exponer 
-                    lo siguiente:
+                   A pesar de que Ud. tiene el derecho de hablar con la Ciudad y/o el Fiscal, Ud. no tiene ninguna obligación de hacerlo. <b>Cualquier cosa 
+                   que Ud. le diga a la Ciudad y/o al Fiscal puede ser utilizada como prueba en su contra.</b> Aunque Ud. puede renunciar al derecho de tener 
+                   un abogado, es importante que Ud. sepa que un abogado le puede ayudar a entender y a exponer lo siguiente:
                 """,
                 styles["rc-tdwp-main"]
             ),
@@ -539,8 +540,8 @@ class PRTCReport:
                     [
                         Paragraph("2.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
-                            """El rango de las consecuencias posibles, incluyendo por ejemplo encarcelamiento, si se 
-                            determina que Ud. ha infringido las condiciones de su libertad condicional;""",
+                            """El rango de las consecuencias posibles, incluyendo por ejemplo encarcelamiento, si se determina que Ud. ha infringido las 
+                            condiciones de su libertad condicional;""",
                             styles["rc-tdwp-main-tb"]
                         )
                     ],
@@ -554,8 +555,7 @@ class PRTCReport:
                     [
                         Paragraph("4.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
-                            """Posibles circunstancias mitigantes de los alegatos en su contra, por ejemplo al presentar 
-                            pruebas de dificultades economicas;""",
+                            """Posibles circunstancias mitigantes de los alegatos en su contra, por ejemplo al presentar pruebas de dificultades económicas;""",
                             styles["rc-tdwp-main-tb"]
                         )
                     ],
@@ -576,9 +576,8 @@ class PRTCReport:
                     [
                         Paragraph("7.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
-                            """Los derechos a los cuales Ud. tendria derecho en una audiencia sobre los alegatos en su contra, 
-                            por ejemplo, examen de los testigos, presentar pruebas en su nombre, o el hecho de poder permanecer 
-                            en silencio durante la audiencia.""",
+                            """Los derechos a los cuales Ud. tendría derecho en una audiencia sobre los alegatos en su contra, por ejemplo, examen de los testigos, 
+                            presentar pruebas en su nombre, o el hecho de poder permanecer en silencio durante la audiencia.""",
                             styles["rc-tdwp-main-tb"]
                         )
                     ],
@@ -615,14 +614,14 @@ class PRTCReport:
         elems = [
             Paragraph(
                 pre_space + """
-                    El juez no puede ayudarle a tid. el identificar o desarrollar estos asuntos siendo que el juez 
-                    debe permanecer imparcial entre Ud. y la. Ciudad. El juez no puede ayudarle a ninguna de las partes.
+                    El juez no puede ayudarle a Ud. el identificar o desarrollar estos asuntos siendo que el 
+                    juez debe permanecer imparcial entre Ud. y 1a Ciudad. El juez no puede ayudarle a ninguna de las partes.
                 """,
                 styles["rc-tdwp-main"]
             ),
             Paragraph(
                 pre_space + """
-                    Si Ud. renuncia al derecho de tener un abogado, Ud. tambien debe entender que durante la audiencia:
+                    Si Ud. renuncia al derecho de tener un abogado, Ud. también debe entender que durante la audiencia:
                 """,
                 styles["rc-tdwp-main"]
             ),
@@ -639,8 +638,8 @@ class PRTCReport:
                     [
                         Paragraph("2.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
-                            """Ud. debe tomar decisiones acerca de presentar a los testigos, interrogarlos y que tipo de 
-                            pruebas -si es que las tiene- va a presentar a su favor;""",
+                            """Ud. debe tomar decisiones acerca de presentar a los testigos, interrogarlos y qué tipo de 
+                            pruebas —si es que las tiene- va a presentar a su favor;""",
                             styles["rc-tdwp-main-tb"]
                         )
                     ],
@@ -654,9 +653,9 @@ class PRTCReport:
                     [
                         Paragraph("4.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
-                            """Ud. no esta obligado a dar testimonio en la audiencia, pero si lo hace, Ud. tendra que prestar 
-                            juramento de tener que decir la verdad bajo pena de perjura y va a ser sujeto a que la Fiscalia le 
-                            haga contra-interrogatorio;""",
+                            """Ud. no está obligado a dar testimonio en la audiencia, pero si lo hace, Ud. tendrá que prestar 
+                            juramento de tener que decir la verdad bajo pena de perjura y va a ser sujeto a que la Fiscalía 
+                            le haga contra-interrogatorio;""",
                             styles["rc-tdwp-main-tb"]
                         )
                     ],
@@ -664,16 +663,16 @@ class PRTCReport:
                         Paragraph("5.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
                             """La Ciudad tiene la carga de demostrar los alegatos en su contra por preponderancia de la prueba, 
-                            en otras palabras, que es mas probable que no lo sea asi, que Ud. incumpliO las condiciones de su libertad 
-                            condicional tal y como se alega en la PeticiOn;""",
+                            en otras palabras, que es más probable que no lo sea así, que Ud. incumplió las condiciones de su 
+                            libertad condicional tal y como se alega en la Petición;""",
                             styles["rc-tdwp-main-tb"]
                         )
                     ],
                     [
                         Paragraph("6.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
-                            """Los asuntos se deben asegurar debidamente para poder utilizarlos en proceso de apelacian si Ud. queda 
-                            insatisfecho del resultado de la audiencia.""",
+                            """Los asuntos se deben asegurar debidamente para poder utilizarlos en proceso de apelación si Ud. 
+                            queda insatisfecho del resultado de la audiencia.""",
                             styles["rc-tdwp-main-tb"]
                         )
                     ]
@@ -688,10 +687,10 @@ class PRTCReport:
             ),
             Paragraph(
                 pre_space + """
-                    Aunque Ud. decida renunciar a su derecho de tener abogado ahora mismo, es posible que Ud. pueda cambiar de opinion y consiga 
-                    un abogado posteriormente. Pero Ud. debe actuar de una manera diligente para conseguir a un abogado, Bien sea contratado, 
-                    o de oficio. Si Ud. no act-Cm de manera diligente, es posible que a Ud. se le considere posteriormente como si hubiera 
-                    renunciado a su derecho de tener abogado.
+                    Aunque Ud. decida renunciar a su derecho de tener abogado ahora mismo, es posible que Ud. pueda cambiar de 
+                    opinión y consiga un abogado posteriormente. Pero Ud. debe actuar de una manera diligente para conseguir a 
+                    un abogado, bien sea contratado, o de oficio. Si Ud. no actúa de manera diligente, es posible que a Ud. se 
+                    le considere posteriormente corno si hubiera renunciado a su derecho de tener abogado.
                 """,
                 styles["rc-tdwp-main"]
             ),
@@ -707,14 +706,14 @@ class PRTCReport:
                     [
                         Paragraph("1.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
-                            "He leido y entiendo en su totalidad todas las declaraciones anteriores;",
+                            "He leído y entiendo en su totalidad todas las declaraciones anteriores;",
                             styles["rc-tdwp-main-tb"]
                         )
                     ],
                     [
                         Paragraph("2.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
-                            """Nadie me ha ofrecido nada, prometido nada, a amenazado de ninguna forma para que yo renuncie a mis derechos, y""",
+                            """Nadie me ha ofrecido nada, prometido nada, o amenazado de ninguna forma para que yo renuncie a mis derechos, y""",
                             styles["rc-tdwp-main-tb"]
                         )
                     ],
@@ -722,8 +721,8 @@ class PRTCReport:
                         Paragraph("3.", extend_style(styles["rc-tdwp-main-tb"])),
                         Paragraph(
                             """
-                            No me encuentro bajo los efectos del alcohol, o estupefacientes y no sufro de ninguna discapacidad mental o 
-                            fisica que me impida poder entender lo que esta ocurriendo;
+                            No me encuentro bajo los efectos del alcohol, o estupefacientes y no sufro de ninguna discapacidad mental o física 
+                            que me impida poder entender lo que está ocurriendo;
                             """,
                             styles["rc-tdwp-main-tb"]
                         )
@@ -739,7 +738,7 @@ class PRTCReport:
             ),
             Paragraph(
                 pre_space + """
-                    <b>Por lo tanto, <u>Yo decido renunciar a sabiendas, inteligentemente v voluntariamente a mi derecho de tener un abogado.</u></b>
+                    <b>Por lo tanto, <u>Yo decido renunciar a sabiendas, inteligentemente y voluntariamente a mi derecho de tener un abogado.</u></b>
                 """,
                 styles["rc-tdwp-main"]
             ),
@@ -747,7 +746,7 @@ class PRTCReport:
             Table(
                 [
                     [
-                        Paragraph("El dia", styles["rc-tdwp-main"]),
+                        Paragraph("El día", styles["rc-tdwp-main"]),
                         Paragraph("", styles["rc-tdwp-main"]),
                         Paragraph("del mes de", styles["rc-tdwp-main"]),
                         Paragraph("Test Data", styles["rc-tdwp-main"]),
@@ -768,7 +767,7 @@ class PRTCReport:
             Table(
                 [
                     [
-                        Paragraph("Persona que ha sido condenada a un regimen de libertad condicional", styles["rc-tdwp-main"]),
+                        Paragraph("Persona que ha sido condenada a un régimen de libertad condicional", styles["rc-tdwp-main"]),
                         None
                     ]
                 ],
