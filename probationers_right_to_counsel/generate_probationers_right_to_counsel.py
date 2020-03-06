@@ -501,7 +501,7 @@ class PRTCReport:
             Paragraph(
                 pre_space + """
                     La Oficina de Libertad Condicional asignada a la Ciudad de Brookhaven (la "Ciudad") ha presentado una petición (la "Petición") 
-                    por medio de la cual se pide la revocación y/o modificación de su libertad condicional. Corno individuo que ha sido condenado a un 
+                    por medio de la cual se pide la revocación y/o modificación de su libertad condicional. Como individuo que ha sido condenado a un 
                     régimen de libertad condicional, Ud. tiene el derecho de ser representado por medio de un abogado en la audiencia de la Petición, 
                     bien sea contratado o de oficio. Si Ud. no tiene suficiente dinero para contratar a un abogado, Ud. tiene el derecho de solicitarle 
                     al Juez a que le asigne un abogado de oficio pago por la ciudadanía. Si el Juez determina (1) que Ud. no tiene suficiente dinero para 
@@ -690,7 +690,7 @@ class PRTCReport:
                     Aunque Ud. decida renunciar a su derecho de tener abogado ahora mismo, es posible que Ud. pueda cambiar de 
                     opinión y consiga un abogado posteriormente. Pero Ud. debe actuar de una manera diligente para conseguir a 
                     un abogado, bien sea contratado, o de oficio. Si Ud. no actúa de manera diligente, es posible que a Ud. se 
-                    le considere posteriormente corno si hubiera renunciado a su derecho de tener abogado.
+                    le considere posteriormente como si hubiera renunciado a su derecho de tener abogado.
                 """,
                 styles["rc-tdwp-main"]
             ),
