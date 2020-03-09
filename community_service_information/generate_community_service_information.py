@@ -299,7 +299,6 @@ class CSIReport:
                 """
                 AMERICAN CANCER SOCIETY - 770/429-0089  <br />
                 AMERICAN HEART ASSOCIATION - 678/224-2000  <br />
-                AMERICAN HUMANE SOCIETY 404/974-2847 01:32 WEDNESDAY 9:30 <br />
                 AMERICAN LEGION - AVONDALE EST 404/292-2352 <br />
                 AMERICAN RED CROSS - 770/852-4318 <br />
                 ANGEL FLIGHT- DEKALB PEACHTREE AIRPORT - 770/452-7958 <br />
