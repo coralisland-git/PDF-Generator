@@ -308,7 +308,7 @@ class CSIReport:
                 ATLANTA HUMANE SOCIETY - 404/974-2842 or 22 Wednesdays at 9:30 <br />
                 ATLANTA MISSION - ATLANTA - 404/588-4000 <br />
                 ATLANTA MISSION/MARIETTA THRIFT STORE - MARIETTA - 404/367-3920 <br />
-                ATLANTA WILD ANIMAL RESCUE - LITHONIA - (<u>www.awareone.org</u>) 678/418-1111 <br />
+                ATLANTA WILD ANIMAL RESCUE - LITHONIA - (<u>www.awareone.org</u>) - 678/418-1111 <br />
                 AUTREY MILL NATURE PRESERVE & HERITAGE CENTER - JOHN'S CREEK - 678/366-3511 <br /> 
                 BE SOMEONE, INC. - STONE MOUNTAIN - 770/465-644S <br />
                 BLESSED ANGELS, INC - AUSTELL - 404/323-1156 - (CHRISTINE WASHINGTON) <br />
@@ -359,9 +359,9 @@ class CSIReport:
                 P.A.L.S (PETS ARE LOVING SUPPORT) - ATLANTA - 404/876-PALS  <br />
                 PAWS ATLANTA - DECATUR - 770/593-115S <br />
                 PICK OF THE LITTER - HIRAM - 678/977-4925 (<u>www.ourpickofthelitter.com</u>)  <br />
-                PREDMONT PARK CONSERVANCY 404 875-7275 ext 247 <br />
+                PREDMONT PARK CONSERVANCY - 404/875-7275 ext 247 <br />
                 RIGHT IN THE COMMUNITY - MARIETTA - 770/427-8401 <br />
-                ROSWELL RECYCLING CENTER 770/442-8822 <br />
+                ROSWELL RECYCLING CENTER - 770/442-8822 <br />
                 SAFERIDE - 404/888-0887 <br />
                 SCATTERING RESOURCES - SMYRNA - 678/729-7228 <br /> 
                 """,
