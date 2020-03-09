@@ -87,7 +87,7 @@ class CSIReport:
                                     Paragraph(
                                         """
                                         Judicial Correction Services, Inc. <br />
-                                        34 Peachtree Sfzeet <br />
+                                        34 Peachtree Street <br />
                                         Suite 1000 <br />
                                         Atlanta, GA 30303 <br />
                                         (404) 591-3180    Fax (404)478-9515
@@ -118,7 +118,7 @@ class CSIReport:
             ),            
             Paragraph(
                 pre_space*6 + """You are responsible for requesting a statement on agency letterhead providing the 
-                supervisior's name, telephone number, and confirming that they are a non-profit organization.""",
+                supervisor's name, telephone number, and confirming that they are a non-profit organization.""",
                 extend_style(styles["rc-tdwp-main"], fontSize=12)
             ),
             Paragraph(
@@ -126,14 +126,14 @@ class CSIReport:
                 extend_style(styles["rc-tdwp-main"], spaceBefore=12)
             ),
             Paragraph(
-                "<u>The following types of activites qualify as Community Service Work possibilities:</u>",
+                "<u>The following types of activities qualify as Community Service Work possibilities:</u>",
                 extend_style(styles["rc-tdwp-main"], spaceBefore=10)
             ),
             Spacer(0, 3.6 * mm),
             Table(
                 [
                     [
-                        Paragraph("1. Americian Canner Society", styles["rc-tdwp-main-tb"]),
+                        Paragraph("1. American Canner Society", styles["rc-tdwp-main-tb"]),
                         Paragraph("6. Parks-city, county", styles["rc-tdwp-main-tb"])
                     ],
                     [
@@ -141,7 +141,7 @@ class CSIReport:
                         Paragraph("7. Public Library", styles["rc-tdwp-main-tb"])
                     ],
                     [
-                        Paragraph("3. Americian Red Cross", styles["rc-tdwp-main-tb"]),
+                        Paragraph("3. American Red Cross", styles["rc-tdwp-main-tb"]),
                         Paragraph("8. Salvation Army", styles["rc-tdwp-main-tb"])
                     ],
                     [
@@ -192,7 +192,7 @@ class CSIReport:
                     ],
                     [
                         Paragraph("3.", styles["rc-tdwp-main-tb"]),
-                        Paragraph("Custodial and buliding maintenance, janitorial work, painting.", styles["rc-tdwp-main-tb"])
+                        Paragraph("Custodial and building maintenance, janitorial work, painting.", styles["rc-tdwp-main-tb"])
                     ],
                     [
                         Paragraph("4.", styles["rc-tdwp-main-tb"]),
@@ -200,7 +200,7 @@ class CSIReport:
                     ],
                     [
                         Paragraph("5.", styles["rc-tdwp-main-tb"]),
-                        Paragraph("Human servies, patient servies, visiting senior citizens, assisting disabled veterans and seniors, teacher's aide", styles["rc-tdwp-main-tb"])                        
+                        Paragraph("Human services, patient services, visiting senior citizens, assisting disabled veterans and seniors, teacher's aide", styles["rc-tdwp-main-tb"])                        
                     ]
                 ],
                 style=extend_table_style(styles["rc-main-table"], [
@@ -210,8 +210,8 @@ class CSIReport:
             ),
             Paragraph(
                 """
-                The person supervising your activity must certify the volunteer work that you perform by verifying and signing your timesheet each day ou volunteer.
-                <u>A final letter of verfication on the agency letterhead or stationary must be provided once the required number of hours has been completed.</u>
+                The person supervising your activity must certify the volunteer work that you perform by verifying and signing your timesheet each day you volunteer.
+                <u>A final letter of verification on the agency letterhead or stationary must be provided once the required number of hours has been completed.</u>
                 """, 
                 extend_style(styles["rc-tdwp-main"], spaceBefore=12, fontSize=12)
             ),
@@ -259,7 +259,7 @@ class CSIReport:
                                         """, styles["rc-tdwp-main-tb"])
                                 ],
                                 [
-                                    Paragraph("Atlanta Center for Self Sufficientcy 458 Edgewood", styles["rc-tdwp-main-tb"]),
+                                    Paragraph("Atlanta Center for Self Sufficiency 458 Edgewood", styles["rc-tdwp-main-tb"]),
                                     Paragraph("404 446-4680 or 874 8001 Ext 1120 Alison Maddox", styles["rc-tdwp-main-tb"])
                                 ],
                                 [
