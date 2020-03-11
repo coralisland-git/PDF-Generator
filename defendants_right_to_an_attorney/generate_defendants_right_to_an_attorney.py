@@ -1,3 +1,4 @@
+# coding=utf-8
 import cStringIO
 
 from document_specific_styles import *
@@ -144,7 +145,7 @@ class DRTAReport:
         text_list = [
             'The nature of the charges against you;',
             'The possibility of lesser-included offenses to these charges;',
-            'The range of possible punishments for the charges, including a jail sentence for up to 12 months on each misdemeanor and 6 ths on each local ordinance;',
+            'The range of possible punishments for the charges, including a jail sentence for up to 12 months on each misdemeanor and 6 months on each local ordinance;',
             'The possible defenses to your case;',
             'The rights that you give up when you enter a plea;',
             'Circumstances that may reduce the punishment;',
@@ -164,7 +165,7 @@ class DRTAReport:
         text_list2 = [
             'The rules governing the admissibility of evidence will be enforced by the judge;',
             'You must make decisions with regard to the calling of witnesses to testify on your behalf;',
-            'You must decide whether you want to testify on your own behalf. You are not required to testify at trial, but if you do testify, you would be subject to cross-examination;',
+            'You must decide whether you want to testify on your own behalf. You <b>are not</b> required to testify at trial, but if you do testify, you would be subject to cross-examination;',
             'The Prosecution has the burden of proving its case beyond a reasonable doubt;',
             'Issues must be properly preserved by way of timely objections and, in order to raise them on appeal, secure a record of the proceedings.'
         ]
@@ -181,7 +182,7 @@ class DRTAReport:
         text_list3 = [
             'I have read and fully understand the above statements;',
             'I am not under the influence of alcohol or drugs, and I am not suffering from any mental or physical disability that hampers my ability to understand these proceedings or to present a defense to the charges against me;',
-            'I understand that I may speak with the prosecutor, but am under no obligation to do so, <b>Anything I say to the prosecutor can be used as evidence against me</b>.',
+            'I understand that I may speak with the prosecutor, but am under no obligation to do so. <b>Anything I say to the prosecutor can be used as evidence against me</b>.',
             'I HAVE TAKEN THE TIME TO THOROUGHLY READ THE ABOVE AND I CHOOSE TO WAIVE MY RIGHT TO AN ATTORNEY, AND AT THIS TIME WISH TO REPRESENT MYSELF.'
         ]
         table3 = []
@@ -334,11 +335,11 @@ class DRTAReport:
             Paragraph("<u>DERECHO DEL ACUSADO A UN ABOGADO</u>", extend_style(styles["rc-header"], spaceBefore=5)),
             Paragraph(
                 """{}
-               Como persona acusada de un delito, usted tiene el derecho, conforme a las Constitucione-s de los Estados 
+               Como persona acusada de un delito, usted tiene el derecho, conforme a las Constituciones de los Estados 
                Unidos y de Georgia, a ser representado por un abogado en todas las etapas cruciales del proceso penal, 
                incluyendo cuando comparezca ante el Juez para leerle los cargos. Si no puede pagar un abogado, tendrá 
                derecho a que se nombre uno para que le represente. Si desea ser entrevistado para determinar si califica 
-               financieramente para tener un abogado de oficio designado par el Tribunal, puede solicitarlo y ser entrevistado
+               financieramente para tener un abogado de oficio designado por el Tribunal, puede solicitarlo y ser entrevistado
                 por un miembro del personal del Tribunal.
                 """.format(pre_space),
                 extend_style(styles["rc-aawp-main-content"])
@@ -373,7 +374,7 @@ class DRTAReport:
         text_list2 = [
             'El Juez hará cumplir las normas que rigen la admisibilidad de las pruebas;',
             'Deberá tomar decisiones en cuanto a convocar testigos para que declaren en su defensa;',
-            'Deberá decidir si quiere declarar en su propio nombre. No se le exige que declare durante el juicio, pero si desea hacerlo, estará sujeto a contrainterrogatorio;',
+            'Deberá decidir si quiere declarar en su propio nombre. <b>No se le exige</b> que declare durante el juicio, pero si desea hacerlo, estará sujeto a contrainterrogatorio;',
             'El fiscal que le acusa tendrá que demostrar su culpabilidad más allá de una duda razonable; ',
             'Los asuntos legales deben atenderse adecuadamente, objetándolos a tiempo, y para poder presentarlos en la apelación hay que asegurarse que haya un registro de ellos en autos.'
         ]
@@ -390,7 +391,7 @@ class DRTAReport:
         text_list3 = [
             'He leído y entiendo plenamente lo anteriormente expuesto;',
             'No me encuentro actualmente bajo los efectos del alcohol ni de las drogas, y no sufro enfermedad mental ni incapacitación física alguna que pudiera obstaculizar mi capacidad para entender estos actos procesales, ni para presentar una defensa ante los cargos que se me imputan;',
-            'Entiendo que puedo hablar con el fiscal, pero que no estoy obligado a hacerlo. Todo lo que yo le diga al fiscal podrá usarse como prueba en mi contra.',
+            'Entiendo que puedo hablar con el fiscal, pero que no estoy obligado a hacerlo. <b>Todo lo que yo le diga al fiscal podrá usarse como prueba en mi contra</b>.',
             'HE TOMADO TIEMPO PARA LEER DETALLADAMENTE LO ANTERIOR Y OPTO POR RENUNCIAR A MI DERECHO A UN ABOGADO Y -EN ESTE MOMENTO- DESEO REPRESENTARME POR MÍ MISMO.'
         ]
         table3 = []
@@ -414,7 +415,7 @@ class DRTAReport:
             ),
             Paragraph(
                 """{}
-                Si renuncia a su derecho a un abogado, usted debe entender también que durante el juicio:
+                Si renuncia a su derecho a un abogado, <b>usted</b> debe entender también que durante el juicio:
                 """.format(pre_space), 
                 extend_style(styles["rc-aawp-main-content"])),
             Spacer(0, 1.2*mm),
