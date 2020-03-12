@@ -396,8 +396,8 @@ class PPRReport:
             ),
             Paragraph(
                 """
-                I hereby certify that 1 have made an inquiry and arn satisfied that there is factual basis to 
-                support this Defendant's pica of Guilty or Nolo Contendere and that the Plea is knowingly, freely, 
+                I hereby certify that I have made an inquiry and am satisfied that there is factual basis to 
+                support this Defendant's plea of Guilty or Nolo Contendere and that the Plea is knowingly, freely, 
                 and voluntarily made by the Defendant, and that no promise, threat or force was used to induce 
                 the Defendant to enter this plea.
                 """, 
