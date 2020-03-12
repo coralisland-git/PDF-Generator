@@ -1,3 +1,4 @@
+# coding=utf-8
 import cStringIO
 
 from document_specific_styles import *
