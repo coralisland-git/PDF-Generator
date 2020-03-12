@@ -147,9 +147,9 @@ class PPRReport:
             'Acknowledge that this plea is entered into freely, voluntarily, and understandingly by me, and that no person has made any promise or threat to me to influence my decision to plead;',
             'Acknowledge that the plea of Guilty or Nolo Contendere has a factual basis, and the presentation to the Court is true;',
             'Realize that each charge or ticket received could result in the Judge sentencing me to a fine of up to $1,000 and up to 12 months in jail, but that is not necessarily the sentence that I would receive. (SEE EXCEPTIONS BELOW);',
-            'Realize that if the charge or ticket received is for a second offense or more in flve(5) years for driving without a license or driving while license suspended or revoked, it could result in the Judge sentencing me to a fine of up to $2,500 and up to 12 months in jail;',
+            'Realize that if the charge or ticket received is for a second offense or more in five(5) years for driving without a license or driving while license suspended or revoked, it could result in the Judge sentencing me to a fine of up to $2,500 and up to 12 months in jail;',
             'Realize that if the charge or ticket received is for a third offense or more in ten (10) years for driving under the influence, it could result in the Judge sentencing me to a fine of up to $5,000 and up to 12 months in jail;',
-            'Understand that [1.1 am not a citizen of the United States, my plea of guilty or nolo contendre may have an impact on my immigration status.'
+            'Understand that if I am not a citizen of the United States, my plea of guilty or nolo contendre may have an impact on my immigration status.'
         ]
         table1 = []
         for idx, text in enumerate(text_list):
@@ -307,7 +307,7 @@ class PPRReport:
                 colWidths=(50*mm, 112*mm),
             ),  
             Spacer(0, 1.8*mm),
-            Paragraph("<u>ACTA DE DECLARATORIA_, RECONOCIMIENTO Y RENUNCIA DE DERECHOS</u>", extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+            Paragraph("<u>ACTA DE DECLARATORIA, RECONOCIMIENTO Y RENUNCIA DE DERECHOS</u>", extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
             Paragraph(
                 """
                 Yo, el ACUSADO, reconozco mediante la firma de este documento y al declararme CULPABLE <u>Test Data</u> o
