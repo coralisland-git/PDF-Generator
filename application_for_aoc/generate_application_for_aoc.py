@@ -1,3 +1,4 @@
+# coding=utf-8
 import cStringIO
 
 from document_specific_styles import *
@@ -174,7 +175,7 @@ class AAOCReport:
                 """
                 I am the defendant in the above—styled action. I am charged with the offense(s) of <br />
                 <u>{}</u>,
-                which is I are a misdemeanor. I can I cannot afford to hire a lawyer to assist me. I do / 
+                which is / are a misdemeanor. I can / cannot afford to hire a lawyer to assist me. I do / 
                 do not want the court to determine my eligibility for a Court-Appointed lawyer to defend 
                 me on the above charges.
                 """.format(TEST_DATA),
@@ -307,7 +308,7 @@ class AAOCReport:
                 [
                     [
                         Paragraph(
-                            """Do you own or arc purchasing a motor vehicle? Yes / No. Year and model<u>{}</u>""".format(TEST_DATA), 
+                            """Do you own or are purchasing a motor vehicle? Yes / No. Year and model<u>{}</u>""".format(TEST_DATA),
                             styles["rc-aawp-main-content-tb"]),
                     ],
                     [
@@ -357,7 +358,7 @@ class AAOCReport:
                                 [
                                     Paragraph("", styles["rc-aawp-main-content-tb"]),
                                     Paragraph("Amount", extend_style(styles["rc-aawp-main-content-tb"], leftIndent=20)), None,
-                                    Paragraph("Banking institution", extend_style(styles["rc-aawp-main-content-tb"], leftIndent=20))
+                                    Paragraph("Banking Institution", extend_style(styles["rc-aawp-main-content-tb"], leftIndent=20))
                                 ],
                                 [
                                     Paragraph("Checking: $", extend_style(styles["rc-aawp-main-content-tb"], leading=13)),
@@ -547,7 +548,7 @@ class AAOCReport:
             ),
             Spacer(0, 3.2*mm),
             Paragraph(
-                "This <u> Test Data </u> day of<u> Test Data </u>200<u> Test Data</u>.", 
+                "This <u> Test Data </u> day of<u> Test Data </u>20<u> Test Data</u>.",
                 extend_style(styles["rc-aawp-main-content-tb"], leftIndent=35)
             ),
             Spacer(0, 6.4*mm),
@@ -751,7 +752,7 @@ class AAOCReport:
                     [
                         Paragraph(
                             """
-                            a. &nbsp; Net take home pay is (gross pay minus state, federal and social security taxes) <br />
+                            a. &nbsp; Ingresos netos (ingresos brutos menos impuestos federales, estatales y seguro social) <br />
                             <u>{}</u> (semanalmente) $ <u>{}</u> (mensualmente)
                             """.format(TEST_DATA, TEST_DATA), 
                             extend_style(styles["rc-aawp-main-content-tb"], leftIndent=16)),
