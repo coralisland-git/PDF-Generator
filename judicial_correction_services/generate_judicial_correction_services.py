@@ -74,67 +74,67 @@ class FDCCAReport:
                     Table(
                         [
                             [
-                                Paragraph("Last Name {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("First Name {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Last Name</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>First Name</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                                 None,
-                                Paragraph("Middle Name {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Middle Name</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                             ],
                             [
-                                Paragraph("AKA: {}".format("Test Data"), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>AKA:</b> {}".format("Test Data"), styles["rc-aawp-main-content"]),
                                 None, None, None, None, None
                             ],
                             [
-                                Paragraph("Physical Address {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Physical Address</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("City {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>City</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("State {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Zip Code {}".format(TEST_DATA), styles["rc-aawp-main-content"])
+                                Paragraph("<b>State</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Zip Code</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"])
                             ],
                             [
-                                Paragraph("Mailing Address(if different) {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Mailing Address (if different)</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("City {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>City</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("State {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Zip Code {}".format(TEST_DATA), styles["rc-aawp-main-content"])
+                                Paragraph("<b>State</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Zip Code</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"])
                             ],
                             [
-                                Paragraph("Home Number {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Cell Number {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Home Number</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Cell Number</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None, None,
-                                Paragraph("Email Address {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Email Address</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                             ],
                             [
-                                Paragraph("Emergency Contact Name {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Emergency Contact Number {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Emergency Contact Name</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Emergency Contact Number</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None, None,
-                                Paragraph("Relationship to You {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Relationship to You</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                             ],
                             [
-                                Paragraph("Employer? Student? Or Unemployed? {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Employer? Student? Or Unemployed?</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Location {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Location</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None, 
-                                Paragraph("Work Number {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Work Number</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                             ],
                             [
                                 Table(
                                     [
                                         [
-                                            Paragraph("Date of Birth {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                            Paragraph("Social Security Number {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                            Paragraph("Race {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Sex {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Hgt {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Wgt {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Eyes {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Hair {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Date of Birth</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                            Paragraph("<b>Social Security Number</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                            Paragraph("<b>Race</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Sex</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Hgt</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Wgt</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Eyes</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Hair</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
                                         ]
                                     ],
                                     style=extend_table_style(styles["rc-main-table_inner"], [
@@ -147,27 +147,27 @@ class FDCCAReport:
                                 None, None, None, None , None
                             ],
                             [
-                                Paragraph("Scars/Tattoos: {}".format("Test Data"), extend_style(styles["rc-aawp-main-content"], fontSize=9)),
-                                Paragraph("Driver's License Number/State: {}".format("Test Data"), extend_style(styles["rc-aawp-main-content"], fontSize=9)),
+                                Paragraph("<b>Scars/Tattoos:</b> {}".format("Test Data"), extend_style(styles["rc-aawp-main-content"], fontSize=9)),
+                                Paragraph("<b>Driver's License Number/State:</b> {}".format("Test Data"), extend_style(styles["rc-aawp-main-content"], fontSize=9)),
                                 None, None, None, None
                             ],
                             [
-                                Paragraph("Currently on Probation/Parole:Where? {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Currently on Probation/Parole: Where?</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("What for: {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>What for:</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Officer's Name & Number: {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Officer's Name & Number:</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None
                             ],
                             [
-                                Paragraph("<U>FOR OFFICER USE ONLY</U>", extend_style(styles["rc-aawp-main-content"], leftIndent=18.4*mm)),
+                                Paragraph("<b><U>FOR OFFICER USE ONLY</U></b>", extend_style(styles["rc-aawp-main-content"], leftIndent=18.4*mm)),
                                 None, None, None, None, None
                             ],
                             [
-                                Paragraph("Case Number {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("First Appt {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Case Number</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>First Appt</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Probation Officer {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Probation Officer</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None
                             ],
                         ],
@@ -245,65 +245,65 @@ class FDCCAReport:
                     Table(
                         [
                             [
-                                Paragraph("Apellido Nombre {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Primer Nombre {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Apellido Nombre</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Primer Nombre</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                                 None,
-                                Paragraph("Sugundo Name {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Sugundo Name</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                             ],
                             [
-                                Paragraph("Tambien conocido/a como?: {}".format("Test Data"), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Tambien conocido/a como?:</b> {}".format("Test Data"), styles["rc-aawp-main-content"]),
                                 None, None, None, None, None
                             ],
                             [
-                                Paragraph("Direccion Real {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Direccion Real</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Ciudad {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Ciudad</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Estado {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Codigo Postal {}".format(TEST_DATA), styles["rc-aawp-main-content"])
+                                Paragraph("<b>Estado</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Codigo Postal</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"])
                             ],
                             [
-                                Paragraph("Direccion Postal {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Direccion Postal</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Ciudad {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Ciudad</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Estado {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Codigo Postal {}".format(TEST_DATA), styles["rc-aawp-main-content"])
+                                Paragraph("<b>Estado</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Codigo Postal</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"])
                             ],
                             [
-                                Paragraph("Numbero de telefono de casa {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Numbero de telefono de cellular {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Numbero de telefono de casa</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Numbero de telefono de cellular</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None, None, None, None,
                             ],
                             [
-                                Paragraph("Nombre de contacto de emergencia {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("Número de contacto de emergencia {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Nombre de contacto de emergencia</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Número de contacto de emergencia</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None, None,
-                                Paragraph("Relación con usted {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Relación con usted</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                             ],
                             [
-                                Paragraph("Empleador {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Empleador</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Ubicacion {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Ubicacion</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None, 
-                                Paragraph("Numero de telefano de se trabajo {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Numero de telefano de se trabajo</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
                             ],
                             [
                                 Table(
                                     [
                                         [
-                                            Paragraph("Fecha de nacimiento {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                            Paragraph("Numbre de Seguro Social {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                            Paragraph("Raza {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Sexo {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Altura {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Peso {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Ojos {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
-                                            Paragraph("Cabello {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Fecha de nacimiento</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                            Paragraph("<b>Numbre de Seguro Social</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                            Paragraph("<b>Raza</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Sexo</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Altura</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Peso</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Ojos</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
+                                            Paragraph("<b>Cabello</b> {}".format(TEST_DATA), extend_style(styles["rc-aawp-main-content"], alignment=TA_CENTER)),
                                         ]
                                     ],
                                     style=extend_table_style(styles["rc-main-table_inner"], [
@@ -316,31 +316,31 @@ class FDCCAReport:
                                 None, None, None, None , None
                             ],
                             [
-                                Paragraph("Cicatriz/Tatuajes {}".format("Test Data"), extend_style(styles["rc-aawp-main-content"], fontSize=9)),
-                                Paragraph("Nombre de su oficial de probatoria {}".format("Test Data"), extend_style(styles["rc-aawp-main-content"], fontSize=9)),
+                                Paragraph("<b>Cicatriz/Tatuajes</b> {}".format("Test Data"), extend_style(styles["rc-aawp-main-content"], fontSize=9)),
+                                Paragraph("<b>Nombre de su oficial de probatoria</b> {}".format("Test Data"), extend_style(styles["rc-aawp-main-content"], fontSize=9)),
                                 None, None, None, None
                             ],
                             [
-                                Paragraph("Probatoria corriente/ Libertad condicional {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Probatoria corriente/ Libertad condicional</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Para que: {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Para que:</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Nombre de su oficial de probatoria {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Nombre de su oficial de probatoria</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None
                             ],
                             [
-                                Paragraph("<U>PARA USO OFICIAL SOLAMENTE</U>", extend_style(styles["rc-aawp-main-content"], leftIndent=73*mm)),
+                                Paragraph("<b><U>PARA USO OFICIAL SOLAMENTE</U></b>", extend_style(styles["rc-aawp-main-content"], leftIndent=73*mm)),
                                 None, None, None, None, None
                             ],
                             [
-                                Paragraph("Case Number {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
-                                Paragraph("First Appt {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Case Number</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>First Appt</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None,
-                                Paragraph("Monthly Payment: {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Monthly Payment:</b> {}".format(TEST_DATA), styles["rc-aawp-main-content"]),
                                 None
                             ],
                             [
-                                Paragraph("Probaban Officer: {}".format("Test Data"), styles["rc-aawp-main-content"]),
+                                Paragraph("<b>Probation Officer:</b> {}".format("Test Data"), styles["rc-aawp-main-content"]),
                                 None, None, None, None, None
                             ],
                         ],
