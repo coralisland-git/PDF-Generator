@@ -1,20 +1,50 @@
 # coding=utf-8
 from document_specific_styles import styles, extend_style, extend_table_style
 from common.signatures import SignatureDocTemplate, SignatureRect
-from reportlab.lib.enums import TA_CENTER, TA_RIGHT
+from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY, TA_RIGHT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
-from reportlab.platypus import PageTemplate, Frame, Flowable, Paragraph, Table, Spacer
-import datetime
+from reportlab.pdfbase.pdfmetrics import stringWidth
+from reportlab.platypus import Paragraph, Table, Spacer, BaseDocTemplate, PageTemplate, Frame
+from reportlab.platypus.flowables import HRFlowable, Flowable
 from copy import copy
-import cStringIO
+import datetime
 import io
+import textwrap
+
+try:
+    import cStringIO
+except ModuleNotFoundError:
+    pass
 
 
 def generate_order_and_sentence(pdf_dict, title=None, author=None):
-    cr = OrderSentenceReport(title, author)
-    buff = cStringIO.StringIO()
-    return cr.create_report(pdf_dict, buff)
+    report = OrderSentence(title=title, author=author)
+    try:
+        buff = cStringIO.StringIO()
+    except NameError:
+        buff = None
+    return report.create_report(pdf_dict, buff)
+
+
+class CustomXBox(Flowable):
+    def __init__(self, size=6.0, value=None, x=0, y=0):
+        Flowable.__init__(self)
+        self.width = self.height = size
+        self.value = value
+        self.offset = (x, y)
+
+    def __repr__(self):
+        return "CustomXBox(w=%s, h=%s, v=%s)" % (self.width, self.height, self.value)
+
+    def draw(self):
+        self.canv.saveState()
+        self.canv.setLineWidth(self.width * 0.11)
+        self.canv.rect(self.offset[0], self.offset[1], self.width, self.height)
+        if self.value:
+            self.canv.setFont(styles["main"].fontName, self.height * 0.9)
+            self.canv.drawCentredString(0.5 * self.width + self.offset[0], 0.2 * self.height + self.offset[1], "X")
+        self.canv.restoreState()
 
 
 class XBoxParagraph(Paragraph):
@@ -23,7 +53,7 @@ class XBoxParagraph(Paragraph):
         Paragraph.__init__(self, text, new_style, **kwargs)
         if self.style.firstLineIndent < size:
             self.style.firstLineIndent = size * 1.5
-        self.xbox = XBox(size, checked)
+        self.xbox = CustomXBox(size, checked)
 
     def draw(self):
         Paragraph.draw(self)
@@ -32,158 +62,252 @@ class XBoxParagraph(Paragraph):
         self.xbox.draw()
 
 
-class XBox(Flowable):
-    def __init__(self, size, checked=None):
-        Flowable.__init__(self)
-        self.width = size
-        self.height = size
-        self.size = size
-        self.checked = checked
-
-    def draw(self):
-        self.canv.saveState()
-        self.canv.setLineWidth(0.11 * self.size)
-        self.canv.rect(0, 0, self.width * 0.89, self.height * 0.89)
-        if self.checked is True:
-            self.check()
-        self.canv.restoreState()
-
-    def check(self):
-        self.canv.setFont('Times-Bold', self.size * 0.85)
-        to = self.canv.beginText(self.width * 0.13, self.height * 0.155)
-        to.textLine("X")
-        self.canv.drawText(to)
-
-
-class OrderSentenceReport:
-    def __init__(self, title=None, author=None):
-        self.page_size = letter
-        self.page_margin = (12.2 * mm, 7.9 * mm)
-        self.sections = ["header", "section_1", "section_2", "section_3", "section_4"]
+class PDFReport:
+    def __init__(self, page_size=None, page_margin=None, page_padding=None, doc_template_type=None, sections=None,
+                 title=None, author=None, subject=None, creator=None):
+        self.page_size = page_size if page_size else letter
+        # left, top, right, bottom
+        self.page_margin = [12.7 * mm, 12.7 * mm, 12.7 * mm, 12.7 * mm]
+        self.page_padding = [0, 0, 0, 0]
+        if page_margin:
+            if isinstance(page_margin, (list, set)) and len(page_margin) == 4:
+                self.page_margin = page_margin
+            else:
+                self.page_margin = [page_margin, page_margin, page_margin, page_margin]
+        if page_padding:
+            if isinstance(page_padding, (list, set)) and len(page_padding) == 4:
+                self.page_padding = page_padding
+            else:
+                self.page_padding = [page_padding, page_padding, page_padding, page_padding]
+        self.doc_template_type = doc_template_type if doc_template_type else BaseDocTemplate
+        self.sections = sections
         self.title = title
         self.author = author
+        self.subject = subject
+        self.creator = creator
         self.data = None
 
     def create_report(self, data_dict, buff=None):
-        def get_method(section):
-            try:
-                method = getattr(self, "_section_" + section)
-            except AttributeError:
-                raise Exception("Section method not found: " + section)
-            return method
-
         self.data = data_dict
         if not buff:
             buff = io.BytesIO()
-
         story = []
-        for section in self.sections:
-            elems = get_method(section)()
-            for elem in elems:
-                story.append(elem)
+        for section in self._content_methods():
+            elems = getattr(self, section)()
+            story.extend(elems)
+        doc_t = self._create_document(buff)
+        metadata = doc_t.build(story)
+        buff.seek(0)
+        return {"metadata": metadata, "document": buff}
 
-        page_t = PageTemplate(
-            'normal', [
+    def _content_methods(self):
+        if self.sections:
+            return self.sections
+        return sorted([x for x in dir(self) if x.startswith("_section_")])
+
+    def _create_document(self, buff, page=None, doc=None):
+        if not page:
+            page = PageTemplate(
+                "normal",
+                [
+                    Frame(
+                        self.page_margin[0],
+                        self.page_margin[1],
+                        self.page_size[0] - self.page_margin[0] - self.page_margin[2],
+                        self.page_size[1] - self.page_margin[1] - self.page_margin[3],
+                        leftPadding=self.page_padding[0],
+                        bottomPadding=self.page_padding[3],
+                        rightPadding=self.page_padding[2],
+                        topPadding=self.page_padding[1],
+                    )
+                ],
+            )
+        if not doc:
+            doc = self.doc_template_type(
+                buff,
+                pagesize=letter,
+                title=self.title,
+                author=self.author,
+                subject=self.subject,
+                creator=self.creator,
+                leftMargin=self.page_margin[0],
+                rightMargin=self.page_margin[2],
+                topMargin=self.page_margin[1],
+                bottomMargin=self.page_margin[3],
+            )
+        doc.addPageTemplates(page)
+        return doc
+
+
+class OrderSentence(PDFReport):
+    def __init__(self, *args, **kwargs):
+        PDFReport.__init__(
+            self,
+            *args,
+            page_size=letter,
+            doc_template_type=SignatureDocTemplate,
+            **kwargs
+        )
+
+    def _content_methods(self):
+        methods = PDFReport._content_methods(self)
+        methods.insert(0, methods.pop(methods.index("_section_doc_header")))
+        return methods
+
+    def _create_document(self, *args, **kwargs):
+        page = PageTemplate(
+            "normal",
+            [
                 Frame(
                     self.page_margin[0],
                     self.page_margin[1],
-                    self.page_size[0] - self.page_margin[0] * 2,
-                    self.page_size[1] - self.page_margin[1] * 2,
-                    leftPadding=0,
-                    bottomPadding=0,
-                    rightPadding=0,
-                    topPadding=0,
+                    self.page_size[0] - self.page_margin[0] - self.page_margin[2],
+                    self.page_size[1] - self.page_margin[1] - self.page_margin[3],
+                    leftPadding=self.page_padding[0],
+                    bottomPadding=self.page_padding[3],
+                    rightPadding=self.page_padding[2],
+                    topPadding=self.page_padding[1],
                 )
             ],
             onPage=self._page_footer
         )
-        doc_t = SignatureDocTemplate(
-            buff,
-            pagesize=letter,
-            title=self.title,
-            author=self.author,
-            leftMargin=self.page_margin[0],
-            rightMargin=self.page_margin[0],
-            topMargin=self.page_margin[1],
-            bottomMargin=self.page_margin[1],
-        )
-        doc_t.addPageTemplates(page_t)
-        metadata = doc_t.build(story)
-        buff.seek(0)
-        return {
-            "metadata": metadata,
-            "document": buff
-        }
+        kwargs["page"] = page
+        doc = PDFReport._create_document(self, *args, **kwargs)
+        return doc
+
+    @staticmethod
+    def underline_pad(width, text, style):
+        text = str(text)
+        padded_text = "<u>"
+        space_width = stringWidth(" ", style.fontName, style.fontSize)
+        text_width = stringWidth(text, style.fontName, style.fontSize)
+        num_spaces = (width - text_width) / space_width
+        for i in range(1, int(num_spaces / 2)):
+            padded_text += "&nbsp;"
+        padded_text += text
+        for i in range(1, int((num_spaces / 2) + 0.5) - 2):
+            padded_text += "&nbsp;"
+        padded_text += "</u>"
+        padded_text += "&nbsp;" * 2
+        return padded_text
 
     @staticmethod
     def _page_footer(canv, doc):
-        dt = datetime.datetime.now().strftime("%m/%d/%Y at %I:%M %p")
-        p = Paragraph(dt, style=extend_style(
-            styles["oas-main"],
-            alignment=TA_CENTER,
-        ))
+        dt = datetime.datetime.now().strftime("%m/%d/%Y %I:%M %p")
+        p = Paragraph(dt, style=extend_style(styles["main"], alignment=TA_RIGHT))
         p_height = p.wrapOn(canv, doc.width, doc.height)[1]
         p.drawOn(canv, doc.leftMargin, doc.bottomMargin - p_height)
 
-    def _section_header(self):
-        ps = styles["oas-doc-header"]
+    def _section_doc_header(self):
         elems = [
+            Paragraph("<b>IN THE MUNICIPAL COURT OF DEKALB COUNTY<br />STATE OF GEORGIA</b>",
+                      styles["doc-header"])
+        ]
+        ps = extend_style(styles["main"], fontSize=9)
+        if len(self.data["citations"]):
+            cit_str = ', '.join([c["citation_number"] for c in self.data["citations"]])
+            text_width = stringWidth(cit_str, ps.fontName, ps.fontSize)
+            cit_lines = textwrap.wrap(cit_str, int(len(cit_str) / (text_width / int((95 * mm) + 1))))
+            if len(cit_lines) < 2:
+                cit_lines.append("")
+        else:
+            cit_lines = ["", ""]
+        elems.append(
             Table(
                 [
                     [
-                        [
-                            Spacer(0, 4.5 * mm),
-                            Paragraph("CITY OF BROOKHAVEN<br />vs.<br />%s" % self.data["defendant_name"], ps)
-                        ],
-                        Paragraph("<b>BROOKHAVEN MUNICIPAL COURT<br />COUNTY OF DEKALB<br />STATE OF GEORGIA</b>",
-                                  extend_style(ps, fontSize=(ps.fontSize * 1.1))),
-                        None
+                        Table(
+                            [
+                                [Paragraph("<b>CITY OF BROOKHAVEN</b>", ps), None],
+                                [None, None],
+                                [Paragraph("<b>vs.</b>", ps), None],
+                                [Paragraph("%s" % self.data["defendant_name"], ps), Paragraph("<b>,</b>", ps)],
+                                [Paragraph("<b>DEFENDANT.</b>", ps), ]
+                            ],
+                            style=extend_table_style(styles["main-table"], [
+                                ("LINEBELOW", (0, 3), (0, 3), 0.5, "black"),
+                                ("VALIGN", (0, 2), (-1, 2), "BOTTOM"),
+                            ]),
+                            colWidths=[None, 2 * mm],
+                            rowHeights=5 * mm,
+                        ),
+                        Table(
+                            [
+                                [Paragraph("<b>Citation No(s). and Violation(s):</b>", ps)],
+                                [Paragraph("%s" % cit_lines[0], ps)],
+                                [Paragraph("%s" % cit_lines[1], ps)],
+                            ],
+                            style=extend_table_style(styles["main-table"], [
+                                ("LINEBELOW", (0, 1), (-1, -1), 0.6, "black"),
+                            ]),
+                            rowHeights=6 * mm,
+                        )
+                    ],
+                    [
+                        Spacer(0, 5 * mm)
                     ]
                 ],
-                style=styles["oas-main-table"],
-                colWidths=[58 * mm, 95 * mm, None],
-            ),
-            Paragraph("<b>ORDER AND SENTENCE</b>",
-                      extend_style(ps, fontSize=(ps.fontSize * 1.5), firstLineIndent=20 * mm))
-        ]
+                style=extend_table_style(styles["main-table"], [
+                    ("LINEAFTER", (0, 0), (0, -1), 0.5, "black"),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 5 * mm),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 5 * mm,),
+                ]),
+                colWidths=(75 * mm, None),
+                spaceBefore=5 * mm,
+                spaceAfter=2 * mm,
+            )
+        )
+        elems.extend([
+            Paragraph("<b><u>ORDER AND SENTENCE</u></b>", extend_style(styles["doc-header"], fontSize=12)),
+        ])
         return elems
 
-    def _section_section_1(self):
+    def _section_1(self):
         elems = list()
-        elems.append(Spacer(0, 4.6 * mm))
-        ps = extend_style(styles["oas-main"], fontSize=8)
-        ps_center = extend_style(ps, alignment=TA_CENTER)
-        ps_right = extend_style(ps, alignment=TA_RIGHT)
+        ps = extend_style(styles["section-main"], alignment=TA_LEFT, fontSize=styles["section-main"].fontSize * 0.9,
+                          leading=styles["section-main"].fontSize * 0.9)
+        ps_right = extend_style(styles["section-main"], alignment=TA_RIGHT)
+        ps_title = extend_style(styles["section-main"], alignment=TA_CENTER,
+                                leading=styles["section-main"].fontSize * 1.35)
         data = [
             [
-                Paragraph("<b><u>CITATION</u></b>", ps),
-                Paragraph("<b><u>OFFENSE</u></b>", ps),
-                None,
-                Paragraph("<b><u>DISPOSITION</u></b>", ps_center),
-                None,
-                Paragraph("<b><u>CASE BALANCE</u></b>", ps),
-                None,
+                Paragraph("<b>Citation</b>", ps_title),
+                Paragraph("<b>Offense</b>", ps_title),
+                Paragraph("<b>Disposition</b>", ps_title),
+                Paragraph("<b>Case Balance</b>", ps_title),
+                None
             ]
         ]
-        for citation in self.data["citation_table"]:
+        for citation in self.data["citations"]:
             data.append([
-                Paragraph("%s" % citation["citation_number"], ps),
-                Paragraph("%s" % citation["offense_number"], ps),
-                Paragraph("%s" % citation["offense_description"], ps),
-                Paragraph("%s" % citation["disposition"], ps_center),
-                None,
+                Paragraph("<font size=10><seq>.</font> <b>%s</b>" % citation["citation_number"], ps),
+                Table(
+                    [[
+                        Paragraph("%s" % citation["offense_number"], ps),
+                        Paragraph("%s" % citation["offense_description"], ps),
+                    ]],
+                    style=extend_table_style(styles["main-table"], [
+                        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ]),
+                    colWidths=[20 * mm, None],
+                ),
+                Paragraph("%s" % citation["disposition"], ps),
                 Paragraph("$ %s" % citation["balance"], ps),
-                None
+                Spacer(0, 6 * mm),
             ])
         elems.append(
             Table(
                 data,
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LEFTPADDING", (5, 1), (5, -1), 1.8 * mm),
+                style=extend_table_style(styles["main-table"], [
+                    ("GRID", (0, 0), (-2, -1), 0.5, "black"),
+                    ("LEFTPADDING", (0, 0), (-2, -1), 1.5 * mm),
+                    ("RIGHTPADDING", (0, 0), (-2, -1), 1.5 * mm),
+                    ("TOPPADDING", (0, 0), (-2, -1), 0.25 * mm),
+                    ("BOTTOMPADDING", (0, 0), (-2, -1), 1 * mm),
+                    ("ALIGN", (0, 0), (-1, 0), "CENTER"),
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ]),
-                colWidths=[21.8 * mm, 17.1 * mm, 100.5 * mm, 22.3 * mm, 1.9 * mm, 22.5 * mm, None],
-                rowHeights=4.22 * mm,
-                spaceAfter=1 * mm
+                colWidths=[30 * mm, None, 25 * mm, 25 * mm, 0],
             )
         )
         elems.append(
@@ -191,154 +315,96 @@ class OrderSentenceReport:
                 [
                     [
                         Paragraph("TOTAL AMOUNT OF FINE(S) / FEE(S)", ps_right),
-                        None,
                         Paragraph("$ %s" % self.data["total_amount"], ps),
                         None
                     ],
                     [
                         Paragraph("CASH BONDS RECEIVED", ps_right),
-                        None,
                         Paragraph("$ %s" % self.data["bonds_received"], ps),
                     ]
                 ],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LEFTPADDING", (2, 0), (2, -1), 1.8 * mm),
+                style=extend_table_style(styles["main-table"], [
+                    ("LEFTPADDING", (0, 0), (-1, -1), 1.5 * mm),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 1.5 * mm),
                 ]),
-                colWidths=[161.8 * mm, 1.9 * mm, 22.5 * mm, None],
-                spaceAfter=1 * mm,
+                colWidths=[None, 25 * mm, 5],
             )
         )
-        ps = styles["oas-main"]
+        elems.append(Spacer(0, 2 * mm))
+        return elems
+
+    def _section_2(self):
+        ps = extend_style(styles["section-main"], alignment=TA_JUSTIFY, underlineProportion=0.07)
         ps_center = extend_style(ps, alignment=TA_CENTER)
-        elems.append(
+        elems = [
             Paragraph(
                 "Upon accepting the defendant's above indicated plea or judgment by this court and after reviewing the defendant's criminal history record, it now appears to this Court that acceptance of the defendant's plea would be in the best interest of justice.",
                 ps
-            )
+            ),
+            Spacer(0, 0.5 * mm),
+        ]
+        period_text = self.underline_pad(
+            22 * mm,
+            "%s %s" % (self.data["sentence_length"], self.data["sentence_period"]),
+            ps
+        )
+        elems.append(
+            Paragraph(
+                "Whereas, the above disposition has been made against the above named defendant, the defendant is hereby sentenced to confinement for a period of %s and ordered to pay a fine in the total amount stated above, of which includes all surcharges pursuant to the Official Code of Georgia Annotated." % period_text,
+                ps
+            ),
+        )
+        period_text = (
+            self.underline_pad(
+                22 * mm,
+                "%s %s" % (self.data["house_eligible_length"], self.data["house_eligible_period"]),
+                ps
+            ),
+            self.underline_pad(
+                22 * mm,
+                "%s %s" % (self.data["house_length"], self.data["house_period"]),
+                ps
+            ),
+        )
+        elems.append(
+            Paragraph(
+                "Upon service of %s of the above sentence confined in jail, defendant will serve %s in confinement. Defendant shall receive no reduction of total sentence time based upon any credit for good time served if incarcerated." % period_text,
+                ps
+            ),
         )
         elems.extend([
-            Spacer(0, 0.75 * mm),
             Table(
                 [[
-                    Paragraph(
-                        "Whereas, the above disposition has been made against the above named defendant, the defendant is hereby sentenced to confinement for a period of",
-                        ps
-                    ),
-                    Paragraph("%s" % self.data["sentence_length"], ps_center),
-                    None,
+                    Paragraph("The defendant is to report to the jail", ps),
+                    CustomXBox(8.2, self.data["jail_immediate"]),
+                    Paragraph("immediately <b>or</b>", ps),
+                    CustomXBox(8.2, True if self.data["jail_date"] else False),
+                    Paragraph("on", ps),
+                    Paragraph("%s" % self.data["jail_date"], ps_center),
+                    Paragraph("at", ps_center),
+                    Paragraph("%s" % self.data["jail_time"], ps_center),
+                    Paragraph("to begin service.", ps),
                 ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
+                style=extend_table_style(styles["main-table"], [
+                    ("LEFTPADDING", (8, 0), (8, 0), 1 * mm),
+                    ("LINEBELOW", (5, 0), (5, 0), 0.6, "black"),
+                    ("LINEBELOW", (7, 0), (7, 0), 0.6, "black"),
                 ]),
-                colWidths=[170 * mm, 10 * mm, None],
-                rowHeights=3.5 * mm
+                colWidths=[55 * mm, 5 * mm, 25 * mm, 5 * mm, 5 * mm, None, 5 * mm, None]
             ),
-            Table(
-                [[
-                    XBoxParagraph(
-                        "months", ps, 8.2,
-                        True if self.data["sentence_period"] == "months" else False,
-                    ),
-                    XBoxParagraph(
-                        "days", ps, 8.2,
-                        True if self.data["sentence_period"] == "days" else False,
-                    ),
-                    Paragraph(
-                        "and ordered to pay a fine in the total amount stated above, of which includes all surcharges pursuant to the Official Code of Georgia Annotated.",
-                        ps),
-                ]],
-                style=styles["oas-main-table"],
-                colWidths=[17.5 * mm, 13.5 * mm, None],
-                rowHeights=3.25 * mm
-            ),
-            Table(
-                [
-                    [
-                        Paragraph("Upon service of", ps),
-                        Paragraph("%s" % self.data["house_eligable_length"], ps_center),
-                        XBoxParagraph(
-                            "months", ps, 8.2,
-                            True if self.data["house_eligable_period"] == "months" else False,
-                        ),
-                        XBoxParagraph(
-                            "days", ps, 8.2,
-                            True if self.data["house_eligable_period"] == "days" else False,
-                        ),
-                        Paragraph("of the above sentence confined in jail, defendant will serve", ps),
-                        Paragraph("%s" % self.data["house_length"], ps_center),
-                        XBoxParagraph(
-                            "months", ps, 8.2,
-                            True if self.data["house_period"] == "months" else False,
-                        ),
-                        XBoxParagraph(
-                            "days", ps, 8.2,
-                            True if self.data["house_period"] == "days" else False,
-                        ),
-                        XBoxParagraph(
-                            "hours", ps, 8.2,
-                            True if self.data["house_period"] == "hours" else False,
-                        ),
-                        None,
-                    ],
-                    [
-                        Paragraph(
-                            "in house confinement. Defendant shall receive no reduction of total sentence time based upon any credit for good time served if incarcerated. ",
-                            ps),
-                    ]
-                ],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("SPAN", (0, 1), (-1, 1)),
-                    ("LEFTPADDING", (2, 0), (2, 0), 3 * mm),
-                    ("LINEBELOW", (5, 0), (5, 0), 0.5, "black"),
-                    ("LEFTPADDING", (6, 0), (6, 0), 3 * mm),
-                ]),
-                colWidths=[19.5 * mm, 10.5 * mm, 19.7 * mm, 12.5 * mm, 67 * mm, 10.5 * mm, 20 * mm, 14.7 * mm,
-                           12.5 * mm, None],
-                rowHeights=3.2 * mm
-            ),
-            Table(
-                [
-                    [
-                        Paragraph("The defendant is to report to the jail", ps),
-                        XBoxParagraph("immediately or", ps, 8.2, self.data["jail_immediate"]),
-                        XBoxParagraph("on", ps, 8.2, True if self.data["jail_date"] else False),
-                        Paragraph("%s" % self.data["jail_date"], ps_center),
-                        Paragraph("at", ps),
-                        Paragraph("%s" % self.data["jail_time"], ps_center),
-                        Paragraph("to begin service.", ps),
-                    ],
-                    [
-                        Paragraph(
-                            "HOWEVER, It is further ordered by the court that the defendant serve the remainder of the sentence on probation; provided that the said defendant complies with the following general and special conditions herein imposed by the court as part of this sentence.",
-                            styles["oas-main"]),
-                    ]
-                ],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("SPAN", (0, 1), (-1, 1)),
-                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
-                    ("LINEBELOW", (5, 0), (5, 0), 0.5, "black"),
-                    ("LEFTPADDING", (4, 0), (4, 0), 2.2 * mm),
-                    ("LEFTPADDING", (6, 0), (6, 0), 2.2 * mm),
-                ]),
-                colWidths=[46 * mm, 23 * mm, 8 * mm, 25 * mm, 8.6 * mm, 25.2 * mm, None],
-            ),
+            Spacer(0, 2 * mm)
         ])
-
-        elems.append(Spacer(0, 1 * mm))
         return elems
 
-    def _section_section_2(self):
+    def _section_3(self):
+        ps = styles["section-main"]
         elems = [
-            Spacer(0, 3 * mm),
-            Paragraph("<b>GENERAL CONDITIONS OF PROBATION / SUSPENDED SENTENCE</b>", styles["oas-section-header"]),
             Paragraph(
-                "The defendant is hereby granted the privilege of serving all or part of the above stated sentence on probation, subject to the following general conditions:",
-                styles["oas-main"]
+                "<b>GENERAL CONDITIONS OF PROBATION / SUSPENDED SENTENCE</b>: The defendant is hereby granted the privilege of serving all or part of the above stated sentence on probation, subject to the following general conditions:",
+                ps
             ),
-            Spacer(0, 1.5 * mm),
         ]
-        ps = extend_style(styles["oas-main"], leading=9)
+        ps = extend_style(ps, alignment=TA_JUSTIFY)
         list_text = [
             "Do not violate the criminal laws of any governmental unit. Must report any arrest and / or citation to probation officer within 48 hours.",
             "Avoid persons or places of disreputable or harmful character.",
@@ -353,296 +419,225 @@ class OrderSentenceReport:
         ]
         table_data = list()
         for text in list_text:
-            table_data.append([Paragraph("<seq id=\"s2s3_l0\">.", ps), Paragraph(text, ps)])
+            table_data.append([Paragraph("<seq id=\"s3s4_l0\">.&nbsp;&nbsp;%s" % text, ps)])
         elems.append(
             Table(
                 table_data,
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LEFTPADDING", (0, 0), (0, -1), 7 * mm),
+                style=extend_table_style(styles["main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("LEFTPADDING", (0, 0), (0, -1), 14 * mm),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 1 * mm),
                 ]),
-                colWidths=[13.5 * mm, None],
             )
         )
+        elems.append(Spacer(0, 1 * mm))
         return elems
 
-    def _section_section_3(self):
+    def _section_4(self):
+        ps = styles["section-main"]
         elems = [
-            Spacer(0, 1.5 * mm),
             Paragraph(
-                "<b>SPECIAL CONDITIONS OF PROBATION<br />(conditions are only applicable if checked and will be completed at the defendant's expense)</b>",
-                styles["oas-section-header"]
+                "<b>SPECIAL CONDITIONS OF PROBATION (conditions are only applicable if checked and will be completed at the defendant's expense):</b>",
+                ps
             ),
-            Spacer(0, 2.5 * mm),
         ]
-        ps = styles["oas-main"]
-        ps_center = extend_style(ps, alignment=TA_CENTER)
-        list_items = list()
-        list_items.append(
-            Table(
-                [[
-                    Paragraph("Pay restitution in the amount of", ps),
-                    Paragraph("$ %s" % self.data["11_amount"], ps),
-                    Paragraph("to", ps),
-                    Paragraph("%s" % self.data["11_party"], ps),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LEFTPADDING", (2, 0), (2, 0), 1 * mm),
-                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
-                ]),
-                colWidths=[38.4 * mm, 14.5 * mm, 6.5 * mm, None]
-            )
-        )
-        list_items.append(
-            Paragraph(
-                "Abstain from the use of alcohol and drugs, and be subjected to random alcohol / drug testing of defendant's blood, breath, urine and hair as requested by court, probation, or law enforcement.",
-                ps
+        field_values = [
+            (
+                self.underline_pad(22 * mm, self.data["11_amount"], ps),
+                self.underline_pad(50 * mm, self.data["11_party"], ps)
             ),
-        )
-        list_items.append(
-            Paragraph(
-                "Obtain an alcohol and drug use evaluation or anger management evaluation as directed, and follow all further directives for treatment or counseling.",
-                ps
+            (
+                self.underline_pad(15 * mm, self.data["16_meetings"], ps),
+                self.underline_pad(15 * mm, self.data["16_sessions"], ps),
             ),
-        )
-        list_items.append(
-            Paragraph(
-                "Complete a Risk Reduction course conducted by an agency licensed by the State of Georgia and submit proof to the Georgia Department of Driver Services within 120 days of this plea.",
-                ps
+            self.underline_pad(22 * mm, "%s %s" % (self.data["17_length"], self.data["17_period"]), ps),
+            self.underline_pad(15 * mm, self.data["18_hours"], ps),
+            self.underline_pad(15 * mm, self.data["19_days"], ps),
+            self.underline_pad(15 * mm, self.data["20_months"], ps),
+            self.underline_pad(15 * mm, self.data["21_months"], ps),
+            (
+                self.underline_pad(15 * mm, self.data["22_months"], ps),
+                self.underline_pad(20 * mm, self.data["22_amount"], ps)
             ),
-        )
-        list_items.append(
-            Paragraph(
-                "Complete the Interlock Ignition device requirements pursuant to the Official Code of Georgia Annotated.",
-                ps
-            ),
-        )
-        list_items.append(
-            Table(
-                [[
-                    Paragraph("Attend", ps),
-                    Paragraph("%s" % self.data["16_meetings"], ps_center),
-                    Paragraph("Alcoholics / Narcotics Anonymous meetings; and", ps),
-                    Paragraph("%s" % self.data["16_sessions"], ps_center),
-                    Paragraph("counseling sessions per week.", ps),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LEFTPADDING", (2, 0), (2, 0), 2.5 * mm),
-                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
-                    ("LEFTPADDING", (4, 0), (4, 0), 2.5 * mm),
-                ]),
-                colWidths=[8.7 * mm, 10 * mm, 61.7 * mm, 9.8 * mm, None]
-            )
-        )
-        list_items.append(
-            Table(
-                [[
-                    Paragraph("Successfully complete", ps),
-                    Paragraph("%s" % self.data["17_length"], ps_center),
-                    XBoxParagraph(
-                        "hours", styles["oas-main"], 8.2,
-                        True if self.data["17_period"] == "hours" else False
-                    ),
-                    XBoxParagraph(
-                        "days", styles["oas-main"], 8.2,
-                        True if self.data["17_period"] == "days" else False
-                    ),
-                    Paragraph("of community service as directed by the probation supervisor or the City.", ps),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LEFTPADDING", (2, 0), (2, 0), 2.7 * mm),
-                ]),
-                colWidths=[27.7 * mm, 10 * mm, 17.5 * mm, 14.5 * mm, None]
-            )
-        )
-        list_items.append(
-            Table(
-                [[
-                    Paragraph("%s" % self.data["18_hours"], ps_center),
-                    Paragraph(
-                        "hours of community service may be completed in lieu of fine at a rate of $10.00 per hour",
-                        ps
-                    ),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (0, 0), (0, 0), 0.5, "black"),
-                ]),
-                colWidths=[10 * mm, None]
-            )
-        )
-        list_items.append(
-            Table(
-                [[
-                    Paragraph(
-                        "Defendant shall complete defensive driving school and submit proof of completion to the clerk of Court within",
-                        ps
-                    ),
-                    Paragraph("%s" % self.data["19_days"], ps_center),
-                    Paragraph("days of plea", ps),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LEFTPADDING", (2, 0), (2, 0), 2.5 * mm),
-                ]),
-                colWidths=[124.5 * mm, 10 * mm, None]
-            )
-        )
-        list_items.append(
-            Table(
-                [
-                    [
-                        Paragraph("Probation supervisor fee to be suspended after", ps),
-                        Paragraph("%s" % self.data["20_months"], ps_center),
-                        Paragraph(
-                            "months if defendant has paid all of the fine and completed all special conditions of probation,",
-                            ps
-                        ),
-                    ],
-                    [Paragraph("with general conditions of probation to remain in effect throughout the term.", ps)]
-                ],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("SPAN", (0, 1), (-1, 1)),
-                    ("LEFTPADDING", (2, 0), (2, 0), 2.5 * mm),
-                ]),
-                colWidths=[55.3 * mm, 9.8 * mm, None],
-                rowHeights=2.95 * mm
-            )
-        )
-        list_items.append(
-            Table(
-                [[
-                    Paragraph("Probation can be terminated after", ps),
-                    Paragraph("%s" % self.data["21_months"], ps_center),
-                    Paragraph(
-                        "months if defendant has paid all of the fine and completed all special conditions of probation.",
-                        ps),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LEFTPADDING", (2, 0), (2, 0), 2.8 * mm),
-                ]),
-                colWidths=[40.4 * mm, 9.8 * mm, None]
-            )
-        )
-        list_items.append(
-            Table(
-                [[
-                    Paragraph("Pay all fines and surcharges within", ps),
-                    Paragraph("%s" % self.data["22_months"], ps_center),
-                    Paragraph("months at a rate of ", ps),
-                    Paragraph("$ %s" % self.data["16_sessions"], ps),
-                    Paragraph("per month. (to be filled out by probation offcer after disposition.)", ps),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LEFTPADDING", (2, 0), (2, 0), 2.8 * mm),
-                    ("LINEBELOW", (3, 0), (3, 0), 0.5, "black"),
-                    ("LEFTPADDING", (4, 0), (4, 0), 2.2 * mm),
-                ]),
-                colWidths=[40.4 * mm, 9.8 * mm, 26 * mm, 14.5 * mm, None]
-            )
-        )
-        list_items.append(
-            Table(
-                [[
-                    Paragraph("Complete all special conditions within", ps),
-                    Paragraph("%s" % self.data["23_months"], ps_center),
-                    Paragraph("months.", ps),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LEFTPADDING", (2, 0), (2, 0), 2.7 * mm),
-                ]),
-                colWidths=[44.5 * mm, 10 * mm, None]
-            )
-        )
-        list_items.append(
-            Paragraph(
-                "Defendant shall attend all classes and work successfully toward obtaining a high school diploma or GED during period of probation.",
-                ps),
-        )
-        list_items.append(
-            Table(
-                [[
-                    Paragraph("Other:", ps),
-                    Paragraph("%s" % self.data["25_description"], ps),
-                ]],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("LINEBELOW", (1, 0), (1, 0), 0.5, "black"),
-                    ("LEFTPADDING", (1, 0), (1, 0), 0.5 * mm),
-                ]),
-                colWidths=[8.5 * mm, None]
-            )
-        )
+            self.underline_pad(15 * mm, self.data["23_months"], ps),
+        ]
+        line_data = [
+            [
+                XBoxParagraph("<seq id=\"s3s4_l0\">. Pay restitution in the amount of $ %s to %s" % field_values[0],
+                              ps, 6.5, True if self.data["11"] else False)
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Abstain from the use of alcohol and drugs, and be subjected to random alcohol / drug testing of defendant's blood, breath, urine and hair as requested by court, probation, or law enforcement.",
+                    ps, 6.5, True if self.data["12"] else False)
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Obtain an alcohol and drug use evaluation or anger management evaluation as directed, and follow all further directives for treatment or counseling.",
+                    ps, 6.5, True if self.data["13"] else False)
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Complete a Risk Reduction course conducted by an agency licensed by the State of Georgia and submit proof to the Georgia Department of Driver Services within 120 days of this plea.",
+                    ps, 6.5, True if self.data["14"] else False)
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Complete the Interlock Ignition device requirements pursuant to the Official Code of Georgia Annotated.",
+                    ps, 6.5, True if self.data["15"] else False)
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Attend %s Alcoholics / Narcotics Anonymous meetings; and %s counseling sessions per week." %
+                    field_values[1],
+                    ps, 6.5, True if self.data["16"] else False
+                )
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Successfully complete %s of community service as directed by the probation supervisor or the City." %
+                    field_values[2],
+                    ps, 6.5, True if self.data["17"] else False
+                )
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. %s hours of community service may be completed in lieu of fine at a rate of $10.00 per hour" %
+                    field_values[3],
+                    ps, 6.5, True if self.data["18"] else False)
 
-        table_data = list()
-        i = 11
-        for item in list_items:
-            table_data.append([
-                XBox(9.5, self.data[str(i)]), Paragraph("<seq id=\"s2s3_l0\">.", ps_center), item
-            ])
-            i += 1
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Defendant shall complete defensive driving school and submit proof of completion to the clerk of Court within %s days of plea" %
+                    field_values[4],
+                    ps, 6.5, True if self.data["19"] else False,
+                )
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Probation supervisor fee to be suspended after %s months if defendant has paid all of the fine and completed all special conditions of probation, with general conditions of probation to remain in effect throughout the term." %
+                    field_values[5],
+                    ps, 6.5, True if self.data["20"] else False,
+                )
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Probation can be terminated after %s months if defendant has paid all of the fine and completed all special conditions of probation." %
+                    field_values[6],
+                    ps, 6.5, True if self.data["21"] else False,
+                )
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Pay all fines and surcharges within %s months at a rate of $ %s per month. (to be filled out by probation offcer after disposition.)" %
+                    field_values[7],
+                    ps, 6.5, True if self.data["22"] else False,
+                )
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Complete all special conditions within %s months." % field_values[8], ps,
+                    6.5, True if self.data["23"] else False, )
+            ],
+            [
+                XBoxParagraph(
+                    "<seq id=\"s3s4_l0\">. Defendant shall attend all classes and work successfully toward obtaining a high school diploma or GED during period of probation.",
+                    ps, 6.5, True if self.data["24"] else False, )
+            ],
+            [
+                XBoxParagraph("<seq id=\"s3s4_l0\">. Other: %s" % self.data["25_description"], ps,
+                              6.5, True if self.data["25"] else False)
+            ],
+            [HRFlowable(color="black", width="90%")],
+        ]
         elems.append(
             Table(
-                table_data,
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("ALIGN", (0, 0), (0, -1), "CENTER"),
-                    ("BOTTOMPADDING", (1, 0), (-1, -1), 0.45 * mm),
+                line_data,
+                style=extend_table_style(styles["main-table"], [
+                    ("LEFTPADDING", (0, 0), (-1, -1), 10.5 * mm),
+                    ("ALIGN", (0, -1), (-1, -1), "RIGHT"),
+                    ("BOTTOMPADDING", (0, 0), (-1, -3), 1 * mm),
                 ]),
-                colWidths=[4.3 * mm, 9.3 * mm, None],
             )
         )
-        elems.append(Spacer(0, 1.9 * mm))
-        elems.append(
+        elems.append(Spacer(0, 2 * mm))
+        return elems
+
+    def _section_5(self):
+        ps = styles["section-main"]
+        elems = [
             Paragraph(
                 "IT IS THE FURTHER ORDER of the Court, and the defendant is hereby advised that the Court may, at any time, upon violation of any of the general or special conditions of probation, revoke any conditions of the probation / suspension herein granted. If such probation / suspension is revoked, the Court may order the execution of the sentence which was originally imposed or any portion thereof in the manner provided by law, after deducting the amount of time the defendant has on probation or suspension.",
-                ps),
-        )
-
-        return elems
-
-    def _section_section_4(self):
-        ps = styles["oas-main"]
-        ps_center = extend_style(ps, alignment=TA_CENTER)
-        elems = [
-            Spacer(0, 7.6 * mm),
-            Paragraph("SO ORDERED this the 16th of July, 2019.", extend_style(ps_center, rightIndent=2.5 * mm)),
-            Spacer(0, 0.8 * mm),
+                ps,
+            )
+        ]
+        elems.append(Spacer(0, 1 * mm))
+        date_parts = self.data["order_date"].split("/")
+        date_parts[1] = int(date_parts[0])
+        date_suff = ["th", "st", "nd", "rd"]
+        try:
+            date_parts[1] = "%s%s" % (date_parts[1], date_suff[date_parts[1]])
+        except IndexError:
+            date_parts[1] = "%s%s" % (date_parts[1], date_suff[0])
+        date_parts[0] = datetime.date(1900, int(date_parts[0]), 1).strftime('%B')
+        elems.append(
             Table(
                 [
                     [
-                        SignatureRect(51 * mm, 16.5 * mm, label="defendent"),
                         None,
-                        SignatureRect(50 * mm, 16.5 * mm, label="attorney"),
-                        None,
-                        SignatureRect(65 * mm, 10 * mm, label="judge"),
-                        None,
-                    ],
-                    [
-                        None, None, None, None,
-                        Paragraph("Judge, MUNICIPAL COURT OF BROOKHAVEN", ps_center),
-                    ],
-                    [
-                        Paragraph("Defendant", ps_center),
-                        None,
-                        Paragraph("Defendant's Attorney", ps_center),
+                        Paragraph("<b>SO ORDERED</b> this", ps),
+                        Paragraph("%s" % date_parts[1], extend_style(ps, alignment=TA_CENTER)),
+                        Paragraph("of", extend_style(ps, alignment=TA_CENTER)),
+                        Paragraph("%s" % date_parts[0], extend_style(ps, alignment=TA_CENTER)),
+                        Paragraph(", %s." % date_parts[2], ps),
                     ]
                 ],
-                style=extend_table_style(styles["oas-main-table"], [
-                    ("SPAN", (0, 0), (0, 1)),
-                    ("SPAN", (2, 0), (2, 1)),
-                    ("LINEBELOW", (4, 0), (4, 0), 0.6 * mm, "black"),
-                    ("LINEBELOW", (0, 1), (0, 1), 0.6 * mm, "black"),
-                    ("LINEBELOW", (2, 1), (2, 1), 0.6 * mm, "black"),
-                    ("LEFTPADDING", (1, 0), (1, 0), 0.5 * mm),
-                    ("TOPPADDING", (4, 1), (4, 1), 0.4 * mm),
-                    ("TOPPADDING", (0, 2), (2, 2), 0.4 * mm),
+                style=extend_table_style(styles["main-table"], [
+                    ("LINEBELOW", (2, 0), (2, 0), 0.5, "black"),
+                    ("LINEBELOW", (4, 0), (4, 0), 0.5, "black"),
                 ]),
-                colWidths=[52 * mm, 8 * mm, 51 * mm, 12.4 * mm, 66 * mm, None],
-                rowHeights=[11 * mm, 6.5 * mm, 4 * mm]
+                colWidths=(25 * mm, 30 * mm, 12.5 * mm, 4.5 * mm, 30 * mm, 12 * mm),
+                hAlign="LEFT"
             )
-        ]
+        )
+        elems.extend([
+            Spacer(0, 1 * mm),
+            Table(
+                [
+                    [None, SignatureRect(88 * mm, 7 * mm, label="Judge", leftIndent=4 * mm)],
+                    [None, Paragraph("Judge, MUNICIPAL COURT OF BROOKHAVEN", ps)],
+                ],
+                style=extend_table_style(styles["main-table"], [
+                    ("LINEABOVE", (1, 1), (1, 1), 0.9, "black"),
+                ]),
+            )
+        ])
+        elems.extend([
+            Spacer(0, 10 * mm),
+            Table(
+                [
+                    [
+                        None,
+                        SignatureRect(65 * mm, 7 * mm, label="Defendant"),
+                        None,
+                        SignatureRect(82 * mm, 7 * mm, label="Defendants Attorney"),
+                        None
+                    ],
+                    [
+                        None,
+                        Paragraph("Defendant", ps),
+                        None,
+                        Paragraph("Defendant's Attorney", ps),
+                    ],
+                ],
+                style=extend_table_style(styles["main-table"], [
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("LINEBELOW", (1, 0), (1, 0), 0.9, "black"),
+                    ("LINEBELOW", (3, 0), (3, 0), 0.9, "black"),
+                ]),
+                colWidths=(10 * mm, None, 10 * mm, None, 10 * mm),
+            )
+        ])
+
         return elems

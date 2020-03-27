@@ -1,6 +1,7 @@
 order_and_sentence_data = {
+    "order_date": "07/16/2019",
     "defendant_name": "JUAN URIEL MELENDEZ HERRERA",
-    "citation_table": [
+    "citations": [
         {
             "citation_number": "E31415",
             "offense_number": "40-6-48",
@@ -39,10 +40,10 @@ order_and_sentence_data = {
     ],
     "total_amount": "0.00",
     "bonds_received": "1,780.00",
-    "sentence_length": "30",
+    "sentence_length": "120",
     "sentence_period": "months",
-    "house_eligable_length": "15",
-    "house_eligable_period": "months",
+    "house_eligible_length": "15",
+    "house_eligible_period": "days",
     "house_length": "180",
     "house_period": "days",
     "jail_immediate": True,
