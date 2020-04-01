@@ -28,6 +28,7 @@ def generate_certificate_of_service():
                     Table(
                         [
                             [None],
+                            [None],
                             [
                                 Paragraph(
                                     """
