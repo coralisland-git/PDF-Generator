@@ -11,7 +11,7 @@ def generate_ignition_interlock_court_order():
 
     story = []
     story += header()
-    story += body()
+    story += case_header()
 
     main_template = PageTemplate(id="main_template", frames=[f])
     doc.addPageTemplates([main_template])
@@ -82,9 +82,8 @@ def header():
     )
     return story
 
-def body():
+def case_header():
     story = []
-    TEST_DATA = "Test Data"
     story += [
         Table(
             [
@@ -109,23 +108,17 @@ def body():
                             ("VALIGN", (0, 0), (-1, -1), "TOP")
                         ]),
                     ),
+                    Spacer(0,0),
                     Table(
                         [
                             [
-                                Paragraph("<b>Agency Code:</b> 044201J", styles['rc-aawp-main-content']),
-                                Paragraph("<b>Ticket No:</b> E31417", styles['rc-aawp-main-content']),
+                                Paragraph("<b>Case No.:</b> E67963", styles['rc-aawp-main-content']),
                             ],
                             [
-                                Paragraph("<b>DL#:</b> NL", styles['rc-aawp-main-content']),
-                                Paragraph("<b>SSN:</b> {}".format(TEST_DATA), styles['rc-aawp-main-content'])
+                                Paragraph("<b>Citation No.:</b> E67963", styles['rc-aawp-main-content']),
                             ],
                             [
-                                Paragraph("<b>Sex:</b> MALE", styles['rc-aawp-main-content']),
-                                Paragraph("<b>Race:</b> WHITE", styles['rc-aawp-main-content']),
-                            ],
-                            [
-                                Paragraph("<b>DOB:</b> 09/24/1987 ", styles['rc-aawp-main-content']),
-                                Paragraph("<b>Age:</b> 31", styles['rc-aawp-main-content']),
+                                Paragraph("<b>Lic. No.:</b> GA 060274748", styles['rc-aawp-main-content']),
                             ]
                         ],
                         style=extend_table_style(styles["rc-main-table"], [
@@ -138,7 +131,13 @@ def body():
             style=extend_table_style(styles["rc-main-table"], [
                 ("VALIGN", (0, 0), (-1, -1), "TOP")
             ]),
-            colWidths=(90 * mm, 90 * mm)
+            colWidths=(90 * mm, 20 * mm, 90 * mm)
         ),
     ]
     return story
+
+def body():
+    story = []
+    story += [
+
+    ]
