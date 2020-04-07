@@ -2,15 +2,13 @@ import cStringIO
 
 from common.signatures import *
 from document_specific_styles import *
-from reportlab.lib.enums import TA_RIGHT, TA_CENTER
+from reportlab.lib.enums import TA_RIGHT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
 from reportlab.platypus import (
     Paragraph,
     Table,
     Spacer,
-    TableStyle,
-    BaseDocTemplate,
     PageTemplate,
     Frame,
 )
@@ -27,6 +25,17 @@ def generate_certificate_of_service():
                     Image("brookhaven.jpg", 24 * mm, 14 * mm),
                     Table(
                         [
+                            [
+                                Paragraph(
+                                    """
+                                    <b>BROOKHAVEN MUNICIPAL COURT </b> <br />
+                                    2665 BUFORD HWY, BROOKHAVEN, GA 30324 <br />
+                                    Phone: 404-637-660 <br />
+                                    Fax: (404) 671-3410
+                                    """,
+                                    extend_style(styles["rc-doc-header-info"]),
+                                ),
+                            ],
                             [None],
                             [None],
                             [
@@ -44,17 +53,6 @@ def generate_certificate_of_service():
                                     STATE OF GEORGIA, DEKALB COUNTY <br />
                                     """,
                                     extend_style(styles["rc-doc-sub-header"]),
-                                )
-                            ],
-                            [None],
-                            [
-                                Paragraph(
-                                    """
-                                    BROOKHAVEN MUNICIPAL COURT <br />
-                                    2665 BUFORD HWY, BROOKHAVEN, GA 30324 <br />
-                                    Phone: 404-637-660, Fax: (404) 671-3410
-                                    """,
-                                    extend_style(styles["rc-doc-header-info"]),
                                 )
                             ],
                         ],
@@ -108,7 +106,6 @@ def generate_certificate_of_service():
                 [None],
                 [None],
                 [None],
-                [None],
             ],
             style=extend_table_style(
                 styles["rc-main-table"], [("VALIGN", (0, 0), (-1, -1), "TOP")]
@@ -151,7 +148,7 @@ def generate_certificate_of_service():
             ),
             colWidths=(0 * mm, 6 * mm, 194 * mm)
         ),
-        Spacer(0, 15 * mm),
+        Spacer(0, 12 * mm),
         Table(
             [
                 [
@@ -212,10 +209,10 @@ def generate_certificate_of_service():
             ),
             colWidths=(0 * mm, 6 * mm, 194 * mm),
         ),
-        Spacer(0, 15 * mm),
+        Spacer(0, 10 * mm),
         Paragraph("The day of 07/16/2019", style=styles["rc-aawp-main-content"]),
-        Spacer(0, 20 * mm),
-        Paragraph("________________________", style=styles["rc-doc-signature"]),
+        Spacer(0, 12 * mm),
+        Paragraph("______________________________________", style=styles["rc-doc-signature"]),
         Spacer(0, 3 * mm),
         Paragraph("Clerk / Deputy Court Clerk", style=styles["rc-doc-signature"]),
     ]
@@ -227,6 +224,7 @@ def generate_certificate_of_service():
 
     buff.seek(0)
     return buff
+
 
 class XBox(Flowable):
     def __init__(self, size, checked=None):
@@ -243,3 +241,9 @@ class XBox(Flowable):
         if self.checked is True:
             self.check()
         self.canv.restoreState()
+
+    def check(self):
+        self.canv.setFont('Times-Bold', self.size * 0.95)
+        to = self.canv.beginText(self.width * 0.13, self.height * 0.155)
+        to.textLine("X")
+        self.canv.drawText(to)

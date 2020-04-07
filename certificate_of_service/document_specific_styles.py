@@ -12,11 +12,11 @@ styles["rc-doc-header-fda"] = ParagraphStyle(
 )
 
 styles["rc-doc-sub-header"] = ParagraphStyle(
-    "rc-doc-sub-header", parent=styles["rc-header"], fontSize=12
+    "rc-doc-sub-header", parent=styles["rc-header"], fontSize=12,
 )
 
 styles["rc-doc-header-info"] = ParagraphStyle(
-    "rc-doc-sub-header-info", alignment=TA_CENTER, fontSize=10
+    "rc-doc-sub-header-info", alignment=TA_CENTER, fontSize=13, leading=18
 )
 
 styles["rc-aawp-main-content"] = ParagraphStyle(
@@ -24,6 +24,7 @@ styles["rc-aawp-main-content"] = ParagraphStyle(
     parent=styles["rc-aawp-main"],
     fontName="Arial",
     fontSize=12,
+    leading=15,
 )
 
 styles["rc-aawp-main-header"] = ParagraphStyle(
@@ -38,6 +39,7 @@ styles["rc-doc-content-header-fda"] = ParagraphStyle(
     parent=styles["rc-doc-header"],
     fontName="Arial-Bold",
     fontSize=13,
+    leading=18
 )
 
 styles["rc-doc-signature"] = ParagraphStyle(
