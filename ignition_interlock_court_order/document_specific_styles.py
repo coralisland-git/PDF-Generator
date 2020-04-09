@@ -32,3 +32,19 @@ styles["rc-aawp-main-box"] = ParagraphStyle(
     leading=11,
     alignment=TA_RIGHT
 )
+
+styles["ddo-heading"] = ParagraphStyle(
+    "rc-main-rmt",
+    fontSize=9,
+    leading=15,
+    alignment=TA_CENTER,
+    fontName="Arial",
+)
+
+styles["ddo-main"] = ParagraphStyle(
+    "rc-main-rmt",
+    parent=styles['ddo-heading'],
+    alignment=TA_LEFT,
+    fontSize=12,
+)
+
