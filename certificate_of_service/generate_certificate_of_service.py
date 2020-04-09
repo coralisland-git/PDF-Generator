@@ -14,7 +14,7 @@ from reportlab.platypus import (
 )
 
 
-def generate_certificate_of_service():
+def generate_certificate_of_service(sample_data):
     buff = cStringIO.StringIO()
     doc = SignatureDocTemplate(buff, pagesize=letter)
     f = Frame(gutters[0], gutters[2], usable_width, usable_height, showBoundary=0)
@@ -90,15 +90,18 @@ def generate_certificate_of_service():
                         <b>
                         CITY OF BROOKHAVEN <br/>
                         VS. <br/>
-                        JUAN URIEL MELENDEZ HERRERA</b>
-                        """,
+                        """ + sample_data["person"] + "</b>",
                         styles["rc-aawp-main-header"],
                     ),
                     None,
                     Paragraph(
                         """
                         <br/>
-                        <b>Case Number: E31417</b>
+                        <b>Case Number:
+                        """
+                        + sample_data["case_number"] +
+                        """
+                        </b>
                         """,
                         styles["rc-doc-sub-header"],
                     ),
@@ -129,7 +132,7 @@ def generate_certificate_of_service():
         Table(
             [
                 [
-                    XBox(10, False),
+                    XBox(10, sample_data["by_deposit"]),
                     None,
                     Paragraph(
                         "by depositing same in the U.S.Mail, properly addressed and with sufficient postage affixed to "
@@ -137,7 +140,7 @@ def generate_certificate_of_service():
                 ],
                 [None],
                 [
-                    XBox(10, False),
+                    XBox(10, sample_data["by_email"]),
                     None,
                     Paragraph(
                         "by email provided by the appointed attorney.", style=styles["rc-aawp-main-content"]),
@@ -152,13 +155,13 @@ def generate_certificate_of_service():
         Table(
             [
                 [
-                    XBox(10, False),
+                    XBox(10, sample_data["check_box_a"]),
                     None,
                     Paragraph("a. Copy of Citation(s)", style=styles["rc-aawp-main-content"]),
                 ],
                 [None],
                 [
-                    XBox(10, False),
+                    XBox(10, sample_data["check_box_b"]),
                     None,
                     Paragraph(
                         "b. List of Witnesses - [AS CONTAINED IN ATTACHED (PORTION OF) INCIDENT AND/OR ACCIDENT REPORT "
@@ -168,7 +171,7 @@ def generate_certificate_of_service():
                 ],
                 [None],
                 [
-                    XBox(10, False),
+                    XBox(10,  sample_data["check_box_c"]),
                     None,
                     Paragraph(
                         "c. Defendant's Oral Statements - [AS CONTAINED IN ATTACHED (PORTION OF) INCIDENT AND/OR "
@@ -178,7 +181,7 @@ def generate_certificate_of_service():
                 ],
                 [None],
                 [
-                    XBox(10, False),
+                    XBox(10,  sample_data["check_box_d"]),
                     None,
                     Paragraph(
                         "d. Defendant's Written Statements - [ATTACHED][N/A]",
@@ -187,7 +190,7 @@ def generate_certificate_of_service():
                 ],
                 [None],
                 [
-                    XBox(10, False),
+                    XBox(10,  sample_data["check_box_e"]),
                     None,
                     Paragraph(
                         "e. Written Scientific Reports - Intox or Division of Forensic Science Report",
@@ -196,7 +199,7 @@ def generate_certificate_of_service():
                 ],
                 [None],
                 [
-                    XBox(10, False),
+                    XBox(10,  sample_data["check_box_f"]),
                     None,
                     Paragraph(
                         "f. Form for request of video if applicable",
@@ -210,7 +213,7 @@ def generate_certificate_of_service():
             colWidths=(0 * mm, 6 * mm, 194 * mm),
         ),
         Spacer(0, 10 * mm),
-        Paragraph("The day of 07/16/2019", style=styles["rc-aawp-main-content"]),
+        Paragraph("The day of " + sample_data["date"].strftime("%m/%d/%Y"), style=styles["rc-aawp-main-content"]),
         Spacer(0, 12 * mm),
         Paragraph("______________________________________", style=styles["rc-doc-signature"]),
         Spacer(0, 3 * mm),
