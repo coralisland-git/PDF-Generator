@@ -1,8 +1,5 @@
 import cStringIO
-
-from common.signatures import *
 from document_specific_styles import *
-
 
 class IIEReport:
     def __init__(self, pdf_dict, title=None, author=None):
@@ -112,7 +109,7 @@ class IIEReport:
                             ]),
                         ),
                         Paragraph(
-                            "04/04/2020",
+                            "",
                             extend_style(styles['rc-aawp-main-header'], alignment=TA_RIGHT, fontSize=9)
                         )
                     ]
@@ -267,19 +264,3 @@ def generate_ignition_interlock_exemption(pdf_dict):
     cr = IIEReport(pdf_dict)
     buff = cStringIO.StringIO()
     return cr.create_report(buff)
-
-
-if __name__ == '__main__':
-    import os
-    import shutil
-    from sample_data import ignition_data
-
-    buff = generate_ignition_interlock_exemption(ignition_data)
-
-    with open(
-            os.path.expanduser("~/Desktop/{}.pdf".format("ignition_interlock_exemption")),
-            "wb+",
-    ) as output_file:
-        shutil.copyfileobj(buff, output_file)
-
-    print("completed")
