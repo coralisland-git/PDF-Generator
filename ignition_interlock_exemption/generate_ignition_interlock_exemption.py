@@ -199,11 +199,11 @@ class IIEReport:
         order_year_str = order_date.year
         order_month_str = order_date.strftime('%B')
         order_day = order_date.day
-        if order_day % 10 == 1:
+        if order_day % 10 == 1 and order_day // 10 != 1:
             order_day_str = str(order_day) + "st"
-        elif order_day % 10 == 2:
+        elif order_day % 10 == 2 and order_day // 10 != 1:
             order_day_str = str(order_day) + "nd"
-        elif order_day % 10 == 3:
+        elif order_day % 10 == 3 and order_day // 10 != 1:
             order_day_str = str(order_day) + "rd"
         else:
             order_day_str = str(order_day) + "th"
