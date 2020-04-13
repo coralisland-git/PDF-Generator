@@ -264,6 +264,5 @@ class AAWPReport:
                 )
             )
         ]
-
         return elems
 
