@@ -71,7 +71,7 @@ class AAWPReport:
         elems.append(Spacer(0, 4 * mm))
         elems.append(
             Paragraph(
-                "REMITTANCE REPORT",
+                "PEACE OFFICERS' ANNUITY AND BENEFIT FUND MONTHLY REMITTANCE REPORT",
                 style=styles["rc-doc-header-rmt"]
             )
         )
@@ -129,11 +129,12 @@ class AAWPReport:
             '25_to_50': '$25.01 through $50.00', 
             '50_to_100': '$50.01 through $100.00', 
             'over_100': '$100.01 and over', 
-            'partial_payment': 'Partial Payment', 
+            'partial_payment': 'Partial Payment',
+            'pre_trial_diversion': 'Pre-Trial Diversion Program Fee',
             'grand_total': 'GRAND TOTAL'
         }
 
-        for ii in ['4_to_25', '25_to_50', '50_to_100', 'over_100', 'partial_payment', 'grand_total']:
+        for ii in ['4_to_25', '25_to_50', '50_to_100', 'over_100', 'partial_payment', 'pre_trial_diversion', 'grand_total']:
             val = self.data[ii]
             if ii == 'over_100':
                 amt = val['amount_due_per_case']
@@ -224,7 +225,7 @@ class AAWPReport:
 
         elems += [
             Paragraph(
-                "Please give the number of cases in each category above. Each remitting agent is required to keep accurate records of all cases handled so that they may be inspected or audited at any time. For your information, please refer to 47-17-60 section of Georgia Laws on making remittances. Please note that there is a time limitation for making such remittances as set forth in the Section of Georgia Law referred to.",
+                "Please give the number of cases in each category above. However, itemizing individual cases in any category is optional. Each remitting agent is required to keep accurate records of all cases handled so that they may be inspected or audited at any time. Refer to Section 47-17-60 of Georgia Laws for information applicable to making remittances. Please note there is a time limitation for making such remittances as set forth in the section of Georgia Laws referred to.",
                 extend_style(styles["rc-main-rmt"], leftIndent=5.3 * mm, rightIndent=5.4 * mm, fontSize=8)
             ),
         ]
@@ -238,7 +239,7 @@ class AAWPReport:
                         Paragraph("Peace Officers' A & B Fund of Ga.<br/>P.O. Box 56<br/>Griffin, GA 30224", style=styles['rc-main-rmt'])
                     ],
                     [
-                        Paragraph("Form No. 701. - Revised July 1, 2004", style=styles['rc-main-rmt']), ""
+                        Paragraph("Form No. 701. - Revised: June 1, 2018", style=styles['rc-main-rmt']), ""
                     ]
                 ],
                 rowHeights=15 * mm,

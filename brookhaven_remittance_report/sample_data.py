@@ -25,6 +25,11 @@ remittance_report_data = {
         "number_of_cases": 0,
         "total_amount": 0.00
     },
+    "pre_trial_diversion": {
+        "number_of_cases": 4,
+        "amount_due_per_case": 5.00,
+        "total_amount": 20.00
+    },
     "grand_total": {
         "number_of_cases": 27,
         "total_amount": 237.00
