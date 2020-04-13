@@ -14,8 +14,8 @@ PAYMENT_TABLE_FIRST_COL_WIDTH = 90 * mm
 PAYMENT_TABLE_ROW_HEIGHT = 10 * mm
 SIGNATURE_TABLE_FIRST_COL_WIDTH = 100 * mm
 SIGNATURE_TABLE_LAST_COL_WIDTH = 80 * mm
-SIGNATURE_TABLE_ROW_HEIGHT = 4 * mm
-
+SIGNATURE_TABLE_ROW_HEIGHT = 10 * mm
+SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT = 4 * mm
 
 def generate_local_victim_remittance_report(pdf_dict):
     buff = cStringIO.StringIO()
@@ -80,14 +80,8 @@ def _create_story(doc_data):
     story.append(signature_table)
 
     story.append(
-        Paragraph("Reports must be filed monthly and are due to the address stated above by the 15th of the following month in which the report covers.",
-                  style=extend_style(styles["body"], firstLineIndent=24, spaceBefore=20))
-    )
-
-    story.append(
         Paragraph("The 2000 Georgia General Assembly enacted legislation to amend Article 8, Chapter 21 of Title 5 of the Official Code of Georgia to require the court officer in charge of collecting monies arising from fines pursuant to this Code Section and Code Section §15-21-133 to file a monthly financial report to the Criminal Justice Council. This report should state the amount of 5% fines collected and the agencies, organizations, or programs, which directly receive these funds in the same period from the said officer.",
-                  style=extend_style(style=styles["body"], firstLineIndent=24, spaceBefore=20)
-        )
+                 style=extend_style(style=styles["body"], spaceBefore=20))
       )
 
     return story
@@ -205,21 +199,55 @@ def _create_payment_info_table(doc_data):
 def _cretae_signature_table(doc_data):
     data = [
         [
-            Paragraph("<u>{}</u>".format("&nbsp;"*61), style=styles["body"]), "",
-            Paragraph("<u>{}</u>".format(_format_date(doc_data["order_date"])), style=styles["body"])
+            Paragraph("<u>{}</u>".format("&nbsp;"*75), style=styles["body"]),
+            "",
+            Paragraph("<u>{}</u>".format(_format_date(doc_data["order_date"])), style=styles["body"]),
         ],
         [
-            Paragraph("Signature of Authorized Court Officer", style=styles["body"]),
+            Paragraph("Signature of Individual Filling Report/Title", style=styles["body"]),
             "",
             Paragraph("Date", style=styles["body"])
-        ]
+        ],
+        [
+            Paragraph("<u>{}</u>".format(doc_data["printed_name"] + get_remain_space(doc_data["printed_name"])), style=styles["body"]),
+            "",
+            Paragraph("<u>{}</u>".format(doc_data["phone_number"] + get_remain_space(doc_data["phone_number"])), style=styles["body"]),
+        ],
+        [
+            Paragraph("Printed Name of Individual Filling Report", style=styles["body"]),
+            "",
+            Paragraph("Contact's Phone Number", style=styles["body"])
+        ],
+        [
+            Paragraph("<u>{}</u>".format(doc_data["email"] + get_remain_space(doc_data["email"])), style=styles["body"]),
+            "",
+            ""
+        ],
+        [
+            Paragraph("Contact's E-Mail Address", style=styles["body"]),
+            "",
+            ""
+        ],
+        [
+            Paragraph("<u>{}</u>".format(doc_data["check_number"] + get_remain_space(doc_data["check_number"])), style=styles["body"]),
+            "",
+            Paragraph("<u>{}</u>".format(doc_data["check_amount"] + get_remain_space(doc_data["check_amount"])), style=styles["body"]),
+        ],
+        [
+            Paragraph("Check Number", style=styles["body"]),
+            "",
+            Paragraph("Check Amount", style=styles["body"]),
+        ],
     ]
 
     table = Table(
         data,
         colWidths=(SIGNATURE_TABLE_FIRST_COL_WIDTH, None, SIGNATURE_TABLE_LAST_COL_WIDTH),
-        rowHeights=[SIGNATURE_TABLE_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT],
-        spaceBefore=40
+        rowHeights=[SIGNATURE_TABLE_ROW_HEIGHT, SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT,
+                    SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT,
+                    SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT,
+                    SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT],
+        spaceBefore=20
     )
     table.setStyle(styles["iv-main-table"])
 
@@ -236,3 +264,7 @@ def _format_short_date(date_as_string):
     date = datetime.strptime(date_as_string, "%m/%d/%Y")
     formated_date = date.strftime("%B %d")
     return formated_date
+
+
+def get_remain_space(str):
+    return "&nbsp;" * (75 - len(str)*2)
