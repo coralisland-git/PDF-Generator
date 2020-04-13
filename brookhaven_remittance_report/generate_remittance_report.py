@@ -72,7 +72,7 @@ class AAWPReport:
         elems.append(
             Paragraph(
                 "PEACE OFFICERS' ANNUITY AND BENEFIT FUND MONTHLY REMITTANCE REPORT",
-                style=styles["rc-doc-header-rmt"]
+                style=extend_style(styles["rc-doc-header-rmt"],fontSize=11.6,leading=16)
             )
         )
         elems.append(
@@ -247,7 +247,7 @@ class AAWPReport:
                 style=(("VALIGN", (0, 0), (-1, -1), "TOP"),)
             )
         ]
-        elems.append(Spacer(0, 8 * mm))
+        elems.append(Spacer(0, 0 * mm))
 
         timestamp = datetime.datetime.now().strftime('%m/%d/%Y %I:%m %p')
         elems += [
