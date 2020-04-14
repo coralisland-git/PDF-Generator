@@ -100,15 +100,15 @@ def _create_general_info_table(doc_data):
             ""
         ],
         [
-            Paragraph("Court name and ORI Number:", style=styles['body']),
-            Paragraph("<b>{}{}{}</b>".format(doc_data["court_name"], "&nbsp;"*10, doc_data["ori_number"]),
+            Paragraph("Court name", style=styles['body']),
+            Paragraph("<b>{}{}{}</b>".format(doc_data["court_name"], "&nbsp;"*10, ""),
                       style=extend_style(styles['body'], leftIndent=0)
             ),
             ""
         ],
         [
             Paragraph(
-                "(Juvenile, Magistrate, Municipal, Probate, State or Superior Court) Complete a separate form for each court served and Court ORI #",
+                "(Juvenile, Magistrate, Municipal, Probate, State or Superior Court) Complete a separate form for each court served",
                 style=extend_style(styles['note'], alignment=TA_RIGHT)
             ),
             ""
@@ -126,16 +126,6 @@ def _create_general_info_table(doc_data):
                       style=extend_style(styles['note'], alignment=TA_CENTER)),
             ""
         ],
-        [
-            Paragraph("Total Amount of LVAP Surcharges Collected for the period:", style=styles['body']),
-            "",
-            Paragraph("<b>${}</b>".format(doc_data["total_amount"]), style=extend_style(styles['body'], leftIndent=0))
-        ],
-        [
-            Paragraph("<u>(This amount is calculated by total applicable fines multiplied by 5%. This amount should equal the sum of the surcharge paid out below.)</u>",
-                      style=extend_style(styles['note'], alignment=TA_CENTER, )),
-            "", ""
-        ]
     ]
 
     table = Table(
@@ -149,8 +139,6 @@ def _create_general_info_table(doc_data):
             GENERAL_TABLE_SMALL_ROW_HEIGHT,
             GENERAL_TABLE_BIG_ROW_HEIGHT,
             GENERAL_TABLE_SMALL_ROW_HEIGHT,
-            GENERAL_TABLE_BIG_ROW_HEIGHT,
-            GENERAL_TABLE_SMALL_ROW_HEIGHT
         ]
     )
     table.setStyle(extend_table_style(
@@ -175,20 +163,20 @@ def _create_general_info_table(doc_data):
 def _create_payment_info_table(doc_data):
     data = [
         [
-            Paragraph("<u>Name of Agencies Paid</u>", style=styles["body"]),
-            Paragraph("<u>Amount</u>", style=styles["body"]),
-            Paragraph("<u>Check Number</u>", style=styles["body"])
+            Paragraph("", style=styles["body"]),
+            Paragraph("<u>Number of Cases</u>", style=styles["body"]),
+            Paragraph("<u>Amount Distributed</u>", style=styles["body"])
         ],
         [
-            Paragraph("<u><b>Rockdale County Board of Commissioners</b></u>", style=styles["body"]),
-            Paragraph("<u><b>${}</b></u>".format(doc_data["total_amount"]), style=styles["body"]),
-            black_line_short
+            Paragraph("<u><b>Local Victim Assistance Fund</b></u>", style=styles["body"]),
+            Paragraph("<u><b>${}</b></u>".format(doc_data["cases_count"]), style=styles["body"]),
+            Paragraph("<u><b>${}</b></u>".format(doc_data["amount_distributed"]), style=styles["body"]),
         ]
     ]
 
     table = Table(
         data,
-        colWidths=(PAYMENT_TABLE_FIRST_COL_WIDTH, None, None),
+        colWidths=(80 * mm, 50 * mm, 50 * mm),
         rowHeights=[PAYMENT_TABLE_ROW_HEIGHT, PAYMENT_TABLE_ROW_HEIGHT]
     )
     table.setStyle(styles["iv-main-table"])
