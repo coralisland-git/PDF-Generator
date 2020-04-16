@@ -1,9 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import cStringIO
 from datetime import datetime
-
-from reportlab.lib.units import mm
-
 from document_specific_styles import *
 
 
@@ -15,7 +12,9 @@ PAYMENT_TABLE_ROW_HEIGHT = 10 * mm
 SIGNATURE_TABLE_FIRST_COL_WIDTH = 100 * mm
 SIGNATURE_TABLE_LAST_COL_WIDTH = 80 * mm
 SIGNATURE_TABLE_ROW_HEIGHT = 10 * mm
-SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT = 4 * mm
+SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT = 5 * mm
+SIGNATURE_TABLE_CHECK_ROW_HEIGHT = 6 * mm
+
 
 def generate_local_victim_remittance_report(pdf_dict):
     buff = cStringIO.StringIO()
@@ -175,7 +174,7 @@ def _create_payment_info_table(doc_data):
         ],
         [
             Paragraph("<u><b>Local Victim Assistance Fund</b></u>", style=styles["body"]),
-            Paragraph("<u><b>${}</b></u>".format(doc_data["cases_count"]), style=styles["body"]),
+            Paragraph("<u><b>{}</b></u>".format(doc_data["cases_count"]), style=styles["body"]),
             Paragraph("<u><b>${}</b></u>".format(doc_data["amount_distributed"]), style=styles["body"]),
         ]
     ]
@@ -193,7 +192,20 @@ def _create_payment_info_table(doc_data):
 def create_signature_table(doc_data):
     data = [
         [
-            Paragraph("<u>{}</u>".format("&nbsp;"*75), style=styles["body"]),
+            Paragraph("<u>{}</u>".format(doc_data["check_number"] + "&nbsp;" * (35 - len(doc_data["check_number"])*2)),
+                      style=styles["check_body"]),
+            "",
+            Paragraph("<u>{}</u>".format("$" + doc_data["check_amount"] + "&nbsp;" * (35 - len(doc_data["check_number"])*2)),
+                      style=styles["check_body"]),
+        ],
+        [
+            Paragraph("Check Number", style=styles["check_body"]),
+            "",
+            Paragraph("Check Amount", style=styles["check_body"]),
+        ],
+        [None],
+        [
+            Paragraph("<u>{}</u>".format("&nbsp;" * 75), style=styles["body"]),
             "",
             Paragraph("<u>{}</u>".format(_format_date(doc_data["order_date"])), style=styles["body"]),
         ],
@@ -203,9 +215,11 @@ def create_signature_table(doc_data):
             Paragraph("Date", style=styles["body"])
         ],
         [
-            Paragraph("<u>{}</u>".format(doc_data["printed_name"] + get_remain_space(doc_data["printed_name"])), style=styles["body"]),
+            Paragraph("<u>{}</u>".format(doc_data["printed_name"] + get_remain_space(doc_data["printed_name"])),
+                      style=styles["body"]),
             "",
-            Paragraph("<u>{}</u>".format(doc_data["phone_number"] + get_remain_space(doc_data["phone_number"])), style=styles["body"]),
+            Paragraph("<u>{}</u>".format(doc_data["phone_number"] + get_remain_space(doc_data["phone_number"])),
+                      style=styles["body"]),
         ],
         [
             Paragraph("Printed Name of Individual Filling Report", style=styles["body"]),
@@ -213,7 +227,8 @@ def create_signature_table(doc_data):
             Paragraph("Contact's Phone Number", style=styles["body"])
         ],
         [
-            Paragraph("<u>{}</u>".format(doc_data["email"] + get_remain_space(doc_data["email"])), style=styles["body"]),
+            Paragraph("<u>{}</u>".format(doc_data["email"] + get_remain_space(doc_data["email"])),
+                      style=styles["body"]),
             "",
             ""
         ],
@@ -222,24 +237,14 @@ def create_signature_table(doc_data):
             "",
             ""
         ],
-        [
-            Paragraph("<u>{}</u>".format(doc_data["check_number"] + get_remain_space(doc_data["check_number"])), style=styles["body"]),
-            "",
-            Paragraph("<u>{}</u>".format(doc_data["check_amount"] + get_remain_space(doc_data["check_amount"])), style=styles["body"]),
-        ],
-        [
-            Paragraph("Check Number", style=styles["body"]),
-            "",
-            Paragraph("Check Amount", style=styles["body"]),
-        ],
     ]
 
     table = Table(
         data,
         colWidths=(SIGNATURE_TABLE_FIRST_COL_WIDTH, None, SIGNATURE_TABLE_LAST_COL_WIDTH),
-        rowHeights=[SIGNATURE_TABLE_ROW_HEIGHT, SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT,
-                    SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT,
-                    SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT,
+        rowHeights=[SIGNATURE_TABLE_ROW_HEIGHT, SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_CHECK_ROW_HEIGHT,
+                    SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT,
+                    SIGNATURE_TABLE_ROW_HEIGHT, SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT,
                     SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT],
         spaceBefore=20
     )

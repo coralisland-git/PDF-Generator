@@ -109,8 +109,17 @@ styles = dict(
         textTransform=None,  # 'uppercase' | 'lowercase' | None
         endDots=None,
         splitLongWords=1,
-    )
+    ),
 )
+
+styles["check_body"] = ParagraphStyle(
+    "check_body",
+    parent=styles["body"],
+    alignment=TA_LEFT,
+    leftIndent=inch/1.5,
+    rightIndent=inch/1.5,
+)
+
 styles["heading"] = ParagraphStyle(
     "bold",
     parent=styles["body"],
