@@ -118,7 +118,7 @@ def _create_main_table():
             Paragraph('Report Date: {}. {}, {}'.format('Sept','16', '2019'), style=text_style),
             '',
 
-            Paragraph('County: {}'.format('BROOKHAVEN'), style=text_style),
+            Paragraph('City: {}'.format('BROOKHAVEN'), style=text_style),
             ''
         ],
         [#1
