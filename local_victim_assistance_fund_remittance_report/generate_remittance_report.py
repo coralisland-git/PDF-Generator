@@ -80,7 +80,13 @@ def _create_story(doc_data):
     story.append(signature_table)
 
     story.append(
-        Paragraph("The 2000 Georgia General Assembly enacted legislation to amend Article 8, Chapter 21 of Title 5 of the Official Code of Georgia to require the court officer in charge of collecting monies arising from fines pursuant to this Code Section and Code Section §15-21-133 to file a monthly financial report to the Criminal Justice Council. This report should state the amount of 5% fines collected and the agencies, organizations, or programs, which directly receive these funds in the same period from the said officer.",
+        Paragraph("The 2006 Georgia General Assembly enacted legislation to amend Article 8 of Chapter 21 of Title 5 of "
+                  "the Official Code of Georgia to require the court officer in charge of collecting moneys arising from "
+                  "fines pursuant to this Code Section and Code Section §15-21-133 to file a monthly financial report to"
+                  " the Criminal Justice Council. This report should state the amount of 5% fines collected and the "
+                  "agencies, organizations, or programs, which directly received these funds in the same period from the "
+                  "said officer. Inquries should be directed to the Criminal Justice Coordinating Council, 503 Oak Place, "
+                  "Suite 540, Atlanta, Georgia 30349, (404) 559-4949",
                  style=extend_style(style=styles["body"], spaceBefore=20))
       )
 
