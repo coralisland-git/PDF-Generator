@@ -76,7 +76,7 @@ def _create_story(doc_data):
     payment_info_table = _create_payment_info_table(doc_data)
     story.append(payment_info_table)
 
-    signature_table = _cretae_signature_table(doc_data)
+    signature_table = create_signature_table(doc_data)
     story.append(signature_table)
 
     story.append(
@@ -190,7 +190,7 @@ def _create_payment_info_table(doc_data):
     return table
 
 
-def _cretae_signature_table(doc_data):
+def create_signature_table(doc_data):
     data = [
         [
             Paragraph("<u>{}</u>".format("&nbsp;"*75), style=styles["body"]),
