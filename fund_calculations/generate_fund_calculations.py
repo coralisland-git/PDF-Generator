@@ -36,6 +36,7 @@ def _create_story():
                   style=styles["subheading"]
                   )
     )
+
     doc_body = _create_main_table()
     story.append(doc_body)
 
@@ -114,7 +115,7 @@ def _create_bottom_table():
 
 def _create_main_table():
     data = [
-        [#1
+        [#0
             '',
             '',
             Paragraph('<b>(1)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
@@ -122,7 +123,7 @@ def _create_main_table():
             Paragraph('<b>(3)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
             Paragraph('<b>(4)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
         ],
-        [#2
+        [#1
             '',
             Paragraph('<b>Fund Name1</b>', style=extend_style(text_style, alignment=TA_CENTER)),
             Paragraph('<b>Description</b>', style=extend_style(text_style, alignment=TA_CENTER)),
@@ -131,7 +132,7 @@ def _create_main_table():
             Paragraph('<b>Total Fund Amount Disbursed</b>', style=extend_style(text_style, alignment=TA_CENTER)),
         ],
 
-        [#3
+        [#2
             Paragraph('1', style=text_style),
             Paragraph('Peace Officer Annuity & benefit (deducted from base-line)', style=text_style),
             Paragraph('$4.01 - $ 25.00', style=text_style),
@@ -139,127 +140,328 @@ def _create_main_table():
             Paragraph('$138', style=text_style),
             Paragraph('', style=text_style),
         ],
-        [#4
-            '', '',
+        [#3
+            Paragraph('1', style=text_style),
+            '',
             Paragraph('$25.01 - $50.00', style=text_style),
             Paragraph('52', style=text_style),
             Paragraph('208', style=text_style),
             Paragraph('', style=text_style),
         ],
-        # [#7
-        #     '', '',
-        #     Paragraph('20', style=text_style),
-        #     Paragraph('Partial Payments', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('', style=text_style),
-        # ],
-        # [#8
-        #     '',
-        #     Paragraph('<b>POPIDF-A (f/k/a POPTF)</b> (OCGA 15-21-73(a)(2)(A) ) - <b>Bond Forfeitures</b>', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Less than $1000', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('10% x Column (3)', style=text_style),
-        # ],
-        # [#9
-        #     '', '',
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Greater than $1000', style=text_style),
-        #     Paragraph('$0.00', style=text_style),
-        #     Paragraph('$100', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
-        # [#10
-        #     Paragraph('2', style=text_style),
-        #     Paragraph('<b>Georgia Crime Victims Emergency Fund</b> (OCGA 15-21-112 for conviction of OCGA 40-6-391 (DUI of alcohol/drugs))', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('$26', style=text_style),
-        #     Paragraph('$0.00', style=text_style),
-        #     Paragraph('Column (1) x $26 for July 1, 2004 or later offenses', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
-        # [#11
-        #     '', '',
-        #     Paragraph('', style=text_style),
-        #     Paragraph('$25', style=text_style),
-        #     Paragraph('$0.00', style=text_style),
-        #     Paragraph('Column (1) x $25 for pre July 1, 2004 offenses', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
-        # [#12
-        #     '', '',
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Partial Payments', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
-        #
-        # [#13
-        #     Paragraph('3', style=text_style),
-        #     Paragraph('<b>Brain and Spinal Injury Trust Fund</b> (OCGA 15-21-149 and 15-21-151)', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Full Payments', style=text_style),
-        #     Paragraph('$0.00', style=text_style),
-        #     Paragraph('10% x Column (3)', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
-        #
-        # [#14
-        #     '', '',
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Partial Payments', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
+        [#4
+            Paragraph('1', style=text_style),
+            '',
+            Paragraph('$50.01 - $100.00', style=text_style),
+            Paragraph('62', style=text_style),
+            Paragraph('310', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#5
+            Paragraph('1', style=text_style),
+            '',
+            Paragraph('$100.01 AND OVER', style=text_style),
+            Paragraph('268', style=text_style),
+            Paragraph('3899.59', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#6
+            Paragraph('1', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('7', style=text_style),
+            Paragraph('145.51', style=text_style),
+            Paragraph('4701.10', style=text_style),
+        ],
+        [#7
+            Paragraph('2', style=text_style),
+            Paragraph('Peace Officer Training <br /> 15-21-73(A) (Surcharge)', style=text_style),
+            Paragraph('$1.00 - $499.00', style=text_style),
+            Paragraph('334', style=text_style),
+            Paragraph('4046.26', style=text_style),
+            Paragraph('', style=text_style),
+        ],
 
-        # [#15
-        #     Paragraph('4', style=text_style),
-        #     Paragraph('<b>Crime Lab Fee</b> (OCGA 42-8-34)', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Felony', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('$50 x column (1)', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
-        #
-        # [#16
-        #     '', '',
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Misdemeanor', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('$25 x column (1)', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
-        #
-        # [#17
-        #     '', '',
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Partial Payments', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
-        #
-        # [#18
-        #     Paragraph('5', style=text_style),
-        #     Paragraph('<b>Driver Education and Training Fund</b> (OCGA 15-21-179)', style=text_style),
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Full Payments', style=text_style),
-        #     Paragraph('$0.00', style=text_style),
-        #     Paragraph('1.5% of column (3) for May 6, 2013 or later offenses', style=text_style),
-        #     Paragraph('$0.00', style=text_style),
-        # ],
-        #
-        # [#19
-        #     '', '',
-        #     Paragraph('', style=text_style),
-        #     Paragraph('Full Payments', style=text_style),
-        #     Paragraph('$0.00', style=text_style),
-        #     Paragraph('5% of column (3) for pre May 6, 2013 offenses', style=text_style),
-        #     Paragraph('$0.00', style=text_style)
-        # ],
+        [#8
+            Paragraph('2', style=text_style),
+            '',
+            Paragraph('$500+', style=text_style),
+            Paragraph('59', style=text_style),
+            Paragraph('2950', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#9
+            Paragraph('2', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('10', style=text_style),
+            Paragraph('208.12', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#10
+            Paragraph('2', style=text_style),
+            Paragraph('Appearance Bond Forfeited', style=text_style),
+            Paragraph('Less than $1000', style=text_style),
+            Paragraph('0', style=text_style),
+            Paragraph('0.00', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#11
+            Paragraph('2', style=text_style),
+            '',
+            Paragraph('Greater than $1000', style=text_style),
+            Paragraph('0', style=text_style),
+            Paragraph('0.00', style=text_style),
+            Paragraph('7204.38', style=text_style),
+        ],
+        [#12
+            Paragraph('3', style=text_style),
+            Paragraph('Indigent Defense Fund <br /> 15-21-73(B) (Surcharge)', style=text_style),
+            Paragraph('Full Pays', style=text_style),
+            Paragraph('393', style=text_style),
+            Paragraph('8212.67', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+
+        [#13
+            Paragraph('3', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('9', style=text_style),
+            Paragraph('181.45', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#14
+            Paragraph('3', style=text_style),
+            Paragraph('Appearance Bond Forfeitures', style=text_style),
+            Paragraph('Less than $1000', style=text_style),
+            Paragraph('0', style=text_style),
+            Paragraph('0.00', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#15
+            Paragraph('3', style=text_style),
+            Paragraph('Appearance Bond Forfeitures', style=text_style),
+            Paragraph('Greater than $1000', style=text_style),
+            Paragraph('0', style=text_style),
+            Paragraph('0.00', style=text_style),
+            Paragraph('8394.12', style=text_style),
+        ],
+        [#16
+            Paragraph('4', style=text_style),
+            Paragraph('GA Crime Victimes Emergency <br /> 15-21-112(Surcharge)', style=text_style),
+            Paragraph('$25', style=text_style),
+            Paragraph('4', style=text_style),
+            Paragraph('0.00', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#17
+            Paragraph('4', style=text_style),
+            '',
+            Paragraph('$26', style=text_style),
+            Paragraph('0', style=text_style),
+            Paragraph('0.00', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#18
+            Paragraph('4', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('0', style=text_style),
+            Paragraph('0', style=text_style),
+            Paragraph('104.00', style=text_style),
+        ],
+        [#19
+            Paragraph('5', style=text_style),
+            Paragraph('Local Victim Assistance (all cases)<br /> 15-21-131(Surcharge)', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('384', style=text_style),
+            Paragraph('3973.32', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#20
+            Paragraph('5', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('9', style=text_style),
+            Paragraph('162.92', style=text_style),
+            Paragraph('4136.24', style=text_style),
+        ],
+        [#21
+            Paragraph('6', style=text_style),
+            Paragraph('Probate Judges Retirement <br />(deducted from base-fine) <br />47-11-51', style=text_style),
+            Paragraph('$0.01 - $4.01', style=text_style),
+            Paragraph('46', style=text_style),
+            Paragraph('$138', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#22
+            Paragraph('6', style=text_style),
+            '',
+            Paragraph('$4.01 - $ 25.00', style=text_style),
+            Paragraph('46', style=text_style),
+            Paragraph('$138', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#23
+            Paragraph('6', style=text_style),
+            '',
+            Paragraph('$25.01 - $50.00', style=text_style),
+            Paragraph('52', style=text_style),
+            Paragraph('208', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#24
+            Paragraph('6', style=text_style),
+            '',
+            Paragraph('$50.01 - $100.00', style=text_style),
+            Paragraph('62', style=text_style),
+            Paragraph('310', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#25
+            Paragraph('6', style=text_style),
+            '',
+            Paragraph('$100.01 AND OVER', style=text_style),
+            Paragraph('268', style=text_style),
+            Paragraph('3899.59', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#26
+            Paragraph('6', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('7', style=text_style),
+            Paragraph('145.51', style=text_style),
+            Paragraph('4701.10', style=text_style),
+        ],
+        [#27
+            Paragraph('7', style=text_style),
+            Paragraph('Sheriffs Retirement <br />47-16-60', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#28
+            Paragraph('7', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('0.00', style=text_style),
+        ],
+        [#29
+            Paragraph('8', style=text_style),
+            Paragraph('County Law Library <br />36-15-9 (Surcharge)', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#30
+            Paragraph('8', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('0.00', style=text_style),
+        ],
+        [#31
+            Paragraph('9', style=text_style),
+            Paragraph('County Jail <br />15-21-93 (Surcharge)', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#32
+            Paragraph('9', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('0.00', style=text_style),
+        ],
+        [#33
+            Paragraph('10', style=text_style),
+            Paragraph('County Drug Abuse Treatment/Educ. <br />15-21-100 (Surcharge)', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#34
+            Paragraph('10', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('0.00', style=text_style),
+        ],
+        [#35
+            Paragraph('11', style=text_style),
+            Paragraph('Brain and Spinal Injury <br />15-21-149 (Surcharge)', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#36
+            Paragraph('11', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('0.00', style=text_style),
+        ],
+        [#37
+            Paragraph('12', style=text_style),
+            Paragraph('Crime Lab Fee <br />42-8-34 (Surcharge)', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#38
+            Paragraph('12', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('0.00', style=text_style),
+        ],
+        [#39
+            Paragraph('13', style=text_style),
+            Paragraph('Driver Education and Training Fund <br />15-21-179 (Surcharge)', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#40
+            Paragraph('13', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('0.00', style=text_style),
+        ],
+        [#41
+            Paragraph('TOTAL STATE FUNDS: $25664.02', style=extend_style(
+                styles['body'],
+                leftIndent=5,
+                rightIndent=5,
+                fontSize=9,
+                leading=11,
+                spaceBefore=5,
+                alignment=TA_RIGHT
+            )),
+            '',
+            '',
+            '',
+            '',
+            '',
+        ],
     ]
     global table_row_num
     table_row_num = len(data)
@@ -271,27 +473,74 @@ def _create_main_table():
     table.setStyle(extend_table_style(
         styles['iv-main-table'],
         [
-            ('SPAN', (1,2), (1,3)),
-            ('SPAN', (0,2), (0,3)),
+            ('SPAN', (1,2), (1,6)),
+            ('SPAN', (0,2), (0,6)),
+            ('SPAN', (0,2), (0,6)),
 
-            # ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-            # ('VALIGN', (0,5), (0,-2), 'TOP'),
-            # ('VALIGN', (1,5), (1,18), 'TOP'),
+            ('SPAN', (1,7), (1,9)),
+            ('SPAN', (1,10), (1,11)),
+            ('SPAN', (0,7), (0,11)),
+
+            ('SPAN', (1,12), (1,13)),
+            ('SPAN', (1,14), (1,15)),
+            ('SPAN', (0,12), (0,15)),
+
+            ('SPAN', (1,16), (1,18)),
+            ('SPAN', (0,16), (0,18)),
+
+            ('SPAN', (1,19), (1,20)),
+            ('SPAN', (0,19), (0,20)),
+
+            ('SPAN', (1,21), (1,26)),
+            ('SPAN', (0,21), (0,26)),
+
+            ('SPAN', (1,27), (1,28)),
+            ('SPAN', (0,27), (0,28)),
+
+            ('SPAN', (1,29), (1,30)),
+            ('SPAN', (0,29), (0,30)),
+
+            ('SPAN', (1,31), (1,32)),
+            ('SPAN', (0,31), (0,32)),
+
+            ('SPAN', (1,33), (1,34)),
+            ('SPAN', (0,33), (0,34)),
+
+            ('SPAN', (1,35), (1,36)),
+            ('SPAN', (0,35), (0,36)),
+
+            ('SPAN', (1,37), (1,38)),
+            ('SPAN', (0,37), (0,38)),
+
+            ('SPAN', (1,39), (1,40)),
+            ('SPAN', (0,39), (0,40)),
+
+            ('SPAN', (0,41), (5,41)),
+
+            ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+            # ('VALIGN', (0,2), (0,-2), 'TOP'),
+            # ('VALIGN', (1,5), (1,18), 'TOP')
             # ('VALIGN', (1,22), (1,27), 'TOP'),
 
             ('BACKGROUND', (0, table_row_num), (0,table_row_num), colors.black),
 
             ('INNERGRID', (0,1), (-1,-1), 0.3, colors.black),
-            ('LINEBELOW', (0,0), (6, 2), 0.3, colors.black),
-            ('LINEBELOW', (6,30), (6,30), 0.3, colors.black),
 
-            ('LINEABOVE', (0,10), (6,10), 1, colors.black),
-            ('LINEABOVE', (0,13), (6,13), 1, colors.black),
-            ('LINEABOVE', (0,15), (6,15), 1, colors.black),
-            ('LINEABOVE', (0,18), (6,18), 1, colors.black),
-            ('LINEABOVE', (0,23), (6,23), 1, colors.black),
-            # ('LINEABOVE', (0,27), (6,27), 1, colors.black),
-            # ('LINEABOVE', (0,28), (6,28), 1, colors.black),
+            ('LINEABOVE', (0,1), (6,1), 1, colors.black),
+            ('LINEBELOW', (0,6), (6,6), 1, colors.black),
+            ('LINEBELOW', (0,11), (6,11), 1, colors.black),
+            ('LINEBELOW', (0,15), (6,15), 1, colors.black),
+            ('LINEBELOW', (0,18), (6,18), 1, colors.black),
+            ('LINEBELOW', (0,20), (6,20), 1, colors.black),
+            ('LINEBELOW', (0,26), (6,26), 1, colors.black),
+            ('LINEBELOW', (0,28), (6,28), 1, colors.black),
+            ('LINEBELOW', (0,30), (6,30), 1, colors.black),
+            ('LINEBELOW', (0,32), (6,32), 1, colors.black),
+            ('LINEBELOW', (0,34), (6,34), 1, colors.black),
+            ('LINEBELOW', (0,36), (6,36), 1, colors.black),
+            ('LINEBELOW', (0,38), (6,38), 1, colors.black),
+            ('LINEBELOW', (0,40), (6,40), 1, colors.black),
+            ('LINEBELOW', (0,41), (6,41), 1, colors.black),
         ]
     )
     )
