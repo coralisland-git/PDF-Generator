@@ -50,54 +50,223 @@ def generate_detention_order():
 
 def bottom_table():
     data = [
+        [
+            Paragraph('Summary Breakdown of monies collected and disbursed for this month', style=extend_style(text_style, alignment=TA_LEFT, fontSize=9)),
+        ],
+        [
+            '',
+            ''
+        ],
         [   #1
-            Paragraph('79,206.22 BASE - FINES', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('97,665.86 TOTAL DISBURSEMENTS',
-                      style=extend_style(text_style, alignment=TA_CENTER))
+            Table(
+                [
+                    [
+                        Paragraph('79,206.22',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('BASE - FINES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('97,665.86',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('TOTAL DISBURSEMENTS',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            ),
         ],
         [   #2
-            Paragraph('18,459.04 STATE SURCHARGES ONLY', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('-25664.02 TOTAL DISBURSEMENTS',
-                      style=extend_style(text_style, alignment=TA_CENTER))
+            Table(
+                [
+                    [
+                        Paragraph('18,459.04',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('STATE SURCHARGES ONLY',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('-25664.02',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('TOTAL STATE FEES (surcharges and others)',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            )
         ],
         [   #3
-            Paragraph('00.0 PROC - FEES',
-                      style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('0.00 PROC - FEES',
-                      style=extend_style(text_style, alignment=TA_CENTER))
+            Table(
+                [
+                    [
+                        Paragraph('00.0',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('PROC - FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('PROC - FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            )
         ],
         [   #4
-            Paragraph('16188.73 OTHER CHARGES',
-                      style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('-16188.73 OTHER CHARGES',
-                      style=extend_style(text_style, alignment=TA_CENTER))
+            Table(
+                [
+                    [
+                        Paragraph('16188.73',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('OTHER CHARGES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('-16188.73',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('OTHER CHARGES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            )
         ],
         [   #5
-            Paragraph('0.00 ADM FEES',
-                      style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('0.00 ADM FEES',
-                      style=extend_style(text_style, alignment=TA_CENTER))
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('ADM FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('ADM FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            )
         ],
         [   #6
-            Paragraph('0.00 TECH FEES',
-                      style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('0.00 TECH FEES',
-                      style=extend_style(text_style, alignment=TA_CENTER))
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('TECH FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('TECH FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            )
         ],
         [
             #7
-            Paragraph('<b>97,665.86 TOTAL DISBURSEMENTS</b>',
-                      style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('<b>72001.84 NET DISBURSEMENTS</b>',
-                      style=extend_style(text_style, alignment=TA_CENTER))
+            Table(
+                [
+                    [
+                        Paragraph('<b>97,665.86</b>',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('<b>TOTAL DISBURSEMENTS</b>',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('<b>72001.84</b>',
+                                  style=extend_style(text_style, alignment=TA_RIGHT, fontSize=7)),
+                        Paragraph('<b>NET DISBURSEMENTS</b>',
+                                  style=extend_style(text_style, alignment=TA_LEFT, fontSize=7)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(15 * mm, 70 * mm)
+
+            )
         ]
     ]
     table = Table(
         data,
-        colWidths=(50 * mm, 50 * mm),
-        rowHeights=10*mm
+        colWidths=(50 * mm, 90 * mm),
+        rowHeights=[4*mm,1*mm,4*mm,4*mm,4*mm,4*mm,4*mm,4*mm,4*mm]
     )
-    table.setStyle(styles['iv-main-table'])
+    table.setStyle(extend_table_style(
+        styles['iv-main-table'],
+        [
+            ('SPAN', (0,0), (1,0)),
+        ]
+    )
+    )
     return table
 
 
