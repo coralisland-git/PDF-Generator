@@ -7,7 +7,7 @@ from document_specific_styles import *
 ROW_HEIGHT = 6 * mm
 table_row_num = 0
 
-def generate_fund_calculations():
+def generate_fund_calculations(pdf_dict):
     buff = cStringIO.StringIO()
     doc = BaseDocTemplate(buff, pagesize=letter)
     f = Frame(gutters[0], gutters[2], usable_width, usable_height, showBoundary=0, topPadding=15, )
@@ -40,11 +40,6 @@ def _create_story():
     doc_body = _create_main_table()
     story.append(doc_body)
 
-    story.append(Spacer(0,6*mm))
-
-    doc_body_two = _create_second_table()
-    story.append(doc_body_two)
-
     bottom_table = _create_bottom_table()
     story.append(bottom_table)
 
@@ -55,10 +50,10 @@ def _create_main_table():
         [#0
             '',
             Paragraph('Summary Sheet', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('<b>(1)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('<b>(2)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('<b>(3)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('<b>(4)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b></b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b></b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b></b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b></b>', style=extend_style(text_style, alignment=TA_CENTER)),
         ],
         [#1
             '',
@@ -367,6 +362,38 @@ def _create_main_table():
             Paragraph('', style=text_style),
             Paragraph('0.00', style=text_style),
         ],
+        [#39
+            Paragraph('13', style=text_style),
+            Paragraph('Driver Education and Training Fund <br />15-21-179 (Surcharge)', style=text_style),
+            Paragraph('$0.01 AND OVER', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+        ],
+        [#40
+            Paragraph('13', style=text_style),
+            '',
+            Paragraph('Partial Payments', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('', style=text_style),
+            Paragraph('0.00', style=text_style),
+        ],
+        [#41
+            Paragraph('TOTAL STATE FUNDS: $25664.02', style=extend_style(
+                styles['body'],
+                leftIndent=5,
+                rightIndent=5,
+                fontSize=9,
+                leading=11,
+                spaceBefore=5,
+                alignment=TA_RIGHT
+            )),
+            '',
+            '',
+            '',
+            '',
+            '',
+        ],
     ]
     global table_row_num
     table_row_num = len(data)
@@ -420,6 +447,7 @@ def _create_main_table():
             ('SPAN', (1,39), (1,40)),
             ('SPAN', (0,39), (0,40)),
 
+            ('SPAN', (0,41), (5,41)),
 
             ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
 
@@ -440,67 +468,8 @@ def _create_main_table():
             ('LINEBELOW', (0,34), (6,34), 1, colors.black),
             ('LINEBELOW', (0,36), (6,36), 1, colors.black),
             ('LINEBELOW', (0,38), (6,38), 1, colors.black),
-        ]
-    )
-    )
-    return table
-
-def _create_second_table():
-    data_two = [
-        [#39
-            Paragraph('13', style=text_style),
-            Paragraph('Driver Education and Training Fund <br />15-21-179 (Surcharge)', style=text_style),
-            Paragraph('$0.01 AND OVER', style=text_style),
-            Paragraph('', style=text_style),
-            Paragraph('', style=text_style),
-            Paragraph('', style=text_style),
-        ],
-        [#40
-            Paragraph('13', style=text_style),
-            '',
-            Paragraph('Partial Payments', style=text_style),
-            Paragraph('', style=text_style),
-            Paragraph('', style=text_style),
-            Paragraph('0.00', style=text_style),
-        ],
-        [#41
-            Paragraph('TOTAL STATE FUNDS: $25664.02', style=extend_style(
-                styles['body'],
-                leftIndent=5,
-                rightIndent=5,
-                fontSize=9,
-                leading=11,
-                spaceBefore=5,
-                alignment=TA_RIGHT
-            )),
-            '',
-            '',
-            '',
-            '',
-            '',
-        ],
-    ]
-    table = Table(
-        data_two,
-        colWidths=(10 * mm, 55 * mm, None, 30 * mm, 25 * mm, 45 * mm),
-        rowHeights=[ROW_HEIGHT] * len(data_two)
-    )
-    table.setStyle(extend_table_style(
-        styles['iv-main-table'],
-        [
-            ('SPAN', (0,2), (5,2)),
-            ('SPAN', (0,0), (0,1)),
-            ('SPAN', (1,0), (1,1)),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            # ('VALIGN', (0,2), (0,-2), 'TOP'),
-            # ('VALIGN', (1,5), (1,18), 'TOP')
-            # ('VALIGN', (1,22), (1,27), 'TOP'),
-
-            ('INNERGRID', (0, 0), (-1, -1), 0.3, colors.black),
-
-            ('LINEABOVE', (0, 0), (6, 0), 1, colors.black),
-            ('LINEBELOW', (0,1), (6,1), 1, colors.black),
-            ('LINEBELOW', (0,2), (6,2), 1, colors.black),
+            ('LINEBELOW', (0,40), (6,40), 1, colors.black),
+            ('LINEBELOW', (0,41), (6,41), 1, colors.black),
         ]
     )
     )
