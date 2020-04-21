@@ -1,9 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import cStringIO
 from datetime import datetime
-
-from reportlab.lib.units import mm
-
 from document_specific_styles import *
 
 
@@ -14,7 +11,9 @@ PAYMENT_TABLE_FIRST_COL_WIDTH = 90 * mm
 PAYMENT_TABLE_ROW_HEIGHT = 10 * mm
 SIGNATURE_TABLE_FIRST_COL_WIDTH = 100 * mm
 SIGNATURE_TABLE_LAST_COL_WIDTH = 80 * mm
-SIGNATURE_TABLE_ROW_HEIGHT = 4 * mm
+SIGNATURE_TABLE_ROW_HEIGHT = 10 * mm
+SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT = 5 * mm
+SIGNATURE_TABLE_CHECK_ROW_HEIGHT = 6 * mm
 
 
 def generate_local_victim_remittance_report(pdf_dict):
@@ -59,7 +58,7 @@ def _create_story(doc_data):
             <b>Attn: Gwen Patterson <br />
             Dekalb County Finance Dept<br />
             1300 Commerce Drive<br />
-            Decatur, Ga. 30030</b>
+            Decatur, Ga. 30303</b>
             """,
             style=extend_style(styles["body"], leading=14, spaceBefore=30)
         )
@@ -67,23 +66,27 @@ def _create_story(doc_data):
 
     general_info_table = _create_general_info_table(doc_data)
     story.append(general_info_table)
-    story.append(Spacer(0, 4.2 * mm))
+
+    story.append(
+        Paragraph("Agencies/ Organizations/Program who were paid the LVAP Surcharge Collected for the Period",
+                  style=extend_style(styles["body"], spaceBefore=30))
+    )
+
     payment_info_table = _create_payment_info_table(doc_data)
     story.append(payment_info_table)
-    story.append(Spacer(0, 4.2 * mm))
 
-    signature_table = _cretae_signature_table(doc_data)
+    signature_table = create_signature_table(doc_data)
     story.append(signature_table)
 
     story.append(
-        Paragraph("Reports must be filed monthly and are due to the address stated above by the 15th of the following month in which the report covers.",
-                  style=extend_style(styles["body"], firstLineIndent=24, spaceBefore=20))
-    )
-
-    story.append(
-        Paragraph("The 2000 Georgia General Assembly enacted legislation to amend Article 8, Chapter 21 of Title 5 of the Official Code of Georgia to require the court officer in charge of collecting monies arising from fines pursuant to this Code Section and Code Section §15-21-133 to file a monthly financial report to the Criminal Justice Council. This report should state the amount of 5% fines collected and the agencies, organizations, or programs, which directly receive these funds in the same period from the said officer.",
-                  style=extend_style(style=styles["body"], firstLineIndent=24, spaceBefore=20)
-        )
+        Paragraph("The 2006 Georgia General Assembly enacted legislation to amend Article 8 of Chapter 21 of Title 5 of "
+                  "the Official Code of Georgia to require the court officer in charge of collecting moneys arising from "
+                  "fines pursuant to this Code Section and Code Section §15-21-133 to file a monthly financial report to"
+                  " the Criminal Justice Council. This report should state the amount of 5% fines collected and the "
+                  "agencies, organizations, or programs, which directly received these funds in the same period from the "
+                  "said officer. Inquries should be directed to the Criminal Justice Coordinating Council, 503 Oak Place, "
+                  "Suite 540, Atlanta, Georgia 30349, (404) 559-4949",
+                 style=extend_style(style=styles["body"], spaceBefore=20))
       )
 
     return story
@@ -171,7 +174,7 @@ def _create_payment_info_table(doc_data):
         ],
         [
             Paragraph("<u><b>Local Victim Assistance Fund</b></u>", style=styles["body"]),
-            Paragraph("<u><b>${}</b></u>".format(doc_data["cases_count"]), style=styles["body"]),
+            Paragraph("<u><b>{}</b></u>".format(doc_data["cases_count"]), style=styles["body"]),
             Paragraph("<u><b>${}</b></u>".format(doc_data["amount_distributed"]), style=styles["body"]),
         ]
     ]
@@ -186,24 +189,64 @@ def _create_payment_info_table(doc_data):
     return table
 
 
-def _cretae_signature_table(doc_data):
+def create_signature_table(doc_data):
     data = [
         [
-            Paragraph("<u>{}</u>".format("&nbsp;"*61), style=styles["body"]), "",
-            Paragraph("<u>{}</u>".format(_format_date(doc_data["order_date"])), style=styles["body"])
+            Paragraph("<u>{}</u>".format(doc_data["check_number"] + "&nbsp;" * (35 - len(doc_data["check_number"])*2)),
+                      style=styles["check_body"]),
+            "",
+            Paragraph("<u>{}</u>".format("$" + doc_data["check_amount"] + "&nbsp;" * (35 - len(doc_data["check_number"])*2)),
+                      style=styles["check_body"]),
         ],
         [
-            Paragraph("Signature of Authorized Court Officer", style=styles["body"]),
+            Paragraph("Check Number", style=styles["check_body"]),
+            "",
+            Paragraph("Check Amount", style=styles["check_body"]),
+        ],
+        [None],
+        [
+            Paragraph("<u>{}</u>".format("&nbsp;" * 75), style=styles["body"]),
+            "",
+            Paragraph("<u>{}</u>".format(_format_date(doc_data["order_date"])), style=styles["body"]),
+        ],
+        [
+            Paragraph("Signature of Individual Filling Report/Title", style=styles["body"]),
             "",
             Paragraph("Date", style=styles["body"])
-        ]
+        ],
+        [
+            Paragraph("<u>{}</u>".format(doc_data["printed_name"] + get_remain_space(doc_data["printed_name"])),
+                      style=styles["body"]),
+            "",
+            Paragraph("<u>{}</u>".format(doc_data["phone_number"] + get_remain_space(doc_data["phone_number"])),
+                      style=styles["body"]),
+        ],
+        [
+            Paragraph("Printed Name of Individual Filling Report", style=styles["body"]),
+            "",
+            Paragraph("Contact's Phone Number", style=styles["body"])
+        ],
+        [
+            Paragraph("<u>{}</u>".format(doc_data["email"] + get_remain_space(doc_data["email"])),
+                      style=styles["body"]),
+            "",
+            ""
+        ],
+        [
+            Paragraph("Contact's E-Mail Address", style=styles["body"]),
+            "",
+            ""
+        ],
     ]
 
     table = Table(
         data,
         colWidths=(SIGNATURE_TABLE_FIRST_COL_WIDTH, None, SIGNATURE_TABLE_LAST_COL_WIDTH),
-        rowHeights=[SIGNATURE_TABLE_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT],
-        spaceBefore=40
+        rowHeights=[SIGNATURE_TABLE_ROW_HEIGHT, SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_CHECK_ROW_HEIGHT,
+                    SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT,
+                    SIGNATURE_TABLE_ROW_HEIGHT, SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT, SIGNATURE_TABLE_ROW_HEIGHT,
+                    SIGNATURE_TABLE_ANOTAITON_ROW_HEIGHT],
+        spaceBefore=20
     )
     table.setStyle(styles["iv-main-table"])
 
@@ -220,3 +263,7 @@ def _format_short_date(date_as_string):
     date = datetime.strptime(date_as_string, "%m/%d/%Y")
     formated_date = date.strftime("%B %d")
     return formated_date
+
+
+def get_remain_space(str):
+    return "&nbsp;" * (75 - len(str)*2)
