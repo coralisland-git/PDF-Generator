@@ -24,7 +24,6 @@ sample_data = {
     "popidf_b": 1237.56,
     "jof": 234.51,
     "grand_total_collected": 88931.01,
-    "clerk_of_court": "Hello World",
     "phone": "1234567890",
     "email": "helloworld@gmail.com"
 }

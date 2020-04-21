@@ -17,7 +17,7 @@ def generate_monthly_disbursement_report():
         Table(
             [
                 [
-                    Paragraph("Report Year/Month: " + str(sample_data["report_year"]) + process_month(sample_data["report_month"])
+                    Paragraph("Report Year/Month: " + str(sample_data["report_year"]) + " / " + process_month(sample_data["report_month"])
                               , style=styles["rc-mdr-main-content"]),
                     Paragraph("Report Date: " + sample_data["report_date"], style=styles["rc-mdr-main-content"]),
                     Paragraph("County: DEKALB", style=styles["rc-mdr-main-content"])
@@ -49,7 +49,7 @@ def generate_monthly_disbursement_report():
                 [
                     Paragraph("", style=styles["rc-mdr-main-content"]),
                     Paragraph("Fund",  style=styles["rc-mdr-main-content"]),
-                    Paragraph("Total disbursement",  style=styles["rc-mdr-main-content"])
+                    Paragraph("Total Disbursements",  style=styles["rc-mdr-main-content"])
                 ],
                 [
                     Paragraph("1. ADR-", style=styles["rc-mdr-main-content"]),
@@ -155,19 +155,19 @@ def generate_monthly_disbursement_report():
                     Paragraph("$ " + str(sample_data["mrf"]), style=styles["rc-mdr-main-content"])
                 ],
                 [
-                    Paragraph("4. POPIDF-A", style=styles["rc-mdr-main-content"]),
+                    Paragraph("17. POPIDF-A", style=styles["rc-mdr-main-content"]),
                     Paragraph("Peace Officer, Prosecutor and Training Fund - Bond forfeitures",
                               style=styles["rc-mdr-main-content"]),
                     Paragraph("$ " + str(sample_data["popidf_a"]), style=styles["rc-mdr-main-content"])
                 ],
                 [
-                    Paragraph("4. POPIDF-B", style=styles["rc-mdr-main-content"]),
+                    Paragraph("18. POPIDF-B", style=styles["rc-mdr-main-content"]),
                     Paragraph("Peace Officer, Prosecutor and Indigent Defense Fund - Bond forfeitures",
                               style=styles["rc-mdr-main-content"]),
                     Paragraph("$ " + str(sample_data["popidf_b"]), style=styles["rc-mdr-main-content"])
                 ],
                 [
-                    Paragraph("4. JOF-", style=styles["rc-mdr-main-content"]),
+                    Paragraph("19. JOF-", style=styles["rc-mdr-main-content"]),
                     Paragraph("Judicial Operation fund Fee - kept LOCAL(O.C.G.A 15-21A-6.2)",
                               style=styles["rc-mdr-main-content"]),
                     Paragraph("$ " + str(sample_data["jof"]), style=styles["rc-mdr-main-content"])
@@ -210,7 +210,7 @@ def generate_monthly_disbursement_report():
                         ''', style=styles["signature"]
                     ),
                     "",
-                    Paragraph("<u>{}</u>".format(sample_data["clerk_of_court"] + get_remain_space(sample_data["clerk_of_court"])), style=styles["signature"]),
+                    Paragraph("<u>{}</u>".format("&nbsp;" * 75), style=styles["signature"]),
                 ],
                 [
                     Paragraph(
@@ -269,6 +269,7 @@ def process_month(month):
         return "0" + str(month)
     else:
         return str(month)
+
 
 def get_remain_space(str):
         return "&nbsp;" * (75 - len(str) * 2)
