@@ -1,19 +1,5 @@
 from common.reportlab_styles import *
 
-styles["ddo-heading"] = ParagraphStyle(
-    "rc-main-rmt",
-    fontSize=9,
-    leading=15,
-    alignment=TA_CENTER,
-    fontName="Arial",
-)
-
-styles["ddo-main"] = ParagraphStyle(
-    "rc-main-rmt",
-    parent=styles['ddo-heading'],
-    alignment=TA_LEFT
-)
-
 text_style = extend_style(
     styles['body'],
     leftIndent=5,
@@ -22,3 +8,20 @@ text_style = extend_style(
     leading=11,
     spaceBefore=5
 )
+
+styles["subheading"] = ParagraphStyle(
+    "bold",
+    parent=styles["body"],
+    leading=18,
+    textTransform="uppercase",
+    fontName="Times-Roman",
+    bulletFontName="Times-Roman",
+    alignment=TA_CENTER,
+    fontSize=10
+)
+
+
+class FirstPageOnlyDatePageNumCanvas(PageNumCanvas):
+    def draw_date(self):
+        if self._pageNumber == 1:
+            PageNumCanvas.draw_date(self)
