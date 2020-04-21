@@ -43,37 +43,72 @@ def _create_story():
     bottom_table = _create_bottom_table()
     story.append(bottom_table)
 
-    story.append(
-        Paragraph(
-            """
-            Pursuant to O.C.G.A. § 15-21A-8 et. seq, I, the undersigned clerk/court officer of the above-named court, hereby certify that, to the best of my
-            knowledge, the above and foregoing is a true and correct account of all above-referenced funds collected for the month specified.
-            """,
-            style=text_style
-        )
-    )
-
-    footer = _create_footer()
-    story.append(footer)
-
     return story
 
 
 def _create_footer():
-    pass
+    data = [
+        [
+            Paragraph('', style=text_style),
+            Paragraph('Chief Magistrate Judge Phinia Aten', style=text_style)
+        ]
+    ]
+
+    table = Table(data, spaceBefore=20, colWidths=(None, 50*mm))
+    table.setStyle(extend_table_style(
+        styles['iv-main-table'],
+        [
+            ('LINEABOVE', (1,0), (1,0), 1, colors.black)
+        ]
+    ))
+
+    return table
+
 
 def _create_bottom_table():
-    pass
+    data = [
+        [
+            Paragraph('Please make all checks payable to:', style=text_style),
+            Paragraph('<b>Georgia Superior Court Clerks’ Cooperative Authority (GSCCCA)</b>', style=text_style),
+            ''
+        ],
+        [
+            Paragraph('Please mail all checks and forms to:', style=text_style),
+            Paragraph('<b>GSCCCA Fines and Fees Division, P.O. Box 29645, Atlanta, GA 30359</b>', style=text_style),
+            ''
+        ],
+        [
+            Paragraph('CHECK NUMBER(S): 2728', style=text_style),
+            '',
+            Paragraph('CHECK AMOUNTS: $4877.70', style=text_style)
+        ]
+    ]
+
+    table = Table(
+        data,
+        spaceBefore=7,
+        colWidths=(50*mm, 100*mm, None),
+        rowHeights=[5*mm, 5*mm, 10*mm]
+    )
+    table.setStyle(
+        extend_table_style(styles['iv-main-table'],
+                           [
+                               ('VALIGN', (0,2), (-1,-1), 'MIDDLE')
+                           ]
+                           ))
+
+    return table
+
 
 def _create_main_table():
     data = [
         [#0
             '',
             '',
-            '',
-            '',
-            '',
-            '',
+            Paragraph('<b>(1)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b>(2)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b>(3)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b>(4)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
         ],
         [#1
             '',
@@ -498,16 +533,229 @@ def _create_main_table():
     )
     return table
 
+def _create_bottom_table():
+    data = [
+        [
+            Paragraph('Summary Breakdown of monies collected and disbursed for this month', style=extend_style(text_style, alignment=TA_LEFT)),
+        ],
+        [
+            '',
+            ''
+        ],
+        [   #1
+            Table(
+                [
+                    [
+                        Paragraph('79,206.22',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('BASE - FINES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('97,665.86',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('TOTAL DISBURSEMENTS',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            ),
+        ],
+        [   #2
+            Table(
+                [
+                    [
+                        Paragraph('18,459.04',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('STATE SURCHARGES ONLY',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('-25664.02',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('TOTAL STATE FEES (surcharges and others)',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            )
+        ],
+        [   #3
+            Table(
+                [
+                    [
+                        Paragraph('00.0',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('PROC - FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('PROC - FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            )
+        ],
+        [   #4
+            Table(
+                [
+                    [
+                        Paragraph('16188.73',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('OTHER CHARGES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('-16188.73',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('OTHER CHARGES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            )
+        ],
+        [   #5
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('ADM FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('ADM FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            )
+        ],
+        [   #6
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('TECH FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('0.00',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('TECH FEES',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            )
+        ],
+        [
+            #7
+            Table(
+                [
+                    [
+                        Paragraph('<b>97,665.86</b>',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('<b>TOTAL DISBURSEMENTS</b>',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            ),
+            Table(
+                [
+                    [
+                        Paragraph('<b>72001.84</b>',
+                                  style=extend_style(text_style, alignment=TA_RIGHT)),
+                        Paragraph('<b>NET DISBURSEMENTS</b>      (City General Fund)',
+                                  style=extend_style(text_style, alignment=TA_LEFT)),
+                    ]
+                ],
+                style=styles['iv-main-table'],
+                colWidths=(20 * mm, 70 * mm)
+
+            )
+        ]
+    ]
+    table = Table(
+        data,
+        colWidths=(60 * mm, 90 * mm),
+        rowHeights=[10*mm,1*mm,4*mm,4*mm,4*mm,4*mm,4*mm,4*mm,4*mm]
+    )
+    table.setStyle(extend_table_style(
+        styles['iv-main-table'],
+        [
+            ('SPAN', (0,0), (1,0)),
+        ]
+    )
+    )
+    return table
+
 
 def _get_row_heights():
     row_heights = [ROW_HEIGHT] * table_row_num
     row_heights[1] = 10 * mm
-    # row_heights[4] = 9 * mm
-    # row_heights[10] = 9 * mm
-    # row_heights[11] = 9 * mm
-    # row_heights[18] = 9 * mm
-    # row_heights[19] = 9 * mm
-    # row_heights[22] = 9 * mm
-    # row_heights[27] = 9 * mm
-    # row_heights[30] = 4 * mm
     return row_heights
