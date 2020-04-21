@@ -19,3 +19,9 @@ styles["subheading"] = ParagraphStyle(
     alignment=TA_CENTER,
     fontSize=10
 )
+
+
+class FirstPageOnlyDatePageNumCanvas(PageNumCanvas):
+    def draw_date(self):
+        if self._pageNumber == 1:
+            PageNumCanvas.draw_date(self)

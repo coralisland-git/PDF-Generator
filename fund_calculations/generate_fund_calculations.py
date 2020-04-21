@@ -16,7 +16,7 @@ def generate_fund_calculations(pdf_dict):
 
     main_template = PageTemplate(id="main_template", frames=[f])
     doc.addPageTemplates([main_template])
-    doc.build(story, canvasmaker=PageNumCanvas)
+    doc.build(story, canvasmaker=FirstPageOnlyDatePageNumCanvas)
     #del doc
 
     buff.seek(0)
