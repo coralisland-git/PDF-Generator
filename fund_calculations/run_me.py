@@ -1,12 +1,15 @@
 import os
 import shutil
 
-from generate_detention_order import generate_detention_order
+from generate_fund_calculations import generate_fund_calculations
+from sample_data import funds_calculation_data
 
 if __name__ == "__main__":
-    buff = generate_detention_order()
+    buff = generate_fund_calculations(funds_calculation_data)
+
     with open(
-        os.path.expanduser("~/Desktop/fund_calculations.pdf"), "wb+"
+        os.path.expanduser("~/Desktop/{}.pdf".format("fund_calculations")),
+        "wb+",
     ) as output_file:
         shutil.copyfileobj(buff, output_file)
 
