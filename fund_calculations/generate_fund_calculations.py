@@ -60,68 +60,20 @@ def _create_story():
 
 
 def _create_footer():
-    data = [
-        [
-            Paragraph('', style=text_style),
-            Paragraph('Chief Magistrate Judge Phinia Aten', style=text_style)
-        ]
-    ]
-
-    table = Table(data, spaceBefore=20, colWidths=(None, 50*mm))
-    table.setStyle(extend_table_style(
-        styles['iv-main-table'],
-        [
-            ('LINEABOVE', (1,0), (1,0), 1, colors.black)
-        ]
-    ))
-
-    return table
-
+    pass
 
 def _create_bottom_table():
-    data = [
-        [
-            Paragraph('Please make all checks payable to:', style=text_style),
-            Paragraph('<b>Georgia Superior Court Clerks’ Cooperative Authority (GSCCCA)</b>', style=text_style),
-            ''
-        ],
-        [
-            Paragraph('Please mail all checks and forms to:', style=text_style),
-            Paragraph('<b>GSCCCA Fines and Fees Division, P.O. Box 29645, Atlanta, GA 30359</b>', style=text_style),
-            ''
-        ],
-        [
-            Paragraph('CHECK NUMBER(S): 2728', style=text_style),
-            '',
-            Paragraph('CHECK AMOUNTS: $4877.70', style=text_style)
-        ]
-    ]
-
-    table = Table(
-        data,
-        spaceBefore=7,
-        colWidths=(50*mm, 100*mm, None),
-        rowHeights=[5*mm, 5*mm, 10*mm]
-    )
-    table.setStyle(
-        extend_table_style(styles['iv-main-table'],
-                           [
-                               ('VALIGN', (0,2), (-1,-1), 'MIDDLE')
-                           ]
-                           ))
-
-    return table
-
+    pass
 
 def _create_main_table():
     data = [
         [#0
             '',
             '',
-            Paragraph('<b>(1)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('<b>(2)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('<b>(3)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
-            Paragraph('<b>(4)</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            '',
+            '',
+            '',
+            '',
         ],
         [#1
             '',
