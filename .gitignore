@@ -109,3 +109,6 @@ venv.bak/
 # wing ide
 *.wpr
 *.wpu
+
+# vscode ide
+.vscode
