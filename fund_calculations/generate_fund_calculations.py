@@ -12,7 +12,7 @@ def generate_fund_calculations(pdf_dict):
     doc = BaseDocTemplate(buff, pagesize=letter)
     f = Frame(gutters[0], gutters[2], usable_width, usable_height, showBoundary=0, topPadding=15, )
 
-    story = _create_story()
+    story = _create_story(pdf_dict)
 
     main_template = PageTemplate(id="main_template", frames=[f])
     doc.addPageTemplates([main_template])
@@ -23,7 +23,7 @@ def generate_fund_calculations(pdf_dict):
     return buff
 
 
-def _create_story():
+def _create_story(pdf_dict):
     story = []
 
     story.append(
@@ -37,15 +37,15 @@ def _create_story():
                   )
     )
 
-    doc_body = _create_main_table()
+    doc_body = _create_main_table(pdf_dict["main-table"])
     story.append(doc_body)
 
-    bottom_table = _create_bottom_table()
+    bottom_table = _create_bottom_table(pdf_dict["secondary-table"])
     story.append(bottom_table)
 
     return story
 
-def _create_main_table():
+def _create_main_table(data_mapper):
     data = [
         [  # 0
             '', '', '', '', ''
@@ -415,14 +415,17 @@ def _create_main_table():
             ('LINEBELOW', (0, 40), (5, 40), 1, colors.black),
             ('LINEBELOW', (0, 41), (5, 41), 1, colors.black),
 
-            ('BOX', (0, 0), (-1, -1), 1, colors.black)
+            ('BOX', (0, 1), (-1, -1), 1, colors.black),
         ]
     )
     )
     return table
 
 
-def _create_bottom_table():
+def _create_bottom_table(data_mapper):
+    i, j = (20,70)
+    first = data_mapper["first-col"]
+    second = data_mapper["second-col"]
     data = [
         [
             Paragraph('Summary Breakdown of monies collected and disbursed for this month',
@@ -436,27 +439,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('79,206.22',
+                        Paragraph('%s'%oformat(first["base-fines"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('BASE - FINES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('97,665.86',
+                        Paragraph('%s'%oformat(second['total-disbursements']),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('TOTAL DISBURSEMENTS',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
         ],
@@ -464,27 +467,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('18,459.04',
+                        Paragraph('%s'%oformat(first['state-surcharges-only']),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('STATE SURCHARGES ONLY',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('-25664.02',
+                        Paragraph('%s'%oformat(second["total-state-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('TOTAL STATE FEES (surcharges and others)',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -492,27 +495,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('00.0',
+                        Paragraph('%s'%oformat(first["proc-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('PROC - FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(second["proc-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('PROC - FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -520,27 +523,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('16188.73',
+                        Paragraph('%s'%oformat(first["other-charges"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('OTHER CHARGES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('-16188.73',
+                        Paragraph('%s'%oformat(second["other-charges"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('OTHER CHARGES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -548,27 +551,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(first["adm-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('ADM FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(second["adm-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('ADM FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -576,27 +579,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(first["tech-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('TECH FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(second["tech-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('TECH FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -605,34 +608,34 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('<b>97,665.86</b>',
+                        Paragraph('<b>%s</b>'%oformat(first["total-disbursements"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('<b>TOTAL DISBURSEMENTS</b>',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('<b>72001.84</b>',
+                        Paragraph('<b>%s</b>'%oformat(second["net-disbursements"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('<b>NET DISBURSEMENTS</b>      (City General Fund)',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ]
     ]
     table = Table(
         data,
-        colWidths=(60 * mm, 90 * mm),
+        colWidths=(90 * mm, 90 * mm),
         rowHeights=[10 * mm, 1 * mm, 4 * mm, 4 * mm, 4 * mm, 4 * mm, 4 * mm, 4 * mm, 4 * mm]
     )
     table.setStyle(extend_table_style(
@@ -649,3 +652,9 @@ def _get_row_heights():
     row_heights = [ROW_HEIGHT] * table_row_num
     row_heights[1] = 10 * mm
     return row_heights
+
+def oformat(data):
+    if data is None or data == "":
+        return ""
+    else:
+        return "{:.2f}".format(data)
