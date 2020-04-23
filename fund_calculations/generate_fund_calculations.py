@@ -109,7 +109,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 9
-            Paragraph('2', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('10', style=text_style),
@@ -117,7 +116,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 10
-            Paragraph('2', style=text_style),
             Paragraph('Appearance Bond Forfeited', style=text_style),
             Paragraph('Less than $1000', style=text_style),
             Paragraph('0', style=text_style),
@@ -125,7 +123,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 11
-            Paragraph('2', style=text_style),
             '',
             Paragraph('Greater than $1000', style=text_style),
             Paragraph('0', style=text_style),
@@ -133,7 +130,6 @@ def _create_main_table(data_mapper):
             Paragraph('7204.38', style=text_style),
         ],
         [  # 12
-            Paragraph('3', style=text_style),
             Paragraph('Indigent Defense Fund <br /> 15-21-73(B) (Surcharge)', style=text_style),
             Paragraph('Full Pays', style=text_style),
             Paragraph('393', style=text_style),
@@ -142,7 +138,6 @@ def _create_main_table(data_mapper):
         ],
 
         [  # 13
-            Paragraph('3', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('9', style=text_style),
@@ -150,7 +145,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 14
-            Paragraph('3', style=text_style),
             Paragraph('Appearance Bond Forfeitures', style=text_style),
             Paragraph('Less than $1000', style=text_style),
             Paragraph('0', style=text_style),
@@ -158,7 +152,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 15
-            Paragraph('3', style=text_style),
             Paragraph('Appearance Bond Forfeitures', style=text_style),
             Paragraph('Greater than $1000', style=text_style),
             Paragraph('0', style=text_style),
@@ -166,7 +159,6 @@ def _create_main_table(data_mapper):
             Paragraph('8394.12', style=text_style),
         ],
         [  # 16
-            Paragraph('4', style=text_style),
             Paragraph('GA Crime Victimes Emergency <br /> 15-21-112(Surcharge)', style=text_style),
             Paragraph('$25', style=text_style),
             Paragraph('4', style=text_style),
@@ -174,7 +166,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 17
-            Paragraph('4', style=text_style),
             '',
             Paragraph('$26', style=text_style),
             Paragraph('0', style=text_style),
@@ -182,7 +173,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 18
-            Paragraph('4', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('0', style=text_style),
@@ -190,7 +180,6 @@ def _create_main_table(data_mapper):
             Paragraph('104.00', style=text_style),
         ],
         [  # 19
-            Paragraph('5', style=text_style),
             Paragraph('Local Victim Assistance (all cases)<br /> 15-21-131(Surcharge)', style=text_style),
             Paragraph('$0.01 AND OVER', style=text_style),
             Paragraph('384', style=text_style),
@@ -198,7 +187,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 20
-            Paragraph('5', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('9', style=text_style),
@@ -206,7 +194,6 @@ def _create_main_table(data_mapper):
             Paragraph('4136.24', style=text_style),
         ],
         [  # 21
-            Paragraph('6', style=text_style),
             Paragraph('Probate Judges Retirement <br />(deducted from base-fine) <br />47-11-51', style=text_style),
             Paragraph('$0.01 - $4.01', style=text_style),
             Paragraph('46', style=text_style),
@@ -214,7 +201,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 22
-            Paragraph('6', style=text_style),
             '',
             Paragraph('$4.01 - $ 25.00', style=text_style),
             Paragraph('46', style=text_style),
@@ -222,7 +208,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 23
-            Paragraph('6', style=text_style),
             '',
             Paragraph('$25.01 - $50.00', style=text_style),
             Paragraph('52', style=text_style),
@@ -230,7 +215,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 24
-            Paragraph('6', style=text_style),
             '',
             Paragraph('$50.01 - $100.00', style=text_style),
             Paragraph('62', style=text_style),
@@ -238,7 +222,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 25
-            Paragraph('6', style=text_style),
             '',
             Paragraph('$100.01 AND OVER', style=text_style),
             Paragraph('268', style=text_style),
@@ -246,7 +229,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 26
-            Paragraph('6', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('7', style=text_style),
@@ -254,7 +236,6 @@ def _create_main_table(data_mapper):
             Paragraph('4701.10', style=text_style),
         ],
         [  # 27
-            Paragraph('7', style=text_style),
             Paragraph('Sheriffs Retirement <br />47-16-60', style=text_style),
             Paragraph('$0.01 AND OVER', style=text_style),
             Paragraph('', style=text_style),
@@ -262,7 +243,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 28
-            Paragraph('7', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('', style=text_style),
@@ -270,7 +250,6 @@ def _create_main_table(data_mapper):
             Paragraph('0.00', style=text_style),
         ],
         [  # 29
-            Paragraph('8', style=text_style),
             Paragraph('County Law Library <br />36-15-9 (Surcharge)', style=text_style),
             Paragraph('$0.01 AND OVER', style=text_style),
             Paragraph('', style=text_style),
@@ -278,7 +257,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 30
-            Paragraph('8', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('', style=text_style),
@@ -286,7 +264,6 @@ def _create_main_table(data_mapper):
             Paragraph('0.00', style=text_style),
         ],
         [  # 31
-            Paragraph('9', style=text_style),
             Paragraph('County Jail <br />15-21-93 (Surcharge)', style=text_style),
             Paragraph('$0.01 AND OVER', style=text_style),
             Paragraph('', style=text_style),
@@ -294,7 +271,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 32
-            Paragraph('9', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('', style=text_style),
@@ -302,7 +278,6 @@ def _create_main_table(data_mapper):
             Paragraph('0.00', style=text_style),
         ],
         [  # 33
-            Paragraph('10', style=text_style),
             Paragraph('County Drug Abuse Treatment/Educ. <br />15-21-100 (Surcharge)', style=text_style),
             Paragraph('$0.01 AND OVER', style=text_style),
             Paragraph('', style=text_style),
@@ -310,7 +285,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 34
-            Paragraph('10', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('', style=text_style),
@@ -318,7 +292,6 @@ def _create_main_table(data_mapper):
             Paragraph('0.00', style=text_style),
         ],
         [  # 35
-            Paragraph('11', style=text_style),
             Paragraph('Brain and Spinal Injury <br />15-21-149 (Surcharge)', style=text_style),
             Paragraph('$0.01 AND OVER', style=text_style),
             Paragraph('', style=text_style),
@@ -326,7 +299,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 36
-            Paragraph('11', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('', style=text_style),
@@ -334,7 +306,6 @@ def _create_main_table(data_mapper):
             Paragraph('0.00', style=text_style),
         ],
         [  # 37
-            Paragraph('12', style=text_style),
             Paragraph('Crime Lab Fee <br />42-8-34 (Surcharge)', style=text_style),
             Paragraph('$0.01 AND OVER', style=text_style),
             Paragraph('', style=text_style),
@@ -342,7 +313,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 38
-            Paragraph('12', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('', style=text_style),
@@ -350,7 +320,6 @@ def _create_main_table(data_mapper):
             Paragraph('0.00', style=text_style),
         ],
         [  # 39
-            Paragraph('13', style=text_style),
             Paragraph('Driver Education and Training Fund <br />15-21-179 (Surcharge)', style=text_style),
             Paragraph('$0.01 AND OVER', style=text_style),
             Paragraph('', style=text_style),
@@ -358,7 +327,6 @@ def _create_main_table(data_mapper):
             Paragraph('', style=text_style),
         ],
         [  # 40
-            Paragraph('13', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('', style=text_style),
@@ -379,94 +347,85 @@ def _create_main_table(data_mapper):
             '',
             '',
             '',
-            '',
         ],
     ]
     global table_row_num
     table_row_num = len(data)
     table = Table(
         data,
-        colWidths=(10 * mm, 55 * mm, None, 30 * mm, 25 * mm, 45 * mm),
+        colWidths=(55 * mm, None, 30 * mm, 25 * mm, 45 * mm),
         rowHeights=_get_row_heights()
     )
     table.setStyle(extend_table_style(
         styles['iv-main-table'],
         [
-            ('SPAN', (1, 2), (1, 6)),
-            ('SPAN', (0, 2), (0, 6)),
             ('SPAN', (0, 2), (0, 6)),
 
-            ('SPAN', (1, 7), (1, 9)),
-            ('SPAN', (1, 10), (1, 11)),
-            ('SPAN', (0, 7), (0, 11)),
 
-            ('SPAN', (1, 12), (1, 13)),
-            ('SPAN', (1, 14), (1, 15)),
-            ('SPAN', (0, 12), (0, 15)),
+            ('SPAN', (0, 7), (0, 9)),
+            ('SPAN', (0, 10), (0, 11)),
 
-            ('SPAN', (1, 16), (1, 18)),
+            ('SPAN', (0, 12), (0, 13)),
+            ('SPAN', (0, 14), (0, 15)),
+
             ('SPAN', (0, 16), (0, 18)),
 
-            ('SPAN', (1, 19), (1, 20)),
             ('SPAN', (0, 19), (0, 20)),
 
-            ('SPAN', (1, 21), (1, 26)),
             ('SPAN', (0, 21), (0, 26)),
 
-            ('SPAN', (1, 27), (1, 28)),
             ('SPAN', (0, 27), (0, 28)),
 
-            ('SPAN', (1, 29), (1, 30)),
             ('SPAN', (0, 29), (0, 30)),
 
-            ('SPAN', (1, 31), (1, 32)),
             ('SPAN', (0, 31), (0, 32)),
 
-            ('SPAN', (1, 33), (1, 34)),
             ('SPAN', (0, 33), (0, 34)),
 
-            ('SPAN', (1, 35), (1, 36)),
             ('SPAN', (0, 35), (0, 36)),
 
-            ('SPAN', (1, 37), (1, 38)),
             ('SPAN', (0, 37), (0, 38)),
 
-            ('SPAN', (1, 39), (1, 40)),
             ('SPAN', (0, 39), (0, 40)),
 
-            ('SPAN', (0, 41), (5, 41)),
+            ('SPAN', (0, 41), (4, 41)),
 
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            # ('VALIGN', (0,2), (0,-2), 'TOP'),
-            # ('VALIGN', (1,5), (1,18), 'TOP')
-            # ('VALIGN', (1,22), (1,27), 'TOP'),
+            ('VALIGN', (0,2), (0,-2), 'TOP'),
+            ('VALIGN', (1,5), (1,18), 'TOP'),
+            ('VALIGN', (1,22), (1,27), 'TOP'),
 
             ('BACKGROUND', (0, table_row_num), (0, table_row_num), colors.black),
 
             ('INNERGRID', (0, 1), (-1, -1), 0.3, colors.black),
 
-            ('LINEABOVE', (0, 1), (6, 1), 1, colors.black),
-            ('LINEBELOW', (0, 6), (6, 6), 1, colors.black),
-            ('LINEBELOW', (0, 11), (6, 11), 1, colors.black),
-            ('LINEBELOW', (0, 15), (6, 15), 1, colors.black),
-            ('LINEBELOW', (0, 18), (6, 18), 1, colors.black),
-            ('LINEBELOW', (0, 20), (6, 20), 1, colors.black),
-            ('LINEBELOW', (0, 26), (6, 26), 1, colors.black),
-            ('LINEBELOW', (0, 28), (6, 28), 1, colors.black),
-            ('LINEBELOW', (0, 30), (6, 30), 1, colors.black),
-            ('LINEBELOW', (0, 32), (6, 32), 1, colors.black),
-            ('LINEBELOW', (0, 34), (6, 34), 1, colors.black),
-            ('LINEBELOW', (0, 36), (6, 36), 1, colors.black),
-            ('LINEBELOW', (0, 38), (6, 38), 1, colors.black),
-            ('LINEBELOW', (0, 40), (6, 40), 1, colors.black),
-            ('LINEBELOW', (0, 41), (6, 41), 1, colors.black),
+            ('LINEABOVE', (0, 1), (5, 1), 1, colors.black),
+            ('LINEBELOW', (0, 6), (5, 6), 1, colors.black),
+            ('LINEBELOW', (0, 11), (5, 11), 1, colors.black),
+            ('LINEBELOW', (0, 15), (5, 15), 1, colors.black),
+            ('LINEBELOW', (0, 18), (5, 18), 1, colors.black),
+            ('LINEBELOW', (0, 20), (5, 20), 1, colors.black),
+            ('LINEBELOW', (0, 26), (5, 26), 1, colors.black),
+            ('LINEBELOW', (0, 28), (5, 28), 1, colors.black),
+            ('LINEBELOW', (0, 30), (5, 30), 1, colors.black),
+            ('LINEBELOW', (0, 32), (5, 32), 1, colors.black),
+            ('LINEBELOW', (0, 34), (5, 34), 1, colors.black),
+            ('LINEBELOW', (0, 36), (5, 36), 1, colors.black),
+            ('LINEBELOW', (0, 38), (5, 38), 1, colors.black),
+            ('LINEBELOW', (0, 40), (5, 40), 1, colors.black),
+            ('LINEBELOW', (0, 41), (5, 41), 1, colors.black),
+
+            ('BOX', (0, 1), (-1, -1), 1, colors.black),
         ]
     )
     )
     return table
 
 
-def _create_bottom_table():
+def _create_bottom_table(data_mapper):
+    i, j = (20,70)
+    first = data_mapper["first-col"]
+    second = data_mapper["second-col"]
     data = [
         [
             Paragraph('Summary Breakdown of monies collected and disbursed for this month',
@@ -480,27 +439,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('79,206.22',
+                        Paragraph('%s'%oformat(first["base-fines"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('BASE - FINES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('97,665.86',
+                        Paragraph('%s'%oformat(second['total-disbursements']),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('TOTAL DISBURSEMENTS',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
         ],
@@ -508,27 +467,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('18,459.04',
+                        Paragraph('%s'%oformat(first['state-surcharges-only']),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('STATE SURCHARGES ONLY',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('-25664.02',
+                        Paragraph('%s'%oformat(second["total-state-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('TOTAL STATE FEES (surcharges and others)',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -536,27 +495,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('00.0',
+                        Paragraph('%s'%oformat(first["proc-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('PROC - FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(second["proc-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('PROC - FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -564,27 +523,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('16188.73',
+                        Paragraph('%s'%oformat(first["other-charges"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('OTHER CHARGES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('-16188.73',
+                        Paragraph('%s'%oformat(second["other-charges"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('OTHER CHARGES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -592,27 +551,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(first["adm-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('ADM FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(second["adm-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('ADM FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -620,27 +579,27 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(first["tech-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('TECH FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('0.00',
+                        Paragraph('%s'%oformat(second["tech-fees"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('TECH FEES',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ],
@@ -649,34 +608,34 @@ def _create_bottom_table():
             Table(
                 [
                     [
-                        Paragraph('<b>97,665.86</b>',
+                        Paragraph('<b>%s</b>'%oformat(first["total-disbursements"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('<b>TOTAL DISBURSEMENTS</b>',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             ),
             Table(
                 [
                     [
-                        Paragraph('<b>72001.84</b>',
+                        Paragraph('<b>%s</b>'%oformat(second["net-disbursements"]),
                                   style=extend_style(text_style, alignment=TA_RIGHT)),
                         Paragraph('<b>NET DISBURSEMENTS</b>      (City General Fund)',
                                   style=extend_style(text_style, alignment=TA_LEFT)),
                     ]
                 ],
                 style=styles['iv-main-table'],
-                colWidths=(20 * mm, 70 * mm)
+                colWidths=(i * mm, j * mm)
 
             )
         ]
     ]
     table = Table(
         data,
-        colWidths=(60 * mm, 90 * mm),
+        colWidths=(90 * mm, 90 * mm),
         rowHeights=[10 * mm, 1 * mm, 4 * mm, 4 * mm, 4 * mm, 4 * mm, 4 * mm, 4 * mm, 4 * mm]
     )
     table.setStyle(extend_table_style(
@@ -693,3 +652,9 @@ def _get_row_heights():
     row_heights = [ROW_HEIGHT] * table_row_num
     row_heights[1] = 10 * mm
     return row_heights
+
+def oformat(data):
+    if data is None or data == "":
+        return ""
+    else:
+        return "{:.2f}".format(data)
