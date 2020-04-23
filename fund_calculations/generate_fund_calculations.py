@@ -12,7 +12,7 @@ def generate_fund_calculations(pdf_dict):
     doc = BaseDocTemplate(buff, pagesize=letter)
     f = Frame(gutters[0], gutters[2], usable_width, usable_height, showBoundary=0, topPadding=15, )
 
-    story = _create_story()
+    story = _create_story(pdf_dict)
 
     main_template = PageTemplate(id="main_template", frames=[f])
     doc.addPageTemplates([main_template])
@@ -23,7 +23,7 @@ def generate_fund_calculations(pdf_dict):
     return buff
 
 
-def _create_story():
+def _create_story(pdf_dict):
     story = []
 
     story.append(
@@ -37,42 +37,21 @@ def _create_story():
                   )
     )
 
-    doc_body = _create_main_table()
+    doc_body = _create_main_table(pdf_dict["main-table"])
     story.append(doc_body)
 
-    bottom_table = _create_bottom_table()
+    bottom_table = _create_bottom_table(pdf_dict["secondary-table"])
     story.append(bottom_table)
 
     return story
 
-
-def _create_footer():
-    data = [
-        [
-            Paragraph('', style=text_style),
-            Paragraph('Chief Magistrate Judge Phinia Aten', style=text_style)
-        ]
-    ]
-
-    table = Table(data, spaceBefore=20, colWidths=(None, 50 * mm))
-    table.setStyle(extend_table_style(
-        styles['iv-main-table'],
-        [
-            ('LINEABOVE', (1, 0), (1, 0), 1, colors.black)
-        ]
-    ))
-
-    return table
-
-
-def _create_main_table():
+def _create_main_table(data_mapper):
     data = [
         [  # 0
-            '', '', '', '', '', ''
+            '', '', '', '', ''
         ],
         [  # 1
-            '',
-            Paragraph('<b>Fund Name1</b>', style=extend_style(text_style, alignment=TA_CENTER)),
+            Paragraph('<b>Fund Name</b>', style=extend_style(text_style, alignment=TA_CENTER)),
             Paragraph('<b>Description</b>', style=extend_style(text_style, alignment=TA_CENTER)),
             Paragraph('<b>No. of Cases</b>', style=extend_style(text_style, alignment=TA_CENTER)),
             Paragraph('<b>Fund Amount Disbursed</b>', style=extend_style(text_style, alignment=TA_CENTER)),
@@ -80,7 +59,6 @@ def _create_main_table():
         ],
 
         [  # 2
-            Paragraph('1', style=text_style),
             Paragraph('Peace Officer Annuity & benefit (deducted from base-line)', style=text_style),
             Paragraph('$4.01 - $ 25.00', style=text_style),
             Paragraph('46', style=text_style),
@@ -88,7 +66,6 @@ def _create_main_table():
             Paragraph('', style=text_style),
         ],
         [  # 3
-            Paragraph('1', style=text_style),
             '',
             Paragraph('$25.01 - $50.00', style=text_style),
             Paragraph('52', style=text_style),
@@ -96,7 +73,6 @@ def _create_main_table():
             Paragraph('', style=text_style),
         ],
         [  # 4
-            Paragraph('1', style=text_style),
             '',
             Paragraph('$50.01 - $100.00', style=text_style),
             Paragraph('62', style=text_style),
@@ -104,7 +80,6 @@ def _create_main_table():
             Paragraph('', style=text_style),
         ],
         [  # 5
-            Paragraph('1', style=text_style),
             '',
             Paragraph('$100.01 AND OVER', style=text_style),
             Paragraph('268', style=text_style),
@@ -112,7 +87,6 @@ def _create_main_table():
             Paragraph('', style=text_style),
         ],
         [  # 6
-            Paragraph('1', style=text_style),
             '',
             Paragraph('Partial Payments', style=text_style),
             Paragraph('7', style=text_style),
@@ -120,7 +94,6 @@ def _create_main_table():
             Paragraph('4701.10', style=text_style),
         ],
         [  # 7
-            Paragraph('2', style=text_style),
             Paragraph('Peace Officer Training <br /> 15-21-73(A) (Surcharge)', style=text_style),
             Paragraph('$1.00 - $499.00', style=text_style),
             Paragraph('334', style=text_style),
@@ -129,7 +102,6 @@ def _create_main_table():
         ],
 
         [  # 8
-            Paragraph('2', style=text_style),
             '',
             Paragraph('$500+', style=text_style),
             Paragraph('59', style=text_style),
