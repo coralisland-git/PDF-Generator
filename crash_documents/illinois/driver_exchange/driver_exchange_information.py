@@ -1,26 +1,25 @@
 import io
 import os
-from reportlab.graphics.widgets.signsandsymbols import Crossbox
-from reportlab.graphics.shapes import Drawing
-from reportlab.lib import colors
-from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Table, Paragraph, Spacer
-from reportlab_styles import extend_style, styles, gutters, usable_width, usable_height
+import sys
+
+parentPath = os.path.abspath("..")
+if parentPath not in sys.path:
+    sys.path.insert(0, parentPath)
+
+from reportlab.platypus import (
+    BaseDocTemplate,
+    PageTemplate,
+    Frame,
+    Table,
+    Paragraph,
+    Spacer,
+)
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+from reportlab_styles import extend_style, styles, gutters, usable_width, usable_height
 
 
 def generate_driver_information_exchange_sheet(data):
-
-    crossbox = Crossbox()
-    crossbox.size = 12
-    crossbox.crosswidth = 1
-    yes_box = Drawing(10, 10)
-    no_box = Drawing(10, 10)
-    crossbox.crossColor = colors.black
-    yes_box.add(crossbox.draw())
-    crossbox.crossColor = colors.white
-    no_box.add(crossbox.draw())
-
     def summary_section():
         story.append(
             Table(
@@ -176,11 +175,11 @@ def generate_driver_information_exchange_sheet(data):
                             "<b>Vehicle Year, Make, Model: </b>", styles["trastop"]
                         ),
                         Paragraph(
-                            unit.get("Vehicle", {}).get("VehcYr", '')
+                            unit.get("Vehicle", {}).get("VehcYr", "")
                             + ", "
-                            + unit.get("Vehicle", {}).get("MAKE", '')
+                            + unit.get("Vehicle", {}).get("MAKE", "")
                             + ", "
-                            + unit.get("Vehicle", {}).get("MODEL", ''),
+                            + unit.get("Vehicle", {}).get("MODEL", ""),
                             styles["trastop"],
                         ),
                     ]
@@ -198,9 +197,9 @@ def generate_driver_information_exchange_sheet(data):
                     [
                         Paragraph("<b>Plate No. /State: </b>", styles["trastop"]),
                         Paragraph(
-                            unit.get("Vehicle", {}).get("VehcPlateNbr", '')
+                            unit.get("Vehicle", {}).get("VehcPlateNbr", "")
                             + " /"
-                            + unit.get("Vehicle", {}).get("VehcPlateState", ''),
+                            + unit.get("Vehicle", {}).get("VehcPlateState", ""),
                             styles["trastop"],
                         ),
                         Paragraph("<b>Driver's License No.: </b>", styles["trastop"]),
@@ -218,15 +217,19 @@ def generate_driver_information_exchange_sheet(data):
             Table(
                 [
                     [
+                        Paragraph("<b>Vehicle Owner's Name: </b>", styles["trastop"]),
                         Paragraph(
-                            "<b>Vehicle Owner's Name: </b>", styles["trastop"]
-                        ),
-                        Paragraph(
-                            unit.get("Vehicle", {}).get("Owner", {}).get("OwnFirstName", "")
+                            unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnFirstName", "")
                             + " "
-                            + unit.get("Vehicle", {}).get("Owner", {}).get("OwnMidName", "")
+                            + unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnMidName", "")
                             + " "
-                            + unit.get("Vehicle", {}).get("Owner", {}).get("OwnLastName", ""),
+                            + unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnLastName", ""),
                             styles["trastop"],
                         ),
                         Paragraph(
@@ -235,11 +238,17 @@ def generate_driver_information_exchange_sheet(data):
                         Paragraph(
                             unit.get("Vehicle", {}).get("Owner", {}).get("OwnAddr", "")
                             + " "
-                            + unit.get("Vehicle", {}).get("Owner", {}).get("OwnCity", "")
+                            + unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnCity", "")
                             + " "
-                            + unit.get("Vehicle", {}).get("Owner", {}).get("OwnState", "")
+                            + unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnState", "")
                             + " "
-                            + unit.get("Vehicle", {}).get("Owner", {}).get("OwnZipCode", ""),
+                            + unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnZipCode", ""),
                             styles["trastop"],
                         ),
                     ]
@@ -260,14 +269,18 @@ def generate_driver_information_exchange_sheet(data):
                             styles["trastop"],
                         ),
                         Paragraph(
-                            unit.get("Vehicle", {}).get("Owner", {}).get("OwnINSRCo", ""),
+                            unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnINSRCo", ""),
                             styles["trastop"],
                         ),
                         Paragraph(
                             "<b>Vehicle Owner's Policy No.: </b>", styles["trastop"]
                         ),
                         Paragraph(
-                            unit.get("Vehicle", {}).get("Owner", {}).get("OwnINSRPolicyNbr", ""),
+                            unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnINSRPolicyNbr", ""),
                             styles["trastop"],
                         ),
                     ]
@@ -284,11 +297,12 @@ def generate_driver_information_exchange_sheet(data):
                 [
                     [
                         Paragraph(
-                            "<b>Vehicle Owner's Phone Number: </b>",
-                            styles["trastop"],
+                            "<b>Vehicle Owner's Phone Number: </b>", styles["trastop"],
                         ),
                         Paragraph(
-                            unit.get("Vehicle", {}).get("Owner", {}).get("OwnPhoneNbr", ""),
+                            unit.get("Vehicle", {})
+                            .get("Owner", {})
+                            .get("OwnPhoneNbr", ""),
                             styles["trastop"],
                         ),
                         None,
