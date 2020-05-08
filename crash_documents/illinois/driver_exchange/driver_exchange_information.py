@@ -1,6 +1,7 @@
 import io
 import os
 import sys
+from reportlab_styles import extend_style, styles, gutters, usable_width, usable_height
 
 parentPath = os.path.abspath("..")
 if parentPath not in sys.path:
@@ -18,7 +19,6 @@ from reportlab.platypus import (
 )
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
-from reportlab_styles import extend_style, styles, gutters, usable_width, usable_height
 
 
 def summary_section(data):
