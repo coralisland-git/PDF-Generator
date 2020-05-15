@@ -1,4 +1,5 @@
 import os
+import common
 from common.reportlab_styles import *
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.pdfbase import pdfmetrics
@@ -7,8 +8,10 @@ from reportlab.pdfbase.pdfmetrics import registerFontFamily, stringWidth
 
 # document specific styles go here
 
+FONT_DIR = os.path.join(os.path.dirname(common.__file__), "fonts")
+
 pdfmetrics.registerFont(
-    TTFont("Arial-Italic", os.path.join(os.getcwd(), "fonts", "arialit.ttf"))
+    TTFont("Arial-Italic", os.path.join(FONT_DIR, "arialit.ttf"))
 )
 
 styles["rc-doc-header"] = ParagraphStyle(
