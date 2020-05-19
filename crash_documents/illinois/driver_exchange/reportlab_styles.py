@@ -120,6 +120,17 @@ styles["heading"] = ParagraphStyle(
     bulletFontName="Times-Roman",
     alignment=TA_CENTER,
 )
+styles["heading-mini-instructions"] = ParagraphStyle(
+    "bold",
+    parent=styles["body"],
+    leading=8,
+    fontSize=8,
+    textTransform="uppercase",
+    fontName="Times-Bold",
+    bulletFontName="Times-Bold",
+    alignment=TA_CENTER,
+    spaceAfter=0,
+)
 styles["detail"] = ParagraphStyle(
     "detail",
     parent=styles["body"],
@@ -128,7 +139,6 @@ styles["detail"] = ParagraphStyle(
     leftIndent=3,
     rightIndent=3,
 )
-
 styles["detail-utc"] = ParagraphStyle(
     "detail",
     parent=styles["body"],
